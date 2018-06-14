@@ -2,22 +2,22 @@ package com.company.todd.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.company.todd.ToddEthottGame;
 import com.company.todd.game.Save;
 
 public class GameScreen implements Screen { // TODO GameScreen
     private ToddEthottGame game;
-    private Texture a;
+    private TextureRegion a;
 
     public GameScreen(ToddEthottGame game_) {
         game = game_;
-        a = new Texture("badlogic.jpg");
+        a = game.textureManager.getTextureRegion("badlogic.jpg", 10, 10, 64, 64);
     }
 
     public GameScreen(ToddEthottGame game_, Save save) {
         game = game_;
-        a = new Texture("badlogic.jpg");
+        a = game.textureManager.getTextureRegion("badlogic.jpg", 10, 10, 64, 64);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class GameScreen implements Screen { // TODO GameScreen
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.manager.removeScreen();
+            game.screenManager.removeScreen();
         }
     }
 
@@ -59,6 +59,6 @@ public class GameScreen implements Screen { // TODO GameScreen
 
     @Override
     public void dispose() {
-        a.dispose();
+        game.textureManager.dispose(); // Временно
     }
 }
