@@ -17,7 +17,7 @@ public class TextureManager implements Disposable {
     private ArrayMap<String, Texture> textures;
     //private Array<Integer> timeFromLastDispose;
 
-    private Texture loadTexture(String fileName) {
+    private Texture loadTexture(final String fileName) {
         return new Texture(ToddEthottGame.TEXTURES_FOLDER + File.separator + fileName);
     }
 
@@ -30,7 +30,8 @@ public class TextureManager implements Disposable {
         }
     }
 
-    public TextureRegion getTextureRegion(String fileName, int x, int y, int width, int height) {
+    public TextureRegion getTextureRegion(final String fileName, final int x, final int y,
+                                          final int width, final int height) {
         if (textures.get(fileName) == null) {
             textures.put(fileName, loadTexture(fileName));
         }
@@ -44,7 +45,7 @@ public class TextureManager implements Disposable {
     }
     */
 
-    public void update(float dt) {
+    public void update(final float dt) { // TODO update TextureManager
         // Здесь освобождаем ресурсы текстур, которые долго не используются
     }
 
