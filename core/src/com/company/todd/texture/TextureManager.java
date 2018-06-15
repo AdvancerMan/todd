@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -15,7 +14,7 @@ import java.io.File;
 
 public class TextureManager implements Disposable {
     private ArrayMap<String, Texture> textures;
-    //private Array<Integer> timeFromLastDispose;
+    private ArrayMap<String, Integer> usagesMap;
 
     private Texture loadTexture(final String fileName) {
         return new Texture(ToddEthottGame.TEXTURES_FOLDER + File.separator + fileName);
@@ -23,10 +22,11 @@ public class TextureManager implements Disposable {
 
     public TextureManager() {
         textures = new ArrayMap<String, Texture>();
-        //timeFromLastDispose = new Array<Integer>();
+        usagesMap = new ArrayMap<String, Integer>();
 
         for (FileHandle file : Gdx.files.local(ToddEthottGame.TEXTURES_FOLDER).list()) {
             textures.put(file.name(), null);
+            usagesMap.put(file.name(), 0);
         }
     }
 
@@ -36,17 +36,23 @@ public class TextureManager implements Disposable {
             textures.put(fileName, loadTexture(fileName));
         }
 
+        usagesMap.put(fileName, usagesMap.get(fileName) + 1);
         return new TextureRegion(textures.get(fileName), x, y, width, height);
     }
 
-    /*
-    public disposeTexture(String fileName) {
+    public void disposeTexture(final String fileName, final int usages) {
+        usagesMap.put(fileName, usagesMap.get(fileName) - usages);
 
+        if (usagesMap.get(fileName) <= 0) {
+            usagesMap.put(fileName, 0);
+            textures.get(fileName).dispose();
+            textures.put(fileName, null);
+        }
     }
-    */
 
     public void update(final float dt) { // TODO update TextureManager
         // Здесь освобождаем ресурсы текстур, которые долго не используются
+        // Неиспользуемые ресурсы не освобождаются для ускоренной загрузки локаций
     }
 
     @Override

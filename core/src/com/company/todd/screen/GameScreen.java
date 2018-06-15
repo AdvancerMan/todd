@@ -89,6 +89,6 @@ public class GameScreen implements Screen { // TODO GameScreen
 
     @Override
     public void dispose() {
-
+        game.textureManager.disposeTexture("badlogic.jpg", 1);
     }
 }

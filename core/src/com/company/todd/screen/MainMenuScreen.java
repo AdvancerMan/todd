@@ -26,7 +26,7 @@ public class MainMenuScreen implements Screen { // TODO MainMenuScreen
         game.batch.draw(a, 123, 321);
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.justTouched()) {
             game.screenManager.addScreen(new GameScreen(game));
         }
     }
@@ -53,6 +53,6 @@ public class MainMenuScreen implements Screen { // TODO MainMenuScreen
 
     @Override
     public void dispose() {
-        game.textureManager.dispose(); // Временно
+        game.textureManager.disposeTexture("badlogic.jpg", 1);
     }
 }
