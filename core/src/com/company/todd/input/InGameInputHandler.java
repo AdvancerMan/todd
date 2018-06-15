@@ -12,11 +12,11 @@ public class InGameInputHandler {
     private Rectangle pause;
 
     public InGameInputHandler() {  // TODO input rectangles
-        right = new Rectangle(1, 1, 12, 12);
-        left = new Rectangle(10, 10, 12, 12);
-        jump = new Rectangle(1, 123, 12, 12);
-        shoot = new Rectangle(123, 1, 12, 12);
-        pause = new Rectangle(123, 123, 12, 12);
+        right = new Rectangle(0, 0, 100, 100);
+        left = new Rectangle(100, 0, 100, 100);
+        jump = new Rectangle(0, 100, 100, 100);
+        shoot = new Rectangle(100, 100, 100, 100);
+        pause = new Rectangle(200, 0, 100, 100);
     }
 
     public boolean isGoingRight(Vector2 inputPoint) {
