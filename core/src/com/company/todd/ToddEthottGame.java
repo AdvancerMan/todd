@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.company.todd.font.FontGenerator;
+import com.company.todd.font.FontHandler;
 import com.company.todd.screen.DebugScreen;
 import com.company.todd.screen.MainMenuScreen;
 import com.company.todd.screen.ScreenManager;
@@ -32,7 +32,7 @@ public class ToddEthottGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-        mainFont = FontGenerator.generateFont("segoesc.ttf", 16, Color.BLACK);
+        mainFont = FontHandler.generateFont("segoesc.ttf", 16, Color.BLACK);
         textureManager = new TextureManager();
 
         Screen firstScreen;
