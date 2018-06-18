@@ -12,6 +12,8 @@ import com.company.todd.screen.ScreenManager;
 import com.company.todd.texture.TextureManager;
 
 public class ToddEthottGame extends ApplicationAdapter {
+	public static final boolean DEBUG = true;
+
 	public static final String FONTS_FOLDER = "fonts";
 	public static final String SAVES_FOLDER = "saves";
 	public static final String TEXTURES_FOLDER = "textures";
@@ -23,9 +25,15 @@ public class ToddEthottGame extends ApplicationAdapter {
 	public BitmapFont mainFont;
 	public ScreenManager screenManager;
 	public TextureManager textureManager;
+	private Debug debug;
 
 	@Override
 	public void create () {
+	    debug = null;
+	    if (DEBUG) {
+	        debug = new Debug(this);
+        }
+
 		batch = new SpriteBatch();
         mainFont = FontGenerator.generateFont("segoesc.ttf", 16, Color.BLACK);
         textureManager = new TextureManager();
@@ -34,16 +42,25 @@ public class ToddEthottGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-	    Gdx.gl.glClearColor(0, 0, 0, 1); // Очищаем экран
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	    if (DEBUG) {
+	        debug.debug();
+        }
+        else {
+            Gdx.gl.glClearColor(0, 0, 0, 1); // Очищаем экран
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		textureManager.update(Gdx.graphics.getDeltaTime());
-		screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
+            textureManager.update(Gdx.graphics.getDeltaTime());
+            screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
+        }
 	}
 	
 	@Override
 	public void dispose () { // Освобождаем ресурсы
-		batch.dispose();
+		if (DEBUG) {
+		    debug.dispose();
+        }
+
+        batch.dispose();
 		mainFont.dispose();
 		screenManager.dispose();
 		textureManager.dispose();
