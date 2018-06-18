@@ -2,11 +2,14 @@ package com.company.todd;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.company.todd.font.FontGenerator;
+import com.company.todd.screen.DebugScreen;
 import com.company.todd.screen.MainMenuScreen;
 import com.company.todd.screen.ScreenManager;
 import com.company.todd.texture.TextureManager;
@@ -25,41 +28,35 @@ public class ToddEthottGame extends ApplicationAdapter {
 	public BitmapFont mainFont;
 	public ScreenManager screenManager;
 	public TextureManager textureManager;
-	private Debug debug;
 
 	@Override
 	public void create () {
-	    debug = null;
-	    if (DEBUG) {
-	        debug = new Debug(this);
-        }
-
 		batch = new SpriteBatch();
         mainFont = FontGenerator.generateFont("segoesc.ttf", 16, Color.BLACK);
         textureManager = new TextureManager();
-        screenManager = new ScreenManager(new MainMenuScreen(this));
+
+        Screen firstScreen;
+        if (DEBUG) {
+            firstScreen = new DebugScreen(this);
+        }
+        else {
+            firstScreen = new MainMenuScreen(this);
+        }
+
+        screenManager = new ScreenManager(firstScreen);
 	}
 
 	@Override
 	public void render () {
-	    if (DEBUG) {
-	        debug.debug();
-        }
-        else {
-            Gdx.gl.glClearColor(0, 0, 0, 1); // Очищаем экран
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0, 0, 0, 1); // Очищаем экран
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            textureManager.update(Gdx.graphics.getDeltaTime());
-            screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
-        }
+        textureManager.update(Gdx.graphics.getDeltaTime());
+        screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
 	}
 	
 	@Override
 	public void dispose () { // Освобождаем ресурсы
-		if (DEBUG) {
-		    debug.dispose();
-        }
-
         batch.dispose();
 		mainFont.dispose();
 		screenManager.dispose();
