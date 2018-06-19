@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
-import com.company.todd.ToddEthottGame;
+import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class Button implements Disposable {
     public static final String BUTTON_FILE = "white.png"; // TODO button texture

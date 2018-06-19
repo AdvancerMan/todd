@@ -6,10 +6,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-import com.company.todd.ToddEthottGame;
+import com.company.todd.launcher.ToddEthottGame;
 
 import java.io.File;
-import java.security.KeyPair;
 
 public class FontHandler {
     private static GlyphLayout layout = new GlyphLayout();

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import com.company.todd.ToddEthottGame;
+import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.game.Save;
 import com.company.todd.input.InGameInputHandler;
 

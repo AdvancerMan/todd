@@ -1,4 +1,4 @@
-package com.company.todd;
+package com.company.todd.launcher;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

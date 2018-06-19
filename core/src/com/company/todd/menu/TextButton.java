@@ -2,7 +2,7 @@ package com.company.todd.menu;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
-import com.company.todd.ToddEthottGame;
+import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.font.FontHandler;
 
 public class TextButton extends Button {

@@ -3,7 +3,8 @@ package com.company.todd.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.company.todd.ToddEthottGame;
+
+import com.company.todd.launcher.ToddEthottGame;
 
 public class MainMenuScreen implements Screen { // TODO MainMenuScreen
     private ToddEthottGame game;
