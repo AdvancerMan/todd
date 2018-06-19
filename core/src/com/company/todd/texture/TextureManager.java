@@ -23,20 +23,19 @@ public class TextureManager implements Disposable {
     public TextureManager() {
         textures = new ArrayMap<String, Texture>();
         usagesMap = new ArrayMap<String, Integer>();
-
-        for (FileHandle file : Gdx.files.local(ToddEthottGame.TEXTURES_FOLDER).list()) {
-            textures.put(file.name(), null);
-            usagesMap.put(file.name(), 0);
-        }
     }
 
     public TextureRegion getTextureRegion(final String fileName, final int x, final int y,
                                           final int width, final int height) {
-        if (textures.get(fileName) == null) {
+        Integer usages = usagesMap.get(fileName);
+        if (usages == null || usages <= 0) {
             textures.put(fileName, loadTexture(fileName));
+            usagesMap.put(fileName, 1);
+        }
+        else {
+            usagesMap.put(fileName, usages + 1);
         }
 
-        usagesMap.put(fileName, usagesMap.get(fileName) + 1);
         return new TextureRegion(textures.get(fileName), x, y, width, height);
     }
 
