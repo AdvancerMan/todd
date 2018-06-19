@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.ToddEthottGame;
 
-public abstract class Button {
+public abstract class Button implements Disposable {
     public static final String BUTTON_FILE = "white.png"; // TODO button texture
 
     protected ToddEthottGame game;
@@ -36,7 +37,7 @@ public abstract class Button {
         spriteNotClicked.setSize(width, height);
     }
 
-    public void handleInput(float x, float y) {
+    protected void handleInput(float x, float y) {
         if (Gdx.input.justTouched()) {
             if (spriteNotClicked.getBoundingRectangle().contains(x, y)) {
                 func.click(game);
