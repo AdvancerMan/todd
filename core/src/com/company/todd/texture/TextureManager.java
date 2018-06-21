@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.company.todd.launcher.ToddEthottGame;
 
 import java.io.File;
+import java.util.Iterator;
 
 public class TextureManager implements Disposable {
     private ArrayMap<String, Texture> textures;
@@ -50,6 +51,14 @@ public class TextureManager implements Disposable {
     public void update(final float dt) { // TODO update TextureManager
         // Здесь освобождаем ресурсы текстур, которые долго не используются
         // Неиспользуемые ресурсы не освобождаются для ускоренной загрузки локаций
+
+        if (ToddEthottGame.DEBUG) {
+            for (Iterator<ObjectMap.Entry<String, Integer>> iterator = usagesMap.iterator(); iterator.hasNext(); ) {
+                ObjectMap.Entry<String, Integer> next = iterator.next();
+                System.out.print("{" + next.key + " " + next.value + "}" + ", ");
+            }
+            System.out.print("\n");
+        }
     }
 
     @Override
