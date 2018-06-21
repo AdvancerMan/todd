@@ -22,7 +22,8 @@ public class InGameInputHandler {
         inputPoint = new Vector2();
     }
 
-    public void setNewTouchPosition(float inputX, float inputY) {
+    public void setNewTouchPosition() {
+        float inputX = Gdx.input.getX(), inputY = Gdx.input.getY();
         inputY = Gdx.graphics.getHeight() - 1 - inputY;
         inputPoint.set(inputX, inputY);
     }
