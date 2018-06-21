@@ -38,7 +38,7 @@ public class GameScreen implements Screen { // TODO GameScreen
 
     private void handleInput(float delta) {
         if (Gdx.input.isTouched()) {
-            inputHandler.setNewTouchPosition(Gdx.input.getX(), Gdx.input.getY());
+            inputHandler.setNewTouchPosition();
 
             if (inputHandler.isGoingLeft()) {
                 x -= delta * 200;
@@ -57,14 +57,14 @@ public class GameScreen implements Screen { // TODO GameScreen
 
     @Override
     public void render(float delta) {
+        handleInput(delta);
+
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
         game.batch.draw(texture, x, y);
         game.batch.end();
-
-        handleInput(delta);
     }
 
     @Override

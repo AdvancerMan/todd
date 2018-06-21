@@ -22,14 +22,13 @@ public class MainMenuScreen implements Screen { // TODO MainMenuScreen
 
     @Override
     public void render(float delta) {
+        if (Gdx.input.justTouched()) {
+            game.screenManager.addScreen(new GameScreen(game));
+        }
 
         game.batch.begin();
         game.batch.draw(a, 123, 321);
         game.batch.end();
-
-        if (Gdx.input.justTouched()) {
-            game.screenManager.addScreen(new GameScreen(game));
-        }
     }
 
     @Override
