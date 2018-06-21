@@ -16,11 +16,19 @@ public abstract class Button implements Disposable {
     protected Sprite spriteClicked, spriteNotClicked;
     protected boolean clicked;
 
-    public Button(ButtonFunction<ToddEthottGame> func, ToddEthottGame game,
-                  int x, int y, int width, int height) {
+    protected Button(ButtonFunction<ToddEthottGame> func, ToddEthottGame game) {
         this.func = func;
         this.game = game;
         clicked = false;
+
+        spriteNotClicked = null;
+        spriteClicked = null;
+    }
+
+    public Button(ButtonFunction<ToddEthottGame> func, ToddEthottGame game,
+                  int x, int y, int width, int height) {
+        this(func, game);
+
         TextureRegion clickedTextureRegion = game.textureManager.getTextureRegion(
                 BUTTON_FILE, 5, 5, 200, 20  // TODO button texture
         );
