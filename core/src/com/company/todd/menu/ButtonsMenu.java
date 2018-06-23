@@ -6,6 +6,8 @@ import com.company.todd.launcher.ToddEthottGame;
 
 import java.util.Iterator;
 
+import static java.lang.Math.min;
+
 public class ButtonsMenu {
     private Array<Button> buttons;
 
@@ -13,7 +15,8 @@ public class ButtonsMenu {
                        Array<ButtonFunction<ToddEthottGame>> buttonFunctions,
                        int x, int y, int width, int height, int spaceBetweenButtons) {
         int buttonWidth = width;
-        int buttonHeight = (height - spaceBetweenButtons * (buttonFunctions.size - 1)) / buttonFunctions.size;
+        int size = min(buttonFunctions.size, buttonTextArray.size);
+        int buttonHeight = (height - spaceBetweenButtons * (size - 1)) / size;
 
         buttons = new Array<Button>();
 
