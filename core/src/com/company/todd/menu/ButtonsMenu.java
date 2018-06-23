@@ -16,13 +16,16 @@ public class ButtonsMenu {
         int buttonHeight = (height - spaceBetweenButtons * (buttonFunctions.size - 1)) / buttonFunctions.size;
 
         buttons = new Array<Button>();
+
+        buttonTextArray.reverse();
+        buttonFunctions.reverse();
         Iterator<ButtonFunction<ToddEthottGame>> functionIterator = buttonFunctions.iterator();
         Iterator<String> textIterator = buttonTextArray.iterator();
 
         while (functionIterator.hasNext() && textIterator.hasNext()) {
             buttons.add(new TextButton(functionIterator.next(), game,
                     x, y, buttonWidth, buttonHeight, textIterator.next()));
-            y += height + spaceBetweenButtons;
+            y += buttonHeight + spaceBetweenButtons;
         }
     }
 
@@ -35,6 +38,12 @@ public class ButtonsMenu {
     public void draw(SpriteBatch batch) {
         for (Button button : buttons) {
             button.draw(batch);
+        }
+    }
+
+    public void dispose() {
+        for (Button button : buttons) {
+            button.dispose();
         }
     }
 }
