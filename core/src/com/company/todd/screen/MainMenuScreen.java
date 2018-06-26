@@ -9,7 +9,7 @@ import com.company.todd.menu.ButtonFunction;
 import com.company.todd.menu.ButtonFunctions;
 import com.company.todd.menu.ButtonsMenu;
 
-public class MainMenuScreen extends MyScreen { // TODO MainMenuScreen
+public class MainMenuScreen extends MyScreen {
     private ButtonsMenu buttonsMenu;
     // TODO game title in main menu and background
     /*
@@ -27,11 +27,10 @@ public class MainMenuScreen extends MyScreen { // TODO MainMenuScreen
         Array<ButtonFunction> buttonFunctions = new Array<ButtonFunction>();
         Array<String> buttonTextArray = new Array<String>();
 
-        buttonTextArray.add("Continue", "New game", "Settings", "Authors");
+        buttonTextArray.add("Play", "Settings", "Authors");
 
         buttonFunctions.add(
                 new ButtonFunctions.AddSavedGameScreenFunction(),
-                new ButtonFunctions.AddGameScreenFunction(),
 
                 // TODO settings and authors screens
                 new ButtonFunctions.RemoveScreenFunction(),

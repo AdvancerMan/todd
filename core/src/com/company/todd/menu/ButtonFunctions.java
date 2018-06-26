@@ -13,13 +13,6 @@ public class ButtonFunctions { // TODO more ButtonFunctions
         }
     }
 
-    public static class AddGameScreenFunction implements ButtonFunction {
-        @Override
-        public void click(ToddEthottGame game) {
-            game.screenManager.setNextScreen(new GameScreen(game));
-        }
-    }
-
     public static class AddSavedGameScreenFunction implements ButtonFunction {
         @Override
         public void click(ToddEthottGame game) {
