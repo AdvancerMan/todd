@@ -6,28 +6,28 @@ import com.company.todd.screen.GameScreen;
 import com.company.todd.screen.MainMenuScreen;
 
 public class ButtonFunctions { // TODO more ButtonFunctions
-    public static class RemoveScreenFunction implements ButtonFunction<ToddEthottGame> {
+    public static class RemoveScreenFunction implements ButtonFunction {
         @Override
         public void click(ToddEthottGame game) {
             game.screenManager.removeThisScreen();
         }
     }
 
-    public static class AddGameScreenFunction implements ButtonFunction<ToddEthottGame> {
+    public static class AddGameScreenFunction implements ButtonFunction {
         @Override
         public void click(ToddEthottGame game) {
             game.screenManager.setNextScreen(new GameScreen(game));
         }
     }
 
-    public static class AddSavedGameScreenFunction implements ButtonFunction<ToddEthottGame> {
+    public static class AddSavedGameScreenFunction implements ButtonFunction {
         @Override
         public void click(ToddEthottGame game) {
             game.screenManager.setNextScreen(new GameScreen(game, new Save()));
         }
     }
 
-    public static class AddMainMenuScreenFunction implements ButtonFunction<ToddEthottGame> {
+    public static class AddMainMenuScreenFunction implements ButtonFunction {
         @Override
         public void click(ToddEthottGame game) {
             game.screenManager.setNextScreen(new MainMenuScreen(game));

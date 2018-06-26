@@ -11,7 +11,7 @@ public class ImageButton extends Button {
     private String notClickedFileToDispose;
 
     // You must call setImage methods after creating object
-    public ImageButton(ButtonFunction<ToddEthottGame> func, ToddEthottGame game,
+    public ImageButton(ButtonFunction func, ToddEthottGame game,
                        int x, int y, int width, int height) {
         super(func, game);
 

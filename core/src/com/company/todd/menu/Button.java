@@ -12,11 +12,11 @@ public abstract class Button implements Disposable {
     public static final String BUTTON_FILE = "white.png"; // TODO button texture
 
     protected ToddEthottGame game;
-    protected ButtonFunction<ToddEthottGame> func;
+    protected ButtonFunction func;
     protected Sprite spriteClicked, spriteNotClicked;
     protected boolean clicked;
 
-    protected Button(ButtonFunction<ToddEthottGame> func, ToddEthottGame game) {
+    protected Button(ButtonFunction func, ToddEthottGame game) {
         this.func = func;
         this.game = game;
         clicked = false;
@@ -25,7 +25,7 @@ public abstract class Button implements Disposable {
         spriteClicked = null;
     }
 
-    public Button(ButtonFunction<ToddEthottGame> func, ToddEthottGame game,
+    public Button(ButtonFunction func, ToddEthottGame game,
                   int x, int y, int width, int height) {
         this(func, game);
 

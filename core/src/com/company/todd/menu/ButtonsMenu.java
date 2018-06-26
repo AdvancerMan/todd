@@ -13,7 +13,7 @@ public class ButtonsMenu implements Disposable {
     private Array<Button> buttons;
 
     public ButtonsMenu(ToddEthottGame game, Array<String> buttonTextArray,
-                       Array<ButtonFunction<ToddEthottGame>> buttonFunctions,
+                       Array<ButtonFunction> buttonFunctions,
                        int x, int y, int width, int height, int spaceBetweenButtons) {
         int buttonWidth = width;
         int size = min(buttonFunctions.size, buttonTextArray.size);
@@ -23,7 +23,7 @@ public class ButtonsMenu implements Disposable {
 
         buttonTextArray.reverse();
         buttonFunctions.reverse();
-        Iterator<ButtonFunction<ToddEthottGame>> functionIterator = buttonFunctions.iterator();
+        Iterator<ButtonFunction> functionIterator = buttonFunctions.iterator();
         Iterator<String> textIterator = buttonTextArray.iterator();
 
         while (functionIterator.hasNext() && textIterator.hasNext()) {

@@ -1,6 +1,8 @@
 package com.company.todd.menu;
 
+import com.company.todd.launcher.ToddEthottGame;
+
 @FunctionalInterface
-public interface ButtonFunction<T> { // Consumers aren't available on low Android API level :(
-    public void click(T obj);
+public interface ButtonFunction { // Consumers aren't available on low Android API level :(
+    public void click(ToddEthottGame game);
 }

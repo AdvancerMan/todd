@@ -10,14 +10,14 @@ public class TextButton extends Button {
     private float textX, textY;
     private boolean outOfBounds;
 
-    public TextButton(ButtonFunction<ToddEthottGame> func, ToddEthottGame game,
+    public TextButton(ButtonFunction func, ToddEthottGame game,
                       int x, int y, int width, int height) {
         super(func, game, x, y, width, height);
         text = "";
         updateTextConfigurations();
     }
 
-    public TextButton(ButtonFunction<ToddEthottGame> func, ToddEthottGame game,
+    public TextButton(ButtonFunction func, ToddEthottGame game,
                       int x, int y, int width, int height, String text) {
         super(func, game, x, y, width, height);
         this.text = text;
