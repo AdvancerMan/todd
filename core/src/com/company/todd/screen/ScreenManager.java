@@ -49,7 +49,7 @@ public class ScreenManager implements Disposable {
     @Override
     public void dispose() {
         while (!screens.empty()) {
-            removeThisScreen();
+            screens.pop().dispose();
         }
     }
 }
