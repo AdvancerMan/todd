@@ -9,28 +9,28 @@ public class ButtonFunctions { // TODO more ButtonFunctions
     public static class RemoveScreenFunction implements ButtonFunction<ToddEthottGame> {
         @Override
         public void click(ToddEthottGame game) {
-            game.screenManager.removeScreen();
+            game.screenManager.removeThisScreen();
         }
     }
 
     public static class AddGameScreenFunction implements ButtonFunction<ToddEthottGame> {
         @Override
         public void click(ToddEthottGame game) {
-            game.screenManager.addScreen(new GameScreen(game));
+            game.screenManager.setNextScreen(new GameScreen(game));
         }
     }
 
     public static class AddSavedGameScreenFunction implements ButtonFunction<ToddEthottGame> {
         @Override
         public void click(ToddEthottGame game) {
-            game.screenManager.addScreen(new GameScreen(game, new Save()));
+            game.screenManager.setNextScreen(new GameScreen(game, new Save()));
         }
     }
 
     public static class AddMainMenuScreenFunction implements ButtonFunction<ToddEthottGame> {
         @Override
         public void click(ToddEthottGame game) {
-            game.screenManager.addScreen(new MainMenuScreen(game));
+            game.screenManager.setNextScreen(new MainMenuScreen(game));
         }
     }
 }
