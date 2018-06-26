@@ -1,58 +1,67 @@
 package com.company.todd.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.menu.ButtonFunction;
+import com.company.todd.menu.ButtonFunctions;
+import com.company.todd.menu.ButtonsMenu;
 
-public class MainMenuScreen implements Screen { // TODO MainMenuScreen
-    private ToddEthottGame game;
-    private TextureRegion a;
+public class MainMenuScreen extends MyScreen { // TODO MainMenuScreen
+    private ButtonsMenu buttonsMenu;
+    // TODO game title in main menu and background
+    /*
+    private TextureRegion background;
+    private TextureRegion gameTitle;
+     */
 
-    public MainMenuScreen(ToddEthottGame game_) {
-        game = game_;
-        a = game.textureManager.getTextureRegion("badlogic.jpg", 10, 10, 64, 64);
+
+    public MainMenuScreen(ToddEthottGame game) {
+        super(game);
+        createButtonsMenu();
+    }
+
+    private void createButtonsMenu() {
+        Array<ButtonFunction> buttonFunctions = new Array<ButtonFunction>();
+        Array<String> buttonTextArray = new Array<String>();
+
+        buttonTextArray.add("Continue", "New game", "Settings", "Authors");
+
+        buttonFunctions.add(
+                new ButtonFunctions.AddSavedGameScreenFunction(),
+                new ButtonFunctions.AddGameScreenFunction(),
+
+                // TODO settings and authors screens
+                new ButtonFunctions.RemoveScreenFunction(),
+                new ButtonFunctions.RemoveScreenFunction()
+        );
+
+        buttonsMenu = new ButtonsMenu(game, buttonTextArray, buttonFunctions,
+                150, 25, 500, 300, 10);
     }
 
     @Override
-    public void show() {
+    protected void update(float delta) {
+        super.update(delta);
 
+        buttonsMenu.update(delta, touchPos.x, touchPos.y);
     }
 
     @Override
-    public void render(float delta) {
-        if (Gdx.input.justTouched()) {
-            game.screenManager.addScreen(new GameScreen(game));
-        }
+    protected void draw(SpriteBatch batch) {
+        super.draw(batch);
 
-        game.batch.begin();
-        game.batch.draw(a, 123, 321);
-        game.batch.end();
-    }
+        batch.begin();
 
-    @Override
-    public void resize(int width, int height) {
+        buttonsMenu.draw(batch);
 
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+        batch.end();
     }
 
     @Override
     public void dispose() {
-        game.textureManager.disposeTexture("badlogic.jpg", 1);
+        buttonsMenu.dispose();
     }
 }
