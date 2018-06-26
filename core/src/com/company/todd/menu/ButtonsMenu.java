@@ -2,13 +2,14 @@ package com.company.todd.menu;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.launcher.ToddEthottGame;
 
 import java.util.Iterator;
 
 import static java.lang.Math.min;
 
-public class ButtonsMenu {
+public class ButtonsMenu implements Disposable {
     private Array<Button> buttons;
 
     public ButtonsMenu(ToddEthottGame game, Array<String> buttonTextArray,
