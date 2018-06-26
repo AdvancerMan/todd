@@ -25,7 +25,7 @@ public class ToddEthottGame extends ApplicationAdapter {
     public static final int HEIGHT = 480;
 
     public SpriteBatch batch;
-	public BitmapFont mainFont;
+	public BitmapFont mainFont, buttonsFont;
 	public ScreenManager screenManager;
 	public TextureManager textureManager;
 
@@ -33,6 +33,7 @@ public class ToddEthottGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
         mainFont = FontHandler.generateFont("segoesc.ttf", 16, Color.BLACK);
+        buttonsFont = mainFont;
         textureManager = new TextureManager();
 
         Screen firstScreen;

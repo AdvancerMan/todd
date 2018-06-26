@@ -46,12 +46,12 @@ public class TextButton extends Button {
         super.draw(batch);
 
         if (outOfBounds) {
-            game.mainFont.draw(batch, text, textX, textY,
+            game.buttonsFont.draw(batch, text, textX, textY,
                     spriteNotClicked.getWidth() - 4,
                     Align.center, true);
         }
         else {
-            game.mainFont.draw(batch, text, textX, textY);
+            game.buttonsFont.draw(batch, text, textX, textY);
         }
     }
 
