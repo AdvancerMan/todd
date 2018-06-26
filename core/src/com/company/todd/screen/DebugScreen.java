@@ -1,43 +1,21 @@
 package com.company.todd.screen;
 
-import com.badlogic.gdx.Screen;
-import com.company.todd.ToddEthottGame;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.company.todd.launcher.ToddEthottGame;
 
-public class DebugScreen implements Screen {
-    ToddEthottGame game;
-
+public class DebugScreen extends MyScreen {
     public DebugScreen(ToddEthottGame game) {
-        this.game = game;
+        super(game);
     }
 
     @Override
-    public void show() {
-
+    protected void update(float delta) {
+        super.update(delta);
     }
 
     @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+    protected void draw(SpriteBatch batch) {
+        super.draw(batch);
     }
 
     @Override
