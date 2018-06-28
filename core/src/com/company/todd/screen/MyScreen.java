@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.company.todd.launcher.ToddEthottGame;
 
@@ -36,6 +37,14 @@ public abstract class MyScreen implements Screen {
     public void render(float delta) {
         update(delta);
         draw(game.batch);
+    }
+
+    public Rectangle getCameraRect() {
+        return new Rectangle(
+                camera.position.x - camera.viewportWidth / 2,
+                camera.position.y - camera.viewportHeight / 2,
+                camera.viewportWidth, camera.viewportHeight
+        );
     }
 
     @Override
