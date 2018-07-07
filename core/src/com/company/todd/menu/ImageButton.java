@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.texture.TextureRegionInfo;
 
 public class ImageButton extends Button {
-    private String clickedFileToDispose;
-    private String notClickedFileToDispose;
+    private TextureRegionInfo clickedRegionInfo;
+    private TextureRegionInfo notClickedRegionInfo;
 
     // You must call setImage methods after creating object
     public ImageButton(ButtonFunction func, ToddEthottGame game,
@@ -21,42 +22,29 @@ public class ImageButton extends Button {
         spriteClicked = new Sprite();
         spriteClicked.setBounds(x, y, width, height);
 
-        clickedFileToDispose = null;
-        notClickedFileToDispose = null;
+        clickedRegionInfo = null;
+        notClickedRegionInfo = null;
     }
 
-    private void setImage(String imageFileName,
-                         int imageX, int imageY,
-                         int imageWidth, int imageHeight,
-                          Sprite sprite, String fileToDispose) {
-        if (fileToDispose != null) {
-            game.textureManager.disposeTexture(fileToDispose, 1);
+    public void setClickedImage(TextureRegionInfo regionInfo) {
+        if (clickedRegionInfo != null) {
+            clickedRegionInfo.dispose();
         }
-        fileToDispose = imageFileName;
-
-        TextureRegion imageTextureRegion = game.textureManager.
-                getTextureRegion(imageFileName, imageX, imageY, imageWidth, imageHeight);
-
-        sprite.setRegion(imageTextureRegion);
+        clickedRegionInfo = regionInfo;
+        spriteClicked.setRegion(regionInfo.getTextureRegion());
     }
 
-    public void setClickedImage(String imageFileName,
-                                int imageX, int imageY,
-                                int imageWidth, int imageHeight) {
-        setImage(imageFileName, imageX, imageY, imageWidth, imageHeight,
-                spriteClicked, clickedFileToDispose);
-    }
-
-    public void setNotClickedImage(String imageFileName,
-                                int imageX, int imageY,
-                                int imageWidth, int imageHeight) {
-        setImage(imageFileName, imageX, imageY, imageWidth, imageHeight,
-                spriteNotClicked, notClickedFileToDispose);
+    public void setNotClickedImage(TextureRegionInfo regionInfo) {
+        if (notClickedRegionInfo != null) {
+            notClickedRegionInfo.dispose();
+        }
+        notClickedRegionInfo = regionInfo;
+        spriteClicked.setRegion(regionInfo.getTextureRegion());
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        if (spriteNotClicked == null || spriteClicked == null) {
+        if (clickedRegionInfo == null || notClickedRegionInfo == null) {
             throw new ImageNotSetException();
         }
 
@@ -65,12 +53,12 @@ public class ImageButton extends Button {
 
     @Override
     public void dispose() {
-        if (clickedFileToDispose != null) {
-            game.textureManager.disposeTexture(clickedFileToDispose, 1);
+        if (clickedRegionInfo != null) {
+            clickedRegionInfo.dispose();
         }
 
-        if (notClickedFileToDispose != null) {
-            game.textureManager.disposeTexture(notClickedFileToDispose, 1);
+        if (notClickedRegionInfo != null) {
+            notClickedRegionInfo.dispose();
         }
     }
 }

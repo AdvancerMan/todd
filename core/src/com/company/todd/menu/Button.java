@@ -3,14 +3,12 @@ package com.company.todd.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
 import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.texture.TextureRegionInfo;
 
 public abstract class Button implements Disposable {
-    public static final String BUTTON_FILE = "white.png"; // TODO button texture
-
     protected ToddEthottGame game;
     protected ButtonFunction func;
     protected Sprite spriteClicked, spriteNotClicked;
@@ -29,15 +27,8 @@ public abstract class Button implements Disposable {
                   int x, int y, int width, int height) {
         this(func, game);
 
-        TextureRegion clickedTextureRegion = game.textureManager.getTextureRegion(
-                BUTTON_FILE, 5, 5, 200, 20  // TODO button texture
-        );
-        TextureRegion notClickedTextureRegion = game.textureManager.getTextureRegion(
-                BUTTON_FILE, 5, 25, 200, 20  // TODO button texture
-        );
-
-        spriteClicked = new Sprite(clickedTextureRegion);
-        spriteNotClicked = new Sprite(notClickedTextureRegion);
+        spriteClicked = new Sprite(game.regionInfos.getRegionInfo("buttonClicked").getTextureRegion());
+        spriteNotClicked = new Sprite(game.regionInfos.getRegionInfo("buttonNotClicked").getTextureRegion());
 
         spriteClicked.setPosition(x, y);
         spriteNotClicked.setPosition(x, y);
@@ -69,6 +60,7 @@ public abstract class Button implements Disposable {
     }
 
     public void dispose() {
-        game.textureManager.disposeTexture(BUTTON_FILE, 2);
+        game.regionInfos.getRegionInfo("buttonClicked").dispose();
+        game.regionInfos.getRegionInfo("buttonNotClicked").dispose();
     }
 }
