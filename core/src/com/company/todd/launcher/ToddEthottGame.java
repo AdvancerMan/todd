@@ -13,6 +13,7 @@ import com.company.todd.screen.DebugScreen;
 import com.company.todd.screen.MainMenuScreen;
 import com.company.todd.screen.ScreenManager;
 import com.company.todd.texture.TextureManager;
+import com.company.todd.texture.TextureRegionInfos;
 
 public class ToddEthottGame extends ApplicationAdapter {
 	public static final boolean DEBUG = true;
@@ -28,6 +29,7 @@ public class ToddEthottGame extends ApplicationAdapter {
 	public BitmapFont mainFont, buttonsFont;
 	public ScreenManager screenManager;
 	public TextureManager textureManager;
+    public TextureRegionInfos regionInfos;
 
 	@Override
 	public void create () {
@@ -35,6 +37,7 @@ public class ToddEthottGame extends ApplicationAdapter {
         mainFont = FontHandler.generateFont("segoesc.ttf", 16, Color.BLACK);
         buttonsFont = mainFont;
         textureManager = new TextureManager();
+        regionInfos = new TextureRegionInfos(textureManager);
 
         Screen firstScreen;
         if (DEBUG) {
