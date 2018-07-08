@@ -1,9 +1,11 @@
 package com.company.todd.texture;
 
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import com.company.todd.launcher.ToddEthottGame;
@@ -16,7 +18,15 @@ public class TextureManager implements Disposable {
     private ArrayMap<String, Integer> usagesMap;
 
     private Texture loadTexture(final String fileName) {
-        return new Texture(ToddEthottGame.TEXTURES_FOLDER + File.separator + fileName);
+        Texture texture;
+        try {
+            texture = new Texture(ToddEthottGame.TEXTURES_FOLDER + File.separator + fileName);
+        }
+        catch (GdxRuntimeException e) {
+            texture = new Texture(10, 10, Pixmap.Format.RGB565); // TODO normal Format
+        }
+
+        return texture;
     }
 
     public TextureManager() {
