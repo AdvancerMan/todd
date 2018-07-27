@@ -23,7 +23,8 @@ public class TextureManager implements Disposable {
             texture = new Texture(ToddEthottGame.TEXTURES_FOLDER + File.separator + fileName);
         }
         catch (GdxRuntimeException e) {
-            texture = new Texture(10, 10, Pixmap.Format.RGB565); // TODO normal Format
+            e.printStackTrace();
+            texture = new Texture(10, 10, Pixmap.Format.RGB565);
         }
 
         return texture;
@@ -51,7 +52,7 @@ public class TextureManager implements Disposable {
     public void disposeTexture(final String fileName, final int usages) {
         usagesMap.put(fileName, usagesMap.get(fileName) - usages);
 
-        if (usagesMap.get(fileName) <= 0) {
+        if (usagesMap.get(fileName) <= 0 && textures.get(fileName) != null) {
             usagesMap.put(fileName, 0);
             textures.get(fileName).dispose();
             textures.put(fileName, null);
