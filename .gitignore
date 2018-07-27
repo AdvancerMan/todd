@@ -123,3 +123,6 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/xcshareddata
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
+
+## My classes
+core/src/com/company/todd/RainbowScreen.java
