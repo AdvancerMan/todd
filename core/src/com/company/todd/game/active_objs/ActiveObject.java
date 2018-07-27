@@ -2,13 +2,14 @@ package com.company.todd.game.active_objs;
 
 import com.badlogic.gdx.math.Vector2;
 
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class ActiveObject extends InGameObject { // TODO collide
-    public static final float DEFAULT_JUMP_POWER = 10;
-    public static final float DEFAULT_WALKING_SPEED = 4;
-    public static final float DEFAULT_RUNNING_SPEED = 7;
+    public static final float DEFAULT_JUMP_POWER = 100;
+    public static final float DEFAULT_WALKING_SPEED = 40;
+    public static final float DEFAULT_RUNNING_SPEED = 70;
 
     protected Vector2 velocity; // TODO translation
     protected float jumpPower;
@@ -45,6 +46,10 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
 
     public void fall(float gravity) {
         velocity.add(0, -gravity);
+
+        if (velocity.y < -GameProcess.MAX_FALL_SPEED) {
+            velocity.set(velocity.x, -GameProcess.MAX_FALL_SPEED);
+        }
     }
 
     public void stand() {
@@ -69,7 +74,7 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
         }
     }
 
-    private void updatePosition(float delta) {
+    protected void updatePosition(float delta) {
         sprite.translate(velocity.x * delta, velocity.y * delta);
     }
 }
