@@ -1,6 +1,6 @@
 package com.company.todd.menu;
 
-import com.company.todd.game.Save;
+import com.company.todd.game.other.Save;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.GameScreen;
 import com.company.todd.screen.MainMenuScreen;
@@ -16,7 +16,7 @@ public class ButtonFunctions { // TODO more ButtonFunctions
     public static class AddSavedGameScreenFunction implements ButtonFunction {
         @Override
         public void click(ToddEthottGame game) {
-            game.screenManager.setNextScreen(new GameScreen(game, new Save()));
+            game.screenManager.setNextScreen(new GameScreen(game));
         }
     }
 
