@@ -1,17 +1,19 @@
 package com.company.todd.game.active_objs;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
+
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.texture.TextureRegionInfo;
 
 public class Player extends ActiveObject {
     private final InGameInputHandler inputHandler;
 
-    public Player(ToddEthottGame game, GameProcess gameProcess, InGameInputHandler inputHandler) {
-        super(game, gameProcess);
+    public Player(ToddEthottGame game, GameProcess gameProcess,
+                  TextureRegionInfo regionInfo, InGameInputHandler inputHandler) {
+        super(game, gameProcess, regionInfo, 30, 10, 10);
+        // TODO walkingSpeed runningSpeed jumpPower
 
         this.inputHandler = inputHandler;
     }
@@ -37,15 +39,5 @@ public class Player extends ActiveObject {
         }
 
         super.update(delta);
-    }
-
-    @Override
-    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-
-    }
-
-    @Override
-    public void dispose() {
-
     }
 }

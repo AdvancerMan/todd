@@ -14,8 +14,8 @@ import com.company.todd.screen.MyScreen;
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
-    private int gravity;
-    private int maxFallSpeed;
+    private float gravity;
+    private float maxFallSpeed;
 
     private final ToddEthottGame game;
     private final InGameInputHandler inputHandler;
@@ -31,8 +31,8 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         inputHandler = new InGameInputHandler();
 
-        gravity = 1;
-        maxFallSpeed = 50;
+        gravity = 0.5f;
+        maxFallSpeed = 10;
 
         activeObjects = new Array<ActiveObject>();
         staticObjects = new Array<StaticObject>();
@@ -93,11 +93,11 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
-    public int getGravity() {
+    public float getGravity() {
         return gravity;
     }
 
-    public int getMaxFallSpeed() {
+    public float getMaxFallSpeed() {
         return maxFallSpeed;
     }
 

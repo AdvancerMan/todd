@@ -1,16 +1,15 @@
 package com.company.todd.game.active_objs;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.texture.TextureRegionInfo;
 
-public abstract class ActiveObject extends InGameObject { // TODO collide
-    public static final float DEFAULT_JUMP_POWER = 100;
-    public static final float DEFAULT_WALKING_SPEED = 40;
-    public static final float DEFAULT_RUNNING_SPEED = 70;
-
+public abstract class ActiveObject extends InGameObject { // TODO animation
     protected Vector2 velocity;
     protected float jumpPower;
     protected float walkingSpeed;
@@ -21,9 +20,14 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
     protected float maxHealthLevel;
     protected float health;
 
-    public ActiveObject(ToddEthottGame game, GameProcess gameProcess,
+    protected TextureRegionInfo regionInfo;
+
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
                         float jumpPower, float walkingSpeed, float runningSpeed) {
         super(game, gameProcess);
+        this.regionInfo = regionInfo;
+        this.sprite.setRegion(regionInfo.getTextureRegion());
+
         velocity = new Vector2(0, 0);
 
         this.jumpPower = jumpPower;
@@ -35,10 +39,6 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
         maxEnergyLevel = 100;
         health = maxHealthLevel;
         energy = maxEnergyLevel;
-    }
-
-    public ActiveObject(ToddEthottGame game, GameProcess gameProcess) {
-        this(game, gameProcess, DEFAULT_JUMP_POWER, DEFAULT_WALKING_SPEED, DEFAULT_RUNNING_SPEED);
     }
 
     public void jump() { // TODO energy consuming: jump()
@@ -92,5 +92,17 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
 
     protected void updatePosition(float delta) {
         sprite.translate(velocity.x * delta, velocity.y * delta);
+    }
+
+    @Override
+    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
+        if (getRect().overlaps(cameraRectangle)) {
+            sprite.draw(batch);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        regionInfo.dispose();
     }
 }

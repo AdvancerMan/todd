@@ -13,6 +13,7 @@ public abstract class InGameObject implements Disposable {
     protected final GameProcess gameProcess;
     protected Sprite sprite;
 
+    // Must set size of sprite before using
     public InGameObject(ToddEthottGame game, GameProcess gameProcess) {
         this.game = game;
         this.gameProcess = gameProcess;
