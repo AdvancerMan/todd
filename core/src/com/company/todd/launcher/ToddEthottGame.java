@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.company.todd.font.FontHandler;
-import com.company.todd.screen.DebugScreen;
+import com.company.todd.debug.DebugScreen;
 import com.company.todd.screen.MainMenuScreen;
 import com.company.todd.screen.ScreenManager;
 import com.company.todd.texture.TextureManager;
