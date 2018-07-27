@@ -2,8 +2,10 @@ package com.company.todd.game.active_objs;
 
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.InGameObject;
+import com.company.todd.game.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class ActiveObject extends InGameObject { // TODO collide
@@ -21,8 +23,9 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
     protected float maxHealthLevel;
     protected float health;
 
-    public ActiveObject(ToddEthottGame game, float jumpPower, float walkingSpeed, float runningSpeed) {
-        super(game);
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess,
+                        float jumpPower, float walkingSpeed, float runningSpeed) {
+        super(game, gameProcess);
         velocity = new Vector2(0, 0);
 
         this.jumpPower = jumpPower;
@@ -36,8 +39,8 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
         energy = maxEnergyLevel;
     }
 
-    public ActiveObject(ToddEthottGame game) {
-        this(game, DEFAULT_JUMP_POWER, DEFAULT_WALKING_SPEED, DEFAULT_RUNNING_SPEED);
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess) {
+        this(game, gameProcess, DEFAULT_JUMP_POWER, DEFAULT_WALKING_SPEED, DEFAULT_RUNNING_SPEED);
     }
 
     public void jump() { // TODO energy consuming: jump()
@@ -72,6 +75,19 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
         else {
             velocity.set(-runningSpeed, velocity.y);
         }
+    }
+
+    @Override
+    public void update(float delta) {
+        fall(GameProcess.GRAVITY);
+
+        checkCollisions();
+
+        updatePosition(delta);
+    }
+
+    protected void checkCollisions() {
+        // TODO checkCollisions
     }
 
     protected void updatePosition(float delta) {

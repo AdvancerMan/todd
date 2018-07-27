@@ -10,8 +10,8 @@ import com.company.todd.launcher.ToddEthottGame;
 public class Player extends ActiveObject {
     private final InGameInputHandler inputHandler;
 
-    public Player(ToddEthottGame game, InGameInputHandler inputHandler) {
-        super(game);
+    public Player(ToddEthottGame game, GameProcess gameProcess, InGameInputHandler inputHandler) {
+        super(game, gameProcess);
 
         this.inputHandler = inputHandler;
     }
@@ -30,19 +30,13 @@ public class Player extends ActiveObject {
         }
     }
 
-    //private void checkCollisions()
-
     @Override
     public void update(float delta) {
         if (Gdx.input.isTouched()) {
             handleInput();
         }
-        fall(GameProcess.GRAVITY);
 
-        //checkCollisions();
-
-        updatePosition(delta);
-        System.out.println(sprite.getX() + " " + sprite.getY());
+        super.update(delta);
     }
 
     @Override
