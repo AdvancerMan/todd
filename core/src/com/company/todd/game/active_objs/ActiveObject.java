@@ -2,10 +2,8 @@ package com.company.todd.game.active_objs;
 
 import com.badlogic.gdx.math.Vector2;
 
-import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.InGameObject;
-import com.company.todd.game.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class ActiveObject extends InGameObject { // TODO collide
@@ -50,8 +48,8 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
     public void fall(float gravity) {
         velocity.add(0, -gravity);
 
-        if (velocity.y < -GameProcess.MAX_FALL_SPEED) {
-            velocity.set(velocity.x, -GameProcess.MAX_FALL_SPEED);
+        if (velocity.y < -gameProcess.getMaxFallSpeed()) {
+            velocity.set(velocity.x, -gameProcess.getMaxFallSpeed());
         }
     }
 
@@ -79,7 +77,7 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
 
     @Override
     public void update(float delta) {
-        fall(GameProcess.GRAVITY);
+        fall(gameProcess.getGravity());
 
         checkCollisions();
 
