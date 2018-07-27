@@ -1,94 +1,70 @@
 package com.company.todd.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.company.todd.game.other.Save;
+import com.company.todd.game.process.GameProcess;
+import com.company.todd.game.process.PauseProcess;
+import com.company.todd.game.process.Process;
 import com.company.todd.launcher.ToddEthottGame;
-import com.company.todd.game.Save;
-import com.company.todd.input.InGameInputHandler;
 
-public class GameScreen implements Screen { // TODO GameScreen
-    private ToddEthottGame game;
-    private InGameInputHandler inputHandler;
-    private OrthographicCamera camera;
-    private TextureRegion texture;
-    private int x = 321, y = 123;
+public class GameScreen extends MyScreen { // TODO GameScreen
+    private GameProcess gameProcess;
+    private PauseProcess pauseProcess;
+    private Process usingProcess;
+    private boolean gamePaused;
 
-    public GameScreen(ToddEthottGame game_) {
-        game = game_;
+    public GameScreen(ToddEthottGame game) {
+        super(game);
+        gameProcess = new GameProcess(game, this);
+        pauseProcess = new PauseProcess(game, this, gameProcess);
 
-        inputHandler = new InGameInputHandler();
+        usingProcess = gameProcess;
+        gamePaused = false;
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        texture = game.textureManager.getTextureRegion("badlogic.jpg", 10, 10, 64, 64);
-    }
-
-    public GameScreen(ToddEthottGame game_, Save save) {
-        this(game_);
+        Save save = new Save();  // TODO save
     }
 
     @Override
-    public void show() {
-        
+    protected void update(float delta) {
+        super.update(delta);
+
+        usingProcess.update(delta);
     }
 
-    private void handleInput(float delta) {
-        if (Gdx.input.isTouched()) {
-            inputHandler.setNewTouchPosition();
+    @Override
+    protected void draw(SpriteBatch batch) {
+        super.draw(batch);
 
-            if (inputHandler.isGoingLeft()) {
-                x -= delta * 200;
-            }
-            if (inputHandler.isGoingRight()) {
-                x += delta * 200;
-            }
+        batch.begin();
+
+        usingProcess.draw(batch);
+
+        batch.end();
+
+        if (gamePaused) {
+            usingProcess = pauseProcess;
         }
-
-        if (Gdx.input.justTouched()) {
-            if (inputHandler.isPaused()) {
-                game.screenManager.removeScreen();
-            }
+        else {
+            usingProcess = gameProcess;
         }
-    }
-
-    @Override
-    public void render(float delta) {
-        handleInput(delta);
-
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
-        game.batch.draw(texture, x, y);
-        game.batch.end();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
     }
 
     @Override
     public void pause() {
-
+        super.pause();
+        gamePaused = true;
     }
 
     @Override
     public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+        super.resume();
+        gamePaused = false;
     }
 
     @Override
     public void dispose() {
-        game.textureManager.disposeTexture("badlogic.jpg", 1);
+        gameProcess.dispose();
+        pauseProcess.dispose();
     }
 }
