@@ -3,6 +3,7 @@ package com.company.todd.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.company.todd.launcher.ToddEthottGame;
 
 public class InGameInputHandler {
     private Rectangle right;
@@ -13,9 +14,9 @@ public class InGameInputHandler {
     private Vector2 inputPoint;
 
     public InGameInputHandler() {  // TODO input rectangles
-        right = new Rectangle(0, 0, 100, 100);
-        left = new Rectangle(100, 0, 100, 100);
-        jump = new Rectangle(0, 100, 100, 100);
+        right = new Rectangle(400, 0, 400, ToddEthottGame.HEIGHT - 100);
+        left = new Rectangle(0, 0, 400, ToddEthottGame.HEIGHT - 100);
+        jump = new Rectangle(0, ToddEthottGame.HEIGHT - 100, ToddEthottGame.WIDTH, 100);
         shoot = new Rectangle(100, 100, 100, 100);
         pause = new Rectangle(200, 0, 100, 100);
 
