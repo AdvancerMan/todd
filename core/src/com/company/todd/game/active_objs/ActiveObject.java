@@ -11,7 +11,7 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
     public static final float DEFAULT_WALKING_SPEED = 40;
     public static final float DEFAULT_RUNNING_SPEED = 70;
 
-    protected Vector2 velocity; // TODO translation
+    protected Vector2 velocity;
     protected float jumpPower;
     protected float walkingSpeed;
     protected float runningSpeed;
@@ -79,13 +79,15 @@ public abstract class ActiveObject extends InGameObject { // TODO collide
     public void update(float delta) {
         fall(gameProcess.getGravity());
 
-        checkCollisions();
+        gameProcess.handleCollisions(this);
 
         updatePosition(delta);
     }
 
-    protected void checkCollisions() {
-        // TODO checkCollisions
+    public void collideWith(InGameObject object) {
+        // Rectangle objectRect = object.getRect();
+        // Rectangle thisRect = this.getRect();
+        // TODO collideWith
     }
 
     protected void updatePosition(float delta) {
