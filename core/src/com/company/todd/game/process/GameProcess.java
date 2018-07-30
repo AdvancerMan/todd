@@ -31,8 +31,8 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         inputHandler = new InGameInputHandler();
 
-        gravity = 0.5f;
-        maxFallSpeed = 10;
+        gravity = 9.8f;
+        maxFallSpeed = 150;
 
         activeObjects = new Array<ActiveObject>();
         staticObjects = new Array<StaticObject>();

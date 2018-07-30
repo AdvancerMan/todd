@@ -12,7 +12,7 @@ public class Player extends ActiveObject {
 
     public Player(ToddEthottGame game, GameProcess gameProcess,
                   TextureRegionInfo regionInfo, InGameInputHandler inputHandler) {
-        super(game, gameProcess, regionInfo, 30, 10, 10);
+        super(game, gameProcess, regionInfo, 300, 50, 150);
         // TODO walkingSpeed runningSpeed jumpPower
 
         this.inputHandler = inputHandler;

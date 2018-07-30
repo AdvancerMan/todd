@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
 
-public class PauseProcess implements Process {  // TODO PauseScreen
+public class PauseProcess implements Process {  // TODO PauseProcess
     private final ToddEthottGame game;
     private final MyScreen screen;
     private final GameProcess gameProcess;

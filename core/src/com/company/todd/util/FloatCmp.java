@@ -1,7 +1,7 @@
 package com.company.todd.util;
 
 public class FloatCmp {
-    public static float EPS = 1e-6f;
+    public static final float EPS = 1e-6f;
 
     public static boolean equals(float a, float b, float eps) {
         return Math.abs(a - b) <= eps;

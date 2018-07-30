@@ -1,6 +1,7 @@
 package com.company.todd.debug;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.company.todd.game.active_objs.Player;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.input.InGameInputHandler;

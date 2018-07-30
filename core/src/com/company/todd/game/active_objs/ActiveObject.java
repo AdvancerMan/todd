@@ -8,12 +8,19 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
+import com.company.todd.util.FloatCmp;
+
+import static com.company.todd.util.FloatCmp.less;
+import static com.company.todd.util.FloatCmp.lessOrEquals;
+import static com.company.todd.util.FloatCmp.more;
+import static com.company.todd.util.FloatCmp.moreOrEquals;
 
 public abstract class ActiveObject extends InGameObject { // TODO animation
     protected Vector2 velocity;
     protected float jumpPower;
     protected float walkingSpeed;
     protected float runningSpeed;
+    protected boolean isOnGround;
 
     protected float maxEnergyLevel;
     protected float energy;
@@ -33,6 +40,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         this.jumpPower = jumpPower;
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
+        this.isOnGround = false;
 
         // TODO health and energy
         maxHealthLevel = 100;
@@ -42,13 +50,15 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     }
 
     public void jump() { // TODO energy consuming: jump()
-        velocity.set(velocity.x, jumpPower);
+        if (isOnGround) {
+            velocity.set(velocity.x, jumpPower);
+        }
     }
 
     public void fall(float gravity) {
         velocity.add(0, -gravity);
 
-        if (velocity.y < -gameProcess.getMaxFallSpeed()) {
+        if (less(velocity.y, -gameProcess.getMaxFallSpeed())) {
             velocity.set(velocity.x, -gameProcess.getMaxFallSpeed());
         }
     }
@@ -78,16 +88,70 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     @Override
     public void update(float delta) {
         fall(gameProcess.getGravity());
+        isOnGround = false;
+        boolean isFalling = less(velocity.y, 0);
 
         gameProcess.handleCollisions(this);
+
+        if (isFalling && FloatCmp.equals(velocity.y, 0)) {
+            isOnGround = true;
+        }
 
         updatePosition(delta);
     }
 
+    private static boolean isSegmentsIntersect(float x1, float size1, float x2, float size2) {
+        return
+                lessOrEquals(x1, x2) && more(x1 + size1, x2) ||
+                lessOrEquals(x1, x2 + size2 - 1) && more(x1 + size1, x2 + size2 - 1) ||
+
+                lessOrEquals(x2, x1) && more(x2 + size2, x1) ||
+                lessOrEquals(x2, x1 + size1 - 1) && more(x2 + size2, x1 + size1 - 1);
+    }
+
+    private static float calcCollisionTime(Rectangle activeRect, Rectangle staticRect, float vel) {
+        if (isSegmentsIntersect(activeRect.x, activeRect.width, staticRect.x, staticRect.width)) {
+            return 2;
+        }
+
+        if (more(vel, 0) && lessOrEquals(activeRect.x + activeRect.width, staticRect.x)) {
+            if (more(activeRect.x + activeRect.width + vel, staticRect.x)) {
+                return 0;
+            }  // TODO collisions
+        }
+        else if (less(vel, 0) && moreOrEquals(activeRect.x, staticRect.x + staticRect.width)) {
+            if (less(activeRect.x + vel, staticRect.x + staticRect.width)) {
+                return 0;
+            }
+        }  // TODO collisions
+
+        return 2;
+    }
+
     public void collideWith(InGameObject object) {
-        // Rectangle objectRect = object.getRect();
-        // Rectangle thisRect = this.getRect();
-        // TODO collideWith
+        Rectangle objectRect = object.getRect();
+        Rectangle thisRect = this.getRect();
+
+        float xTime = calcCollisionTime(thisRect, objectRect, velocity.x);
+
+        // swapping x and y coordinates (+ width and height)
+        // this action does not affects sprites' state
+        objectRect.setPosition(objectRect.y, objectRect.x)
+                  .setSize(objectRect.height, objectRect.width);
+        thisRect.setPosition(thisRect.y, thisRect.x)
+                .setSize(thisRect.height, thisRect.width);
+
+        float yTime = calcCollisionTime(thisRect, objectRect, velocity.y);
+
+        if (FloatCmp.equals(xTime, yTime) && FloatCmp.equals(xTime, 2)) {
+            return;
+        }
+        else if (less(xTime, yTime)) {
+            velocity.set(velocity.x * xTime, velocity.y);
+        }
+        else {
+            velocity.set(velocity.x, velocity.y * yTime);
+        }
     }
 
     protected void updatePosition(float delta) {
