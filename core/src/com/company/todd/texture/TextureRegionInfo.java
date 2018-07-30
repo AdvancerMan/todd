@@ -36,6 +36,14 @@ public class TextureRegionInfo implements Disposable {
         return region;
     }
 
+    public float getWidth() {
+        return regionWidth;
+    }
+
+    public float getHeight() {
+        return regionHeight;
+    }
+
     @Override
     public void dispose() {
         usages--;
