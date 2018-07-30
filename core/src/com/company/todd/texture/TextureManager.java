@@ -63,6 +63,7 @@ public class TextureManager implements Disposable {
         // Здесь освобождаем ресурсы текстур, которые долго не используются
         // Неиспользуемые ресурсы не освобождаются для ускоренной загрузки локаций
 
+        /*
         if (ToddEthottGame.DEBUG) {
             for (Iterator<ObjectMap.Entry<String, Integer>> iterator = usagesMap.iterator(); iterator.hasNext(); ) {
                 ObjectMap.Entry<String, Integer> next = iterator.next();
@@ -70,6 +71,7 @@ public class TextureManager implements Disposable {
             }
             System.out.print("\n");
         }
+        */
     }
 
     @Override
