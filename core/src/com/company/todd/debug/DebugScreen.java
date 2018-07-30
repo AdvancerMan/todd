@@ -22,6 +22,7 @@ public class DebugScreen extends MyScreen {
         Player pl = new Player(game, gameProcess,
                 game.regionInfos.getRegionInfo("buttonClicked"), inputHandler);
         pl.setSize(50, 100);
+        pl.setPosition(400, 500);
 
         gameProcess.addObject(pl);
     }

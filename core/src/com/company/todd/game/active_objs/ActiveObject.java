@@ -91,7 +91,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         isOnGround = false;
         boolean isFalling = less(velocity.y, 0);
 
-        gameProcess.handleCollisions(this);
+        gameProcess.handleCollisions(this, delta);
 
         if (isFalling && FloatCmp.equals(velocity.y, 0)) {
             isOnGround = true;
@@ -109,30 +109,40 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
                 lessOrEquals(x2, x1 + size1 - 1) && more(x2 + size2, x1 + size1 - 1);
     }
 
-    private static float calcCollisionTime(Rectangle activeRect, Rectangle staticRect, float vel) {
+    private static float calcCollisionTime(Rectangle activeRect, Rectangle staticRect, float vel, float yVel) {
         if (isSegmentsIntersect(activeRect.x, activeRect.width, staticRect.x, staticRect.width)) {
             return 2;
         }
 
+        float time = 2;
         if (more(vel, 0) && lessOrEquals(activeRect.x + activeRect.width, staticRect.x)) {
             if (more(activeRect.x + activeRect.width + vel, staticRect.x)) {
-                return 0;
-            }  // TODO collisions
+                time = Math.abs((staticRect.x - (activeRect.x + activeRect.width)) / vel);
+                if (!isSegmentsIntersect(staticRect.y, staticRect.height,
+                                         activeRect.y + yVel * time, activeRect.height)) {
+                    time = 2;
+                }
+            }
         }
         else if (less(vel, 0) && moreOrEquals(activeRect.x, staticRect.x + staticRect.width)) {
             if (less(activeRect.x + vel, staticRect.x + staticRect.width)) {
-                return 0;
+                time = Math.abs((activeRect.x - (staticRect.x + staticRect.width)) / vel);
+                System.out.println(staticRect.y + " " + staticRect.width + " " + (activeRect.y + yVel * time) + " " + activeRect.width);
+                if (!isSegmentsIntersect(staticRect.y, staticRect.height,
+                                         activeRect.y + yVel * time, activeRect.height)) {
+                    time = 2;
+                }
             }
-        }  // TODO collisions
+        }
 
-        return 2;
+        return time;
     }
 
-    public void collideWith(InGameObject object) {
+    public void collideWith(InGameObject object, float delta) {
         Rectangle objectRect = object.getRect();
         Rectangle thisRect = this.getRect();
 
-        float xTime = calcCollisionTime(thisRect, objectRect, velocity.x);
+        float xTime = calcCollisionTime(thisRect, objectRect, velocity.x * delta, velocity.y * delta);
 
         // swapping x and y coordinates (+ width and height)
         // this action does not affects sprites' state
@@ -141,7 +151,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         thisRect.setPosition(thisRect.y, thisRect.x)
                 .setSize(thisRect.height, thisRect.width);
 
-        float yTime = calcCollisionTime(thisRect, objectRect, velocity.y);
+        float yTime = calcCollisionTime(thisRect, objectRect, velocity.y * delta, velocity.x * delta);
 
         if (FloatCmp.equals(xTime, yTime) && FloatCmp.equals(xTime, 2)) {
             return;

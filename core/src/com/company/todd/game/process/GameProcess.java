@@ -77,9 +77,9 @@ public class GameProcess implements Process {  // TODO GameProcess
         justCreatedObjects.add(object);
     }
 
-    public void handleCollisions(ActiveObject object) {
+    public void handleCollisions(ActiveObject object, float delta) {
         for (StaticObject staticObject : staticObjects) {
-            object.collideWith(staticObject);
+            object.collideWith(staticObject, delta);
         }
     }
 
