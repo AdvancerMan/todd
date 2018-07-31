@@ -12,7 +12,6 @@ import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.more;
-import static com.company.todd.util.FloatCmp.moreOrEquals;
 
 public class Platform extends StaticObject {  // TODO Platform
     PlatformType type;
@@ -24,15 +23,21 @@ public class Platform extends StaticObject {  // TODO Platform
     public Platform(ToddEthottGame game, GameProcess gameProcess, PlatformType type,
                     float x, float y, int width, int height) {
         super(game, gameProcess);
-        setPosition(x, y);
-        setSize(width, height);
-
         this.type = type;
         type.init();
 
+        setPosition(x, y);
+        setSize(width, height);
+    }
+
+    private void updateRegions() {
+        Rectangle thisRect = getRect();
+        int width = Math.round(thisRect.width);
+        int height = Math.round(thisRect.height);
+
         upRight = new TextureRegion(
                 type.upperTextureRegion, 0, 0,
-                        width % (int)type.width, (int)type.height
+                width % (int)type.width, (int)type.height
         );
 
         upDown = new TextureRegion(
@@ -59,7 +64,6 @@ public class Platform extends StaticObject {  // TODO Platform
                 type.downTextureRegion, 0, 0,
                 width % (int)type.width, height % (int)type.height
         );
-
     }
 
     @Override
@@ -101,6 +105,12 @@ public class Platform extends StaticObject {  // TODO Platform
                 }
             }
         }
+    }
+
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        updateRegions();
     }
 
     @Override
