@@ -6,7 +6,7 @@ import java.util.Map;
 public class TextureRegionInfos {
     Map<String, TextureRegionInfo> regions;
 
-    public TextureRegionInfos(TextureManager mng) {
+    public TextureRegionInfos(TextureManager mng) {  // TODO textures
         regions = new HashMap<String, TextureRegionInfo>();
 
         regions.put(
@@ -15,7 +15,7 @@ public class TextureRegionInfos {
         );
         regions.put(
                 "buttonNotClicked", // TODO button texture
-                new TextureRegionInfo(mng, "white.png", 0, 0, 10, 10)
+                new TextureRegionInfo(mng, "badlogic.jpg", 0, 0, 10, 10)
         );
     }
 

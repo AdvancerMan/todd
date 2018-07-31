@@ -12,7 +12,7 @@ public class Player extends ActiveObject {
 
     public Player(ToddEthottGame game, GameProcess gameProcess,
                   TextureRegionInfo regionInfo, InGameInputHandler inputHandler) {
-        super(game, gameProcess, regionInfo, 300, 50, 150);
+        super(game, gameProcess, regionInfo, 500, 50, 150);
         // TODO walkingSpeed runningSpeed jumpPower
 
         this.inputHandler = inputHandler;
@@ -20,11 +20,11 @@ public class Player extends ActiveObject {
 
     private void handleInput() {
         if (inputHandler.isGoingRight()) {
-            walk(true);
+            run(true);
         }
 
         if (inputHandler.isGoingLeft()) {
-            walk(false);
+            run(false);
         }
 
         if (inputHandler.isJumping()) {
@@ -34,6 +34,7 @@ public class Player extends ActiveObject {
 
     @Override
     public void update(float delta) {
+        stand();
         if (Gdx.input.isTouched()) {
             handleInput();
         }

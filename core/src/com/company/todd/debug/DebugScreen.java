@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.company.todd.game.active_objs.Player;
 import com.company.todd.game.process.GameProcess;
+import com.company.todd.game.static_objs.Platform;
 import com.company.todd.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
@@ -25,6 +26,14 @@ public class DebugScreen extends MyScreen {
         pl.setPosition(400, 500);
 
         gameProcess.addObject(pl);
+        gameProcess.addObject(new Platform(game, gameProcess, new Platform.PlatformType(
+                game.regionInfos.getRegionInfo("buttonClicked"),
+                game.regionInfos.getRegionInfo("buttonNotClicked")
+        ), 100, 100, 100, 100));
+        gameProcess.addObject(new Platform(game, gameProcess, new Platform.PlatformType(
+                game.regionInfos.getRegionInfo("buttonClicked"),
+                game.regionInfos.getRegionInfo("buttonNotClicked")
+        ), 200, 25, 500, 100));
     }
 
     @Override

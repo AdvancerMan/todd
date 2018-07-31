@@ -88,6 +88,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     @Override
     public void update(float delta) {
         fall(gameProcess.getGravity());
+
         isOnGround = false;
         boolean isFalling = less(velocity.y, 0);
 
@@ -118,6 +119,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         if (more(vel, 0) && lessOrEquals(activeRect.x + activeRect.width, staticRect.x)) {
             if (more(activeRect.x + activeRect.width + vel, staticRect.x)) {
                 time = Math.abs((staticRect.x - (activeRect.x + activeRect.width)) / vel);
+
                 if (!isSegmentsIntersect(staticRect.y, staticRect.height,
                                          activeRect.y + yVel * time, activeRect.height)) {
                     time = 2;
@@ -127,7 +129,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         else if (less(vel, 0) && moreOrEquals(activeRect.x, staticRect.x + staticRect.width)) {
             if (less(activeRect.x + vel, staticRect.x + staticRect.width)) {
                 time = Math.abs((activeRect.x - (staticRect.x + staticRect.width)) / vel);
-                System.out.println(staticRect.y + " " + staticRect.width + " " + (activeRect.y + yVel * time) + " " + activeRect.width);
+
                 if (!isSegmentsIntersect(staticRect.y, staticRect.height,
                                          activeRect.y + yVel * time, activeRect.height)) {
                     time = 2;

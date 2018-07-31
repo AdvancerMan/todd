@@ -47,8 +47,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
-    @Override
-    public void update(float delta) {
+    private void addJustCreatedObjectsToProcess() {
         Iterator<InGameObject> objectIterator = justCreatedObjects.iterator();
         while (objectIterator.hasNext()) {
             InGameObject object = objectIterator.next();
@@ -62,7 +61,11 @@ public class GameProcess implements Process {  // TODO GameProcess
 
             objectIterator.remove();
         }
+    }
 
+    @Override
+    public void update(float delta) {
+        addJustCreatedObjectsToProcess();
         handleInput(delta);
 
         for (ActiveObject object : activeObjects) {
