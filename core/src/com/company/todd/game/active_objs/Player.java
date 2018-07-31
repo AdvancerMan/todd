@@ -1,7 +1,5 @@
 package com.company.todd.game.active_objs;
 
-import com.badlogic.gdx.Gdx;
-
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
@@ -35,9 +33,7 @@ public class Player extends ActiveObject {
     @Override
     public void update(float delta) {
         stand();
-        if (Gdx.input.isTouched()) {
-            handleInput();
-        }
+        handleInput();
 
         super.update(delta);
     }

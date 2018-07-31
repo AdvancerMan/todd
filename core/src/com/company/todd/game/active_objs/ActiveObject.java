@@ -101,7 +101,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         updatePosition(delta);
     }
 
-    private static boolean isSegmentsIntersect(float x1, float size1, float x2, float size2) {
+    private static boolean segmentsIntersect(float x1, float size1, float x2, float size2) {
         return
                 lessOrEquals(x1, x2) && more(x1 + size1, x2) ||
                 lessOrEquals(x1, x2 + size2 - 1) && more(x1 + size1, x2 + size2 - 1) ||
@@ -111,7 +111,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     }
 
     private static float calcCollisionTime(Rectangle activeRect, Rectangle staticRect, float vel, float yVel) {
-        if (isSegmentsIntersect(activeRect.x, activeRect.width, staticRect.x, staticRect.width)) {
+        if (segmentsIntersect(activeRect.x, activeRect.width, staticRect.x, staticRect.width)) {
             return 2;
         }
 
@@ -120,7 +120,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
             if (more(activeRect.x + activeRect.width + vel, staticRect.x)) {
                 time = Math.abs((staticRect.x - (activeRect.x + activeRect.width)) / vel);
 
-                if (!isSegmentsIntersect(staticRect.y, staticRect.height,
+                if (!segmentsIntersect(staticRect.y, staticRect.height,
                                          activeRect.y + yVel * time, activeRect.height)) {
                     time = 2;
                 }
@@ -130,7 +130,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
             if (less(activeRect.x + vel, staticRect.x + staticRect.width)) {
                 time = Math.abs((activeRect.x - (staticRect.x + staticRect.width)) / vel);
 
-                if (!isSegmentsIntersect(staticRect.y, staticRect.height,
+                if (!segmentsIntersect(staticRect.y, staticRect.height,
                                          activeRect.y + yVel * time, activeRect.height)) {
                     time = 2;
                 }

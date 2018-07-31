@@ -1,6 +1,5 @@
 package com.company.todd.game.process;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
@@ -40,10 +39,8 @@ public class GameProcess implements Process {  // TODO GameProcess
     }
 
     private void handleInput(float delta) {
-        if (Gdx.input.justTouched()) {
-            if (inputHandler.isPaused()) {
-                screen.pause();
-            }
+        if (inputHandler.isPaused()) {
+            screen.pause();
         }
     }
 
