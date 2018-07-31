@@ -23,7 +23,11 @@ public class InGameInputHandler {
         pause = new Rectangle(200, 0, 100, 100);
 
         inputPoints = new Vector2[maxFingersOnScreenCount];
-    }  // TODO handle multitouch
+
+        for (int i = 0; i < maxFingersOnScreenCount; i++) {
+            inputPoints[i] = new Vector2();
+        }
+    }
 
     public void setNewTouchPosition() {
         for (int i = 0; i < maxFingersOnScreenCount; i++) {
