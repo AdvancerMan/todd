@@ -10,14 +10,21 @@ import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class MyScreen implements Screen {
     protected ToddEthottGame game;
-    protected OrthographicCamera camera;
     protected Vector3 touchPos;
+
+    private OrthographicCamera camera;
+    private float cameraX, cameraY;
+    private float cameraWidth, cameraHeight;
 
     public MyScreen(ToddEthottGame game) {
         this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, ToddEthottGame.WIDTH, ToddEthottGame.HEIGHT);
+        cameraX = 0;
+        cameraY = 0;
+        cameraWidth = ToddEthottGame.WIDTH;
+        cameraHeight = ToddEthottGame.HEIGHT;
 
         touchPos = new Vector3();
     }
@@ -45,6 +52,25 @@ public abstract class MyScreen implements Screen {
                 camera.position.y - camera.viewportHeight / 2,
                 camera.viewportWidth, camera.viewportHeight
         );
+    }
+
+    public void translateCamera(float x, float y) {
+        camera.translate(x, y);
+        camera.update();
+
+        cameraX += x;
+        cameraY += y;
+    }
+
+    public void centerCameraAt(float x, float y) {
+        x -= cameraWidth / 2;
+        y -= cameraHeight / 2;
+        translateCamera(x - cameraX, y - cameraY);
+    }
+
+    public void setCameraViewportSize(float width, float height) {
+        camera.setToOrtho(false, width, height);
+        camera.update();
     }
 
     @Override
