@@ -26,14 +26,19 @@ public class DebugScreen extends MyScreen {
         pl.setPosition(400, 500);
 
         gameProcess.addObject(pl);
-        gameProcess.addObject(new Platform(game, gameProcess, new Platform.PlatformType(
-                game.regionInfos.getRegionInfo("buttonClicked"),
-                game.regionInfos.getRegionInfo("buttonNotClicked")
-        ), 100, 100, 100, 100));
-        gameProcess.addObject(new Platform(game, gameProcess, new Platform.PlatformType(
-                game.regionInfos.getRegionInfo("buttonClicked"),
-                game.regionInfos.getRegionInfo("buttonNotClicked")
-        ), 200, 25, 500, 100));
+
+        int[][] pls = {
+                {100, 100, 100, 100},
+                {200, 25, 500, 100},
+                {123, 321, 123, 317},
+                {10, 3, 500, 1}
+        };
+        for (int i = 0; i < pls.length; i++) {
+            gameProcess.addObject(new Platform(game, gameProcess, new Platform.PlatformType(
+                    game.regionInfos.getRegionInfo("buttonClicked"),
+                    game.regionInfos.getRegionInfo("buttonNotClicked")
+            ), pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
+        }
     }
 
     @Override

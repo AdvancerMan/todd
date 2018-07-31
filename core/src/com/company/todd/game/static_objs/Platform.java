@@ -70,11 +70,11 @@ public class Platform extends StaticObject {  // TODO Platform
     @Override
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
         if (getRect().overlaps(cameraRectangle)) {
-            for (float y = sprite.getY() + sprite.getHeight() - 1; moreOrEquals(y, sprite.getY()); y -= type.height) {
+            for (float y = sprite.getY() + sprite.getHeight(); more(y, sprite.getY()); y -= type.height) {
 
                 TextureRegion right, down, rightAndDown;
                 TextureRegion region;
-                if (FloatCmp.equals(y, sprite.getY() + sprite.getHeight() - 1)) {
+                if (FloatCmp.equals(y, sprite.getY() + sprite.getHeight())) {
                     right = upRight;
                     down = upDown;
                     rightAndDown = upRightAndDown;
@@ -92,11 +92,11 @@ public class Platform extends StaticObject {  // TODO Platform
                             less(y - type.height, sprite.getY())) {
                         batch.draw(rightAndDown, x, sprite.getY());
                     } else if (more(x + type.width, sprite.getX() + sprite.getWidth())) {
-                        batch.draw(right, x, y - type.height + 1);
+                        batch.draw(right, x, y - type.height);
                     } else if (less(y - type.height, sprite.getY())) {
                         batch.draw(down, x, sprite.getY());
                     } else {
-                        batch.draw(region, x, y - type.height + 1);
+                        batch.draw(region, x, y - type.height);
                     }
                 }
             }
