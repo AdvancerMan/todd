@@ -43,12 +43,12 @@ public class InGameInputHandler {
     }
 
     private boolean rectIsTouched(Rectangle rect) {
-        for (int i = 0; i < maxFingersOnScreenCount; i++) {
-            if (Gdx.input.isTouched(i) && rect.contains(inputPoints[i])) {
-                return true;
+        return rectIsTouched(rect, new InputActivator() {
+            @Override
+            public boolean activate(int i) {
+                return Gdx.input.isTouched(i);
             }
-        }
-        return false;
+        });
     }
 
     public boolean isGoingRight() {
