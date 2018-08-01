@@ -91,16 +91,17 @@ public class Platform extends StaticObject {  // TODO Platform
                 }
 
                 for (float x = sprite.getX(); less(x, sprite.getX() + sprite.getWidth()); x += type.width) {
-
-                    if (more(x + type.width, sprite.getX() + sprite.getWidth()) &&
-                            less(y - type.height, sprite.getY())) {
-                        batch.draw(rightAndDown, x, sprite.getY());
-                    } else if (more(x + type.width, sprite.getX() + sprite.getWidth())) {
-                        batch.draw(right, x, y - type.height);
-                    } else if (less(y - type.height, sprite.getY())) {
-                        batch.draw(down, x, sprite.getY());
-                    } else {
-                        batch.draw(region, x, y - type.height);
+                    if (cameraRectangle.overlaps(new Rectangle(x, y, type.width, type.height))) {
+                        if (more(x + type.width, sprite.getX() + sprite.getWidth()) &&
+                                less(y - type.height, sprite.getY())) {
+                            batch.draw(rightAndDown, x, sprite.getY());
+                        } else if (more(x + type.width, sprite.getX() + sprite.getWidth())) {
+                            batch.draw(right, x, y - type.height);
+                        } else if (less(y - type.height, sprite.getY())) {
+                            batch.draw(down, x, sprite.getY());
+                        } else {
+                            batch.draw(region, x, y - type.height);
+                        }
                     }
                 }
             }
