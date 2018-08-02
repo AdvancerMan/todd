@@ -31,38 +31,37 @@ public class Platform extends StaticObject {  // TODO Platform
     }
 
     private void updateRegions() {
-        Rectangle thisRect = getRect();
-        int width = Math.round(thisRect.width);
-        int height = Math.round(thisRect.height);
+        float width = sprite.getWidth();
+        float height = sprite.getHeight();
 
         upRight = new TextureRegion(
                 type.upperTextureRegion, 0, 0,
-                width % (int)type.width, (int)type.height
+                (int)(width % type.width), (int)type.height
         );
 
         upDown = new TextureRegion(
                 type.upperTextureRegion, 0, 0,
-                (int)type.width, height % (int)type.height
+                (int)type.width, (int)(height % type.height)
         );
 
         upRightAndDown = new TextureRegion(
                 type.upperTextureRegion, 0, 0,
-                width % (int)type.width, height % (int)type.height
+                (int)(width % type.width), (int)(height % type.height)
         );
 
         downRight = new TextureRegion(
                 type.downTextureRegion, 0, 0,
-                width % (int)type.width, (int)type.height
+                (int)(width % type.width), (int)(type.height)
         );
 
         downDown = new TextureRegion(
                 type.downTextureRegion, 0, 0,
-                (int)type.width, height % (int)type.height
+                (int)type.width, (int)(height % type.height)
         );
 
         downRightAndDown = new TextureRegion(
                 type.downTextureRegion, 0, 0,
-                width % (int)type.width, height % (int)type.height
+                (int)(width % type.width), (int)(height % type.height)
         );
     }
 
@@ -73,6 +72,13 @@ public class Platform extends StaticObject {  // TODO Platform
 
     @Override
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
+        /*
+        long startTime;
+        if (ToddEthottGame.DEBUG) {
+            startTime = System.currentTimeMillis();
+        }
+        */
+
         if (getRect().overlaps(cameraRectangle)) {
             for (float y = sprite.getY() + sprite.getHeight(); more(y, sprite.getY()); y -= type.height) {
 
@@ -94,11 +100,13 @@ public class Platform extends StaticObject {  // TODO Platform
                     if (cameraRectangle.overlaps(new Rectangle(x, y, type.width, type.height))) {
                         if (more(x + type.width, sprite.getX() + sprite.getWidth()) &&
                                 less(y - type.height, sprite.getY())) {
-                            batch.draw(rightAndDown, x, sprite.getY());
+                            batch.draw(rightAndDown, x, sprite.getY(),
+                                       sprite.getX() + sprite.getWidth() - x, y - sprite.getY());
                         } else if (more(x + type.width, sprite.getX() + sprite.getWidth())) {
-                            batch.draw(right, x, y - type.height);
+                            batch.draw(right, x, y - type.height,
+                                       sprite.getX() + sprite.getWidth() - x, type.height);
                         } else if (less(y - type.height, sprite.getY())) {
-                            batch.draw(down, x, sprite.getY());
+                            batch.draw(down, x, sprite.getY(), type.width, y - sprite.getY());
                         } else {
                             batch.draw(region, x, y - type.height);
                         }
@@ -106,6 +114,11 @@ public class Platform extends StaticObject {  // TODO Platform
                 }
             }
         }
+        /*
+        if (ToddEthottGame.DEBUG) {
+            System.out.println((double)(System.currentTimeMillis() - startTime) / 1000.);
+        }
+        */
     }
 
     @Override

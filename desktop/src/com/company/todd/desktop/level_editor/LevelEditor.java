@@ -88,6 +88,13 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
             platformNow = null;
         }
 
+        /*
+        long startTime;
+        if (ToddEthottGame.DEBUG) {
+            startTime = System.currentTimeMillis();
+        }
+        */
+
         game.batch.begin();
 
         for (Platform pl : platforms) {
@@ -95,9 +102,16 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         }
         if (platformNow != null) {
             platformNow.draw(game.batch, screenRect);
+            System.out.println(platformNow.getRect().x + " " + platformNow.getRect().y + " " + platformNow.getRect().width + " " + platformNow.getRect().height);
         }
 
         game.batch.end();
+        /*
+        if (ToddEthottGame.DEBUG) {
+            System.out.println((double)(System.currentTimeMillis() - startTime) / 1000.);
+            System.out.println(platforms.size);
+        }
+        */
     }
 
     public void dispose() {

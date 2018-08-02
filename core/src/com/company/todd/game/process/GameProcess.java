@@ -65,9 +65,20 @@ public class GameProcess implements Process {  // TODO GameProcess
         addJustCreatedObjectsToProcess();
         handleInput(delta);
 
+        long startTime;
+        if (ToddEthottGame.DEBUG) {
+            startTime = System.currentTimeMillis();
+        }
+
         for (ActiveObject object : activeObjects) {
             object.update(delta);
         }
+
+        if (ToddEthottGame.DEBUG) {
+            System.out.print("update active: ");
+            System.out.println((double) (System.currentTimeMillis() - startTime) / 1000.);
+        }
+
         for (StaticObject object : staticObjects) {
             object.update(delta);
         }
@@ -85,11 +96,21 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void draw(SpriteBatch batch) {
+        long startTime;
+        if (ToddEthottGame.DEBUG) {
+            startTime = System.currentTimeMillis();
+        }
+
         for (ActiveObject object : activeObjects) {
             object.draw(batch, screen.getCameraRect());
         }
         for (StaticObject object : staticObjects) {
             object.draw(batch, screen.getCameraRect());
+        }
+
+        if (ToddEthottGame.DEBUG) {
+            System.out.print("draw all: ");
+            System.out.println((double) (System.currentTimeMillis() - startTime) / 1000.);
         }
     }
 
