@@ -57,6 +57,12 @@ public class ToddEthottGame extends ApplicationAdapter {
 
         textureManager.update(Gdx.graphics.getDeltaTime());
         screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
+
+        if (DEBUG) {
+            batch.begin();
+            mainFont.draw(batch, "" + (1f / Gdx.graphics.getDeltaTime()), 0, 400);
+            batch.end();
+        }
 	}
 	
 	@Override

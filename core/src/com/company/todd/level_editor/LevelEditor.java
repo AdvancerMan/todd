@@ -1,4 +1,4 @@
-package com.company.todd.desktop.level_editor;
+package com.company.todd.level_editor;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -66,7 +66,7 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
                     touchPos.x, touchPos.y, 0, 0);
             firstTouchPos.set(touchPos.x, touchPos.y);
         }
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched() && platformNow != null) {
             created = false;
             platformNow.setSize(Math.abs(firstTouchPos.x - touchPos.x), Math.abs(firstTouchPos.y - touchPos.y));
 
@@ -102,6 +102,10 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         }
         if (platformNow != null) {
             platformNow.draw(game.batch, screenRect);
+        }
+
+        if (ToddEthottGame.DEBUG) {
+            game.mainFont.draw(game.batch, "" + (1f / Gdx.graphics.getDeltaTime()), 0, 400);
         }
 
         game.batch.end();

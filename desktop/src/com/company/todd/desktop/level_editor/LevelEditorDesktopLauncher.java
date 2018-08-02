@@ -2,7 +2,7 @@ package com.company.todd.desktop.level_editor;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.level_editor.LevelEditor;
 
 import static com.company.todd.launcher.ToddEthottGame.HEIGHT;
 import static com.company.todd.launcher.ToddEthottGame.TITLE;
