@@ -20,12 +20,6 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     protected float jumpPower;
     protected float walkingSpeed;
     protected float runningSpeed;
-    protected boolean isOnGround;
-
-    protected float maxEnergyLevel;
-    protected float energy;
-    protected float maxHealthLevel;
-    protected float health;
 
     protected TextureRegionInfo regionInfo;
 
@@ -40,19 +34,6 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         this.jumpPower = jumpPower;
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
-        this.isOnGround = false;
-
-        // TODO health and energy
-        maxHealthLevel = 100;
-        maxEnergyLevel = 100;
-        health = maxHealthLevel;
-        energy = maxEnergyLevel;
-    }
-
-    public void jump() { // TODO energy consuming: jump()
-        if (isOnGround) {
-            velocity.set(velocity.x, jumpPower);
-        }
     }
 
     public void fall(float gravity) {
@@ -87,16 +68,9 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     @Override
     public void update(float delta) {
-        fall(gameProcess.getGravity());
-
-        isOnGround = false;
-        boolean isFalling = less(velocity.y, 0);
+        super.update(delta);
 
         gameProcess.handleCollisions(this, delta);
-
-        if (isFalling && FloatCmp.equals(velocity.y, 0)) {
-            isOnGround = true;
-        }
 
         updatePosition(delta);
     }
@@ -180,6 +154,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     @Override
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
+        super.draw(batch, cameraRectangle);
         if (getRect().overlaps(cameraRectangle)) {
             sprite.draw(batch);
         }
@@ -187,6 +162,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     @Override
     public void dispose() {
+        super.dispose();
         regionInfo.dispose();
     }
 }

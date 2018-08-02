@@ -66,12 +66,9 @@ public class Platform extends StaticObject {
     }
 
     @Override
-    public void update(float delta) {
-
-    }
-
-    @Override
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
+        super.draw(batch, cameraRectangle);
+
         /*
         long startTime;
         if (ToddEthottGame.DEBUG) {
@@ -129,6 +126,8 @@ public class Platform extends StaticObject {
 
     @Override
     public void dispose() {
+        super.dispose();
+
         type.dispose();
     }
 
