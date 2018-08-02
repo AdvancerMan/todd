@@ -5,6 +5,8 @@ import com.badlogic.gdx.utils.Array;
 
 import com.company.todd.game.InGameObject;
 import com.company.todd.game.active_objs.ActiveObject;
+import com.company.todd.game.active_objs.creatures.Creature;
+import com.company.todd.game.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.static_objs.StaticObject;
 import com.company.todd.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
@@ -20,20 +22,22 @@ public class GameProcess implements Process {  // TODO GameProcess
     private final InGameInputHandler inputHandler;
     private final MyScreen screen;
 
-    private Array<ActiveObject> activeObjects;
+    private Array<Creature> creatures;
+    private Array<DangerousObject> dangerousObjects;
     private Array<StaticObject> staticObjects;
     private Array<InGameObject> justCreatedObjects;
 
-    public GameProcess(ToddEthottGame game, MyScreen screen) {
+    public GameProcess(ToddEthottGame game, MyScreen screen) {  // TODO level + save
         this.game = game;
         this.screen = screen;
 
         inputHandler = new InGameInputHandler();
 
-        gravity = 9.8f;
-        maxFallSpeed = 150;
+        gravity = 9.8f;  // TODO gravity
+        maxFallSpeed = 150;  // TODO maxFallSpeed
 
-        activeObjects = new Array<ActiveObject>();
+        creatures = new Array<Creature>();
+        dangerousObjects = new Array<DangerousObject>();
         staticObjects = new Array<StaticObject>();
         justCreatedObjects = new Array<InGameObject>();
     }
@@ -49,8 +53,11 @@ public class GameProcess implements Process {  // TODO GameProcess
         while (objectIterator.hasNext()) {
             InGameObject object = objectIterator.next();
 
-            if (object instanceof ActiveObject) {
-                activeObjects.add((ActiveObject)object);
+            if (object instanceof Creature) {
+                creatures.add((Creature) object);
+            }
+            else if (object instanceof DangerousObject) {
+                dangerousObjects.add((DangerousObject) object);
             }
             else if (object instanceof StaticObject) {
                 staticObjects.add((StaticObject) object);
@@ -65,19 +72,26 @@ public class GameProcess implements Process {  // TODO GameProcess
         addJustCreatedObjectsToProcess();
         handleInput(delta);
 
+        /*
         long startTime;
         if (ToddEthottGame.DEBUG) {
             startTime = System.currentTimeMillis();
         }
+        */
 
-        for (ActiveObject object : activeObjects) {
+        for (Creature creature : creatures) {
+            creature.update(delta);
+        }
+        for (DangerousObject object : dangerousObjects) {
             object.update(delta);
         }
 
+        /*
         if (ToddEthottGame.DEBUG) {
             System.out.print("update active: ");
             System.out.println((double) (System.currentTimeMillis() - startTime) / 1000.);
         }
+        */
 
         for (StaticObject object : staticObjects) {
             object.update(delta);
@@ -96,22 +110,29 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void draw(SpriteBatch batch) {
+        /*
         long startTime;
         if (ToddEthottGame.DEBUG) {
             startTime = System.currentTimeMillis();
         }
+        */
 
-        for (ActiveObject object : activeObjects) {
+        for (Creature creature : creatures) {
+            creature.draw(batch, screen.getCameraRect());
+        }
+        for (DangerousObject object : dangerousObjects) {
             object.draw(batch, screen.getCameraRect());
         }
         for (StaticObject object : staticObjects) {
             object.draw(batch, screen.getCameraRect());
         }
 
+        /*
         if (ToddEthottGame.DEBUG) {
             System.out.print("draw all: ");
             System.out.println((double) (System.currentTimeMillis() - startTime) / 1000.);
         }
+        */
     }
 
     public float getGravity() {
@@ -124,7 +145,10 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void dispose() {
-        for (ActiveObject object : activeObjects) {
+        for (Creature creature : creatures) {
+            creature.dispose();
+        }
+        for (DangerousObject object : dangerousObjects) {
             object.dispose();
         }
         for (StaticObject object : staticObjects) {
