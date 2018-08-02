@@ -102,7 +102,6 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         }
         if (platformNow != null) {
             platformNow.draw(game.batch, screenRect);
-            System.out.println(platformNow.getRect().x + " " + platformNow.getRect().y + " " + platformNow.getRect().width + " " + platformNow.getRect().height);
         }
 
         game.batch.end();
@@ -115,7 +114,11 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
     }
 
     public void dispose() {
-        upperPlatform.dispose();
-        downPlatform.dispose();
+        for (Platform pl : platforms) {
+            pl.dispose();
+        }
+        if (platformNow != null) {
+            platformNow.dispose();
+        }
     }
 }
