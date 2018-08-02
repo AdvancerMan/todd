@@ -15,6 +15,7 @@ import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.GameScreen;
 import com.company.todd.texture.TextureRegionInfo;
 
+// TODO LevelEditor extends GameProcess
 public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
     Array<Platform> platforms;
     TextureRegionInfo upperPlatform, downPlatform;
@@ -67,7 +68,6 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         }
         if (Gdx.input.isTouched()) {
             created = false;
-            Rectangle platformRect = platformNow.getRect();
             platformNow.setSize(Math.abs(firstTouchPos.x - touchPos.x), Math.abs(firstTouchPos.y - touchPos.y));
 
             if (firstTouchPos.x >= touchPos.x &&  firstTouchPos.y <= touchPos.y) {

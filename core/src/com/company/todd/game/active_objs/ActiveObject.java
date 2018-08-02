@@ -140,7 +140,13 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         return time;
     }
 
-    public void collideWith(InGameObject object, float delta) {
+    /**
+     *
+     * @param object object to collide with
+     * @param delta delta time between this frame and last frame
+     * @return collision time
+     */
+    public float collideWith(InGameObject object, float delta) {
         Rectangle objectRect = object.getRect();
         Rectangle thisRect = this.getRect();
 
@@ -156,13 +162,15 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         float yTime = calcCollisionTime(thisRect, objectRect, velocity.y * delta, velocity.x * delta);
 
         if (FloatCmp.equals(xTime, yTime) && FloatCmp.equals(xTime, 2)) {
-            return;
+            return 2;
         }
         else if (less(xTime, yTime)) {
             velocity.set(velocity.x * xTime, velocity.y);
+            return xTime;
         }
         else {
             velocity.set(velocity.x, velocity.y * yTime);
+            return yTime;
         }
     }
 
