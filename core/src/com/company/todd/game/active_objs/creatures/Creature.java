@@ -9,6 +9,7 @@ import com.company.todd.util.FloatCmp;
 import static com.company.todd.util.FloatCmp.less;
 
 public abstract class Creature extends ActiveObject {  // TODO Creature
+    protected float jumpPower;
     protected boolean isOnGround;
 
     protected float maxEnergyLevel;
@@ -21,7 +22,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     public Creature(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
                     float jumpPower, float walkingSpeed, float runningSpeed) {
-        super(game, gameProcess, regionInfo, jumpPower, walkingSpeed, runningSpeed);
+        super(game, gameProcess, regionInfo, walkingSpeed, runningSpeed);
+        this.jumpPower = jumpPower;
 
         this.isOnGround = false;
 

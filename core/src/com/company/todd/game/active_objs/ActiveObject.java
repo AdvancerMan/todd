@@ -17,21 +17,19 @@ import static com.company.todd.util.FloatCmp.moreOrEquals;
 
 public abstract class ActiveObject extends InGameObject { // TODO animation
     protected Vector2 velocity;
-    protected float jumpPower;
     protected float walkingSpeed;
     protected float runningSpeed;
 
     protected TextureRegionInfo regionInfo;
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
-                        float jumpPower, float walkingSpeed, float runningSpeed) {
+                        float walkingSpeed, float runningSpeed) {
         super(game, gameProcess);
         this.regionInfo = regionInfo;
         this.sprite.setRegion(regionInfo.getTextureRegion());
 
         velocity = new Vector2(0, 0);
 
-        this.jumpPower = jumpPower;
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
     }
