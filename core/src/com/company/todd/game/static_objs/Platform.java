@@ -13,7 +13,7 @@ import com.company.todd.util.FloatCmp;
 import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.more;
 
-public class Platform extends StaticObject {  // TODO Platform
+public class Platform extends StaticObject {
     PlatformType type;
 
     // if region size does not fit platform size
