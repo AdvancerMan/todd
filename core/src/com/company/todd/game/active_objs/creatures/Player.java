@@ -1,12 +1,11 @@
 package com.company.todd.game.active_objs.creatures;
 
-import com.company.todd.game.active_objs.ActiveObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
-public class Player extends ActiveObject {
+public class Player extends Creature {
     private final InGameInputHandler inputHandler;
 
     public Player(ToddEthottGame game, GameProcess gameProcess,
