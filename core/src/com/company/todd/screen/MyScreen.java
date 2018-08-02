@@ -70,7 +70,16 @@ public abstract class MyScreen implements Screen {
 
     public void setCameraViewportSize(float width, float height) {
         camera.setToOrtho(false, width, height);
+        cameraWidth = width;
+        cameraHeight = height;
         camera.update();
+    }
+
+    public void zoom(float xAmount, float yAmount) {
+        camera.setToOrtho(false, cameraX + xAmount, cameraY + yAmount);
+        cameraWidth += xAmount;
+        cameraHeight += yAmount;
+        translateCamera(-xAmount / 2, -yAmount / 2);
     }
 
     @Override
