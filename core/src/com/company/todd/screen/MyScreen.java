@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+
 import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class MyScreen implements Screen {
@@ -13,18 +14,12 @@ public abstract class MyScreen implements Screen {
     protected Vector3 touchPos;
 
     private OrthographicCamera camera;
-    private float cameraX, cameraY;
-    private float cameraWidth, cameraHeight;
 
     public MyScreen(ToddEthottGame game) {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, ToddEthottGame.WIDTH, ToddEthottGame.HEIGHT);
-        cameraX = 0;
-        cameraY = 0;
-        cameraWidth = ToddEthottGame.WIDTH;
-        cameraHeight = ToddEthottGame.HEIGHT;
+        camera.setToOrtho(false);
 
         touchPos = new Vector3();
     }
@@ -57,29 +52,20 @@ public abstract class MyScreen implements Screen {
     public void translateCamera(float x, float y) {
         camera.translate(x, y);
         camera.update();
-
-        cameraX += x;
-        cameraY += y;
     }
 
     public void centerCameraAt(float x, float y) {
-        x -= cameraWidth / 2;
-        y -= cameraHeight / 2;
-        translateCamera(x - cameraX, y - cameraY);
+        translateCamera(x - camera.position.x, y - camera.position.y);
     }
 
     public void setCameraViewportSize(float width, float height) {
-        camera.setToOrtho(false, width, height);
-        cameraWidth = width;
-        cameraHeight = height;
+        camera.viewportHeight = height;
+        camera.viewportWidth = width;
         camera.update();
     }
 
-    public void zoom(float xAmount, float yAmount) {
-        camera.setToOrtho(false, cameraX + xAmount, cameraY + yAmount);
-        cameraWidth += xAmount;
-        cameraHeight += yAmount;
-        translateCamera(-xAmount / 2, -yAmount / 2);
+    public void changeCameraViewportSize(float deltaWidth, float deltaHeight) {
+        setCameraViewportSize(camera.viewportWidth + deltaWidth, camera.viewportHeight + deltaHeight);
     }
 
     @Override
