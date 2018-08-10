@@ -44,6 +44,10 @@ public class TextureRegionInfo implements Disposable {
         return regionHeight;
     }
 
+    public String getTextureName() {
+        return fileName;
+    }
+
     @Override
     public void dispose() {
         usages--;

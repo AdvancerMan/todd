@@ -15,7 +15,7 @@ public class TextureRegionInfos {
         );
         regions.put(
                 "buttonNotClicked", // TODO button texture
-                new TextureRegionInfo(mng, "badlogic.jpg", 0, 0, 10, 10)
+                new TextureRegionInfo(mng, "friend.png", 0, 0, 118, 122)
         );
     }
 

@@ -25,8 +25,6 @@ public abstract class MyScreen implements Screen {
     }
 
     protected void update(float delta) {
-        camera.update();
-
         touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         camera.unproject(touchPos);
     }

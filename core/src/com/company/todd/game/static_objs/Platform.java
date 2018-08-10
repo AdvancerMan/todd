@@ -1,24 +1,24 @@
 package com.company.todd.game.static_objs;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 import com.badlogic.gdx.utils.Disposable;
+import com.company.todd.debug.DebugTimer;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
-import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.more;
 
 public class Platform extends StaticObject {
-    PlatformType type;
-
-    // if region size does not fit platform size
-    TextureRegion upRight, upDown, upRightAndDown;
-    TextureRegion downRight, downDown, downRightAndDown;
+    private PlatformType type;
+    private Texture tmpTexture;
 
     public Platform(ToddEthottGame game, GameProcess gameProcess, PlatformType type,
                     float x, float y, int width, int height) {
@@ -26,43 +26,71 @@ public class Platform extends StaticObject {
         this.type = type;
         type.init();
 
+        tmpTexture = null;
+
         setPosition(x, y);
         setSize(width, height);
     }
 
-    private void updateRegions() {
-        float width = sprite.getWidth();
-        float height = sprite.getHeight();
+    private void updateTexture() {  // TODO many platforms, one texture, many TextureRegions
+        if (tmpTexture != null) {
+            tmpTexture.dispose();
+        }
 
-        upRight = new TextureRegion(
-                type.upperTextureRegion, 0, 0,
-                (int)(width % type.width), (int)type.height
-        );
+        Pixmap upPixmap, downPixmap;
 
-        upDown = new TextureRegion(
-                type.upperTextureRegion, 0, 0,
-                (int)type.width, (int)(height % type.height)
-        );
+        TextureData tmpData = type.upperTextureRegion.getTexture().getTextureData();
+        tmpData.prepare();
+        upPixmap = tmpData.consumePixmap();
 
-        upRightAndDown = new TextureRegion(
-                type.upperTextureRegion, 0, 0,
-                (int)(width % type.width), (int)(height % type.height)
-        );
+        TextureData tmpData2 = null;
+        if (type.upperRegionInfo.getTextureName().equals(type.downRegionInfo.getTextureName())) {
+            downPixmap = upPixmap;
+        } else {
+            tmpData2 = type.downTextureRegion.getTexture().getTextureData();
+            tmpData2.prepare();
+            downPixmap = tmpData2.consumePixmap();
+        }
 
-        downRight = new TextureRegion(
-                type.downTextureRegion, 0, 0,
-                (int)(width % type.width), (int)(type.height)
-        );
+        int width = (int)sprite.getWidth(), height = (int)sprite.getHeight();
+        Pixmap finalPixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 
-        downDown = new TextureRegion(
-                type.downTextureRegion, 0, 0,
-                (int)type.width, (int)(height % type.height)
-        );
+        DebugTimer timer = new DebugTimer();
+        timer.start();
+        for (int y = 0; y < height; y += type.height) {
+            for (int x = 0; x < width; x += type.width) {
+                if (y == 0) {
+                    finalPixmap.drawPixmap(
+                            upPixmap, x, y,
+                            type.upperTextureRegion.getRegionX(), type.upperTextureRegion.getRegionY(),
+                            type.upperTextureRegion.getRegionWidth(), type.upperTextureRegion.getRegionHeight()
+                    );
+                } else {
+                    finalPixmap.drawPixmap(
+                            downPixmap, x, y,
+                            type.downTextureRegion.getRegionX(), type.downTextureRegion.getRegionY(),
+                            type.downTextureRegion.getRegionWidth(), type.downTextureRegion.getRegionHeight()
+                    );
+                }
+            }
+        }
+        timer.finish();
 
-        downRightAndDown = new TextureRegion(
-                type.downTextureRegion, 0, 0,
-                (int)(width % type.width), (int)(height % type.height)
-        );
+        tmpTexture = new Texture(finalPixmap);
+
+        finalPixmap.dispose();
+        if (tmpData.disposePixmap()) {
+            upPixmap.dispose();
+        }
+        if (tmpData2 != null && tmpData2.disposePixmap()) {
+            downPixmap.dispose();
+        }
+
+        sprite.setTexture(tmpTexture);
+        sprite.setRegionX(0);
+        sprite.setRegionY(0);
+        sprite.setRegionWidth(tmpTexture.getWidth());
+        sprite.setRegionHeight(tmpTexture.getHeight());
     }
 
     @Override
@@ -77,40 +105,9 @@ public class Platform extends StaticObject {
         */
 
         if (getRect().overlaps(cameraRectangle)) {
-            for (float y = sprite.getY() + sprite.getHeight(); more(y, sprite.getY()); y -= type.height) {
-
-                TextureRegion right, down, rightAndDown;
-                TextureRegion region;
-                if (FloatCmp.equals(y, sprite.getY() + sprite.getHeight())) {
-                    right = upRight;
-                    down = upDown;
-                    rightAndDown = upRightAndDown;
-                    region = type.upperTextureRegion;
-                } else {
-                    right = downRight;
-                    down = downDown;
-                    rightAndDown = downRightAndDown;
-                    region = type.downTextureRegion;
-                }
-
-                for (float x = sprite.getX(); less(x, sprite.getX() + sprite.getWidth()); x += type.width) {
-                    if (cameraRectangle.overlaps(new Rectangle(x, y, type.width, type.height))) {
-                        if (more(x + type.width, sprite.getX() + sprite.getWidth()) &&
-                                less(y - type.height, sprite.getY())) {
-                            batch.draw(rightAndDown, x, sprite.getY(),
-                                       sprite.getX() + sprite.getWidth() - x, y - sprite.getY());
-                        } else if (more(x + type.width, sprite.getX() + sprite.getWidth())) {
-                            batch.draw(right, x, y - type.height,
-                                       sprite.getX() + sprite.getWidth() - x, type.height);
-                        } else if (less(y - type.height, sprite.getY())) {
-                            batch.draw(down, x, sprite.getY(), type.width, y - sprite.getY());
-                        } else {
-                            batch.draw(region, x, y - type.height);
-                        }
-                    }
-                }
-            }
+            sprite.draw(batch);
         }
+
         /*
         if (ToddEthottGame.DEBUG) {
             System.out.println((double)(System.currentTimeMillis() - startTime) / 1000.);
@@ -121,7 +118,7 @@ public class Platform extends StaticObject {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        updateRegions();
+        updateTexture();
     }
 
     @Override
@@ -129,6 +126,9 @@ public class Platform extends StaticObject {
         super.dispose();
 
         type.dispose();
+        if (tmpTexture != null) {
+            tmpTexture.dispose();
+        }
     }
 
     // TODO private
