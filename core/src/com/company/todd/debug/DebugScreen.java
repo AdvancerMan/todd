@@ -13,11 +13,13 @@ import com.company.todd.screen.MyScreen;
 public class DebugScreen extends MyScreen {
     GameProcess gameProcess;
     InGameInputHandler inputHandler;
+    Platform.PlatformTypes platformTypes;
 
     public DebugScreen(ToddEthottGame game) {
         super(game);
 
         inputHandler = new InGameInputHandler();
+        platformTypes = new Platform.PlatformTypes(game);
 
         gameProcess = new GameProcess(game, this);
 
@@ -35,10 +37,9 @@ public class DebugScreen extends MyScreen {
                 {10, 3, 500, 1}
         };
         for (int i = 0; i < pls.length; i++) {
-            gameProcess.addObject(new Platform(game, gameProcess, new Platform.PlatformType(
-                    game.regionInfos.getRegionInfo("buttonClicked"),
-                    game.regionInfos.getRegionInfo("buttonNotClicked")
-            ), pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
+            gameProcess.addObject(new Platform(game, gameProcess,
+                    platformTypes.getPlatformType("grassPlatform"),
+                    pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
 
         gameProcess.addObject(new Bullet(game, gameProcess, game.regionInfos.getRegionInfo("buttonNotClicked"), 123, true));

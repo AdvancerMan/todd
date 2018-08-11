@@ -17,6 +17,14 @@ public class TextureRegionInfos {
                 "buttonNotClicked", // TODO button texture
                 new TextureRegionInfo(mng, "friend.png", 0, 0, 118, 122)
         );
+        regions.put(
+                "grassPlatformUp", // TODO texture
+                new TextureRegionInfo(mng, "white.png", 10, 10, 10, 10)
+        );
+        regions.put(
+                "grassPlatformDown", // TODO texture
+                new TextureRegionInfo(mng, "friend.png", 0, 0, 118, 122)
+        );
     }
 
     public TextureRegionInfo getRegionInfo(String regionName) {

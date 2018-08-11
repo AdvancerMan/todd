@@ -18,12 +18,12 @@ import com.company.todd.texture.TextureRegionInfo;
 // TODO LevelEditor extends GameProcess
 public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
     Array<Platform> platforms;
-    TextureRegionInfo upperPlatform, downPlatform;
     Platform platformNow;
     ToddEthottGame game;
     GameProcess process;
     Rectangle screenRect;
     OrthographicCamera camera;
+    Platform.PlatformTypes platformTypes;
     Vector3 touchPos;
     Vector2 firstTouchPos;
     boolean created;
@@ -37,8 +37,7 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         screenRect = screen.getCameraRect();
         process = new GameProcess(game, screen);
 
-        upperPlatform = game.regionInfos.getRegionInfo("buttonClicked");
-        downPlatform = game.regionInfos.getRegionInfo("buttonNotClicked");
+        platformTypes = new Platform.PlatformTypes(game);
 
         platforms = new Array<Platform>();
         platformNow = null;
@@ -62,7 +61,7 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         camera.unproject(touchPos);
 
         if (Gdx.input.justTouched()) {
-            platformNow = new Platform(game, process, new Platform.PlatformType(upperPlatform, downPlatform),
+            platformNow = new Platform(game, process, platformTypes.getPlatformType("grassPlatform"),
                     touchPos.x, touchPos.y, 0, 0);
             firstTouchPos.set(touchPos.x, touchPos.y);
         }

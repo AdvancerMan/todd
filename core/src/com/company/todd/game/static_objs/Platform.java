@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.debug.DebugTimer;
 import com.company.todd.game.process.GameProcess;
@@ -137,8 +139,7 @@ public class Platform extends StaticObject {
         }
     }
 
-    // TODO private
-    public static class PlatformType implements Disposable {
+    private static class PlatformType implements Disposable {
         int width, height;
 
         // both regions must have same size
@@ -170,6 +171,24 @@ public class Platform extends StaticObject {
         public void dispose() {
             upperRegionInfo.dispose();
             downRegionInfo.dispose();
+        }
+    }
+
+    public static class PlatformTypes {
+        ArrayMap<String, PlatformType> types;
+
+        public PlatformTypes(ToddEthottGame game) {
+            types = new ArrayMap<String, PlatformType>();
+
+            types.put(
+                    "grassPlatform",
+                    new PlatformType(game.regionInfos.getRegionInfo("grassPlatformUp"),
+                                     game.regionInfos.getRegionInfo("grassPlatformDown"))
+            );
+        }
+
+        public PlatformType getPlatformType(String platformTypeName) {
+            return types.get(platformTypeName);
         }
     }
 }

@@ -8,6 +8,7 @@ import com.company.todd.game.InGameObject;
 import com.company.todd.game.active_objs.ActiveObject;
 import com.company.todd.game.active_objs.creatures.Creature;
 import com.company.todd.game.active_objs.dangerous.DangerousObject;
+import com.company.todd.game.static_objs.Platform;
 import com.company.todd.game.static_objs.StaticObject;
 import com.company.todd.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;

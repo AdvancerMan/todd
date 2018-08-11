@@ -127,7 +127,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         float xTime = calcCollisionTime(thisRect, objectRect, velocity.x * delta, velocity.y * delta);
 
         // swapping x and y coordinates (+ width and height)
-        // this action does not affects sprites' state
+        // this action does not affect sprites' state
         objectRect.setPosition(objectRect.y, objectRect.x)
                   .setSize(objectRect.height, objectRect.width);
         thisRect.setPosition(thisRect.y, thisRect.x)
