@@ -66,8 +66,6 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     @Override
     public void update(float delta) {
-        super.update(delta);
-
         gameProcess.handleCollisions(this, delta);
 
         updatePosition(delta);
@@ -116,9 +114,9 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
      *
      * @param object object to collide with
      * @param delta delta time between this frame and last frame
-     * @return collision time
+     * @return if this intersects with object
      */
-    public float collideWith(InGameObject object, float delta) {
+    public boolean collideWith(InGameObject object, float delta) {
         Rectangle objectRect = object.getRect();
         Rectangle thisRect = this.getRect();
 
@@ -134,16 +132,15 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         float yTime = calcCollisionTime(thisRect, objectRect, velocity.y * delta, velocity.x * delta);
 
         if (FloatCmp.equals(xTime, yTime) && FloatCmp.equals(xTime, 2)) {
-            return 2;
+            return false;
         }
         else if (less(xTime, yTime)) {
             velocity.set(velocity.x * xTime, velocity.y);
-            return xTime;
         }
         else {
             velocity.set(velocity.x, velocity.y * yTime);
-            return yTime;
         }
+        return true;
     }
 
     protected void updatePosition(float delta) {
@@ -152,7 +149,6 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     @Override
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        super.draw(batch, cameraRectangle);
         if (getRect().overlaps(cameraRectangle)) {
             sprite.draw(batch);
         }
@@ -160,7 +156,6 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     @Override
     public void dispose() {
-        super.dispose();
         regionInfo.dispose();
     }
 }

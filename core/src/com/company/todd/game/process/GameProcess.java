@@ -1,6 +1,7 @@
 package com.company.todd.game.process;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import com.company.todd.game.InGameObject;
@@ -108,6 +109,18 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
+    private void drawObjectsFrom(Array<? extends InGameObject> objects, SpriteBatch batch, Rectangle cameraRect) {
+        Iterator<? extends InGameObject> iterator = objects.iterator();
+        while (iterator.hasNext()) {
+            InGameObject object = iterator.next();
+            if (object.isKilled()) {
+                iterator.remove();
+            } else {
+                object.draw(batch, cameraRect);
+            }
+        }
+    }
+
     @Override
     public void draw(SpriteBatch batch) {
         /*
@@ -117,15 +130,9 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
         */
 
-        for (Creature creature : creatures) {
-            creature.draw(batch, screen.getCameraRect());
-        }
-        for (DangerousObject object : dangerousObjects) {
-            object.draw(batch, screen.getCameraRect());
-        }
-        for (StaticObject object : staticObjects) {
-            object.draw(batch, screen.getCameraRect());
-        }
+        drawObjectsFrom(creatures, batch, screen.getCameraRect());
+        drawObjectsFrom(dangerousObjects, batch, screen.getCameraRect());
+        drawObjectsFrom(staticObjects, batch, screen.getCameraRect());
 
         /*
         if (ToddEthottGame.DEBUG) {
@@ -146,16 +153,24 @@ public class GameProcess implements Process {  // TODO GameProcess
     @Override
     public void dispose() {
         for (Creature creature : creatures) {
-            creature.dispose();
+            if (!creature.isKilled()) {
+                creature.dispose();
+            }
         }
         for (DangerousObject object : dangerousObjects) {
-            object.dispose();
+            if (!object.isKilled()) {
+                object.dispose();
+            }
         }
         for (StaticObject object : staticObjects) {
-            object.dispose();
+            if (!object.isKilled()) {
+                object.dispose();
+            }
         }
         for (InGameObject object : justCreatedObjects) {
-            object.dispose();
+            if (!object.isKilled()) {
+                object.dispose();
+            }
         }
     }
 }

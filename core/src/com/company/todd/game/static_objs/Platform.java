@@ -55,7 +55,7 @@ public class Platform extends StaticObject {
         int width = (int)sprite.getWidth(), height = (int)sprite.getHeight();
         Pixmap finalPixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 
-        DebugTimer timer = new DebugTimer();
+        DebugTimer timer = new DebugTimer("platform - updateTexture() - drawing on Pixmap");
         timer.start();
         for (int y = 0; y < height; y += type.height) {
             for (int x = 0; x < width; x += type.width) {
@@ -94,9 +94,12 @@ public class Platform extends StaticObject {
     }
 
     @Override
-    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        super.draw(batch, cameraRectangle);
+    public void update(float delta) {
 
+    }
+
+    @Override
+    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
         /*
         long startTime;
         if (ToddEthottGame.DEBUG) {
@@ -123,8 +126,6 @@ public class Platform extends StaticObject {
 
     @Override
     public void dispose() {
-        super.dispose();
-
         type.dispose();
         if (tmpTexture != null) {
             tmpTexture.dispose();

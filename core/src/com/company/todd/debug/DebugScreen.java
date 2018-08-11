@@ -3,6 +3,7 @@ package com.company.todd.debug;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.company.todd.game.active_objs.creatures.Player;
+import com.company.todd.game.active_objs.dangerous.Bullet;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.static_objs.Platform;
 import com.company.todd.input.InGameInputHandler;
@@ -39,6 +40,9 @@ public class DebugScreen extends MyScreen {
                     game.regionInfos.getRegionInfo("buttonNotClicked")
             ), pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
+
+        gameProcess.addObject(new Bullet(game, gameProcess, game.regionInfos.getRegionInfo("buttonNotClicked"), 123, true));
+        gameProcess.addObject(new Bullet(game, gameProcess, game.regionInfos.getRegionInfo("buttonNotClicked"), 123, false));
     }
 
     @Override

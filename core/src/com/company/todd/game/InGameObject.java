@@ -22,17 +22,9 @@ public abstract class InGameObject implements Disposable {
         alive = true;
     }
 
-    public void update(float delta) {
-        if (!isAlive()) {
-            return;
-        }
-    }
+    public abstract void update(float delta);
 
-    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        if (!isAlive()) {
-            return;
-        }
-    }
+    public abstract void draw(SpriteBatch batch, Rectangle cameraRectangle);
 
     public void setPosition(float x, float y) {
         sprite.setPosition(x, y);
@@ -59,14 +51,10 @@ public abstract class InGameObject implements Disposable {
      * if object is not alive Process should delete it
      * @return object is alive
      */
-    public boolean isAlive() {
-        return alive;
+    public boolean isKilled() {
+        return !alive;
     }
 
     @Override
-    public void dispose() {
-        if (!isAlive()) {
-            return;
-        }
-    }
+    public abstract void dispose();
 }

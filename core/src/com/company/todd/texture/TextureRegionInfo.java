@@ -51,9 +51,9 @@ public class TextureRegionInfo implements Disposable {
     @Override
     public void dispose() {
         usages--;
-        manager.disposeTexture(fileName, 1);
 
         if (usages == 0) {
+            manager.disposeTexture(fileName, 1);
             region = null;
         }
     }

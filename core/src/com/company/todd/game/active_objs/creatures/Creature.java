@@ -42,10 +42,6 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     @Override
     public void update(float delta) {
-        if (!isAlive()) {
-            return;
-        }
-
         fall(gameProcess.getGravity());
 
         isOnGround = false;
