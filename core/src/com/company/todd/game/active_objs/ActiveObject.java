@@ -117,6 +117,10 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
      * @return if this intersects with object
      */
     public boolean collideWith(InGameObject object, float delta) {
+        if (!object.isCollidable()) {
+            return false;
+        }
+
         Rectangle objectRect = object.getRect();
         Rectangle thisRect = this.getRect();
 

@@ -11,7 +11,7 @@ public class Spawner extends StaticObject {  // TODO Spawner
         super(game, gameProcess);
         setSpawningObject(spawningObject);
         // setPosition(x, y);
-        // this.isCollidable = false;  // TODO isCollidable
+        collidable = false;
     }
 
     public void setSpawningObject(InGameObject object) {

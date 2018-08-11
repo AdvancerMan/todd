@@ -12,6 +12,7 @@ public abstract class InGameObject implements Disposable {
     protected final ToddEthottGame game;
     protected final GameProcess gameProcess;
     protected Sprite sprite;
+    protected boolean collidable;
     private boolean alive;
 
     // Must set size of sprite before using
@@ -20,6 +21,7 @@ public abstract class InGameObject implements Disposable {
         this.gameProcess = gameProcess;
         sprite = new Sprite();
         alive = true;
+        collidable = true;
     }
 
     public abstract void update(float delta);
@@ -40,6 +42,10 @@ public abstract class InGameObject implements Disposable {
 
     public boolean overlaps(InGameObject obj) {
         return obj.getRect().overlaps(this.getRect());
+    }
+
+    public boolean isCollidable() {
+        return collidable;
     }
 
     public void kill() {
