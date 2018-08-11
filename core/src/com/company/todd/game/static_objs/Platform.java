@@ -57,23 +57,28 @@ public class Platform extends StaticObject {
 
         DebugTimer timer = new DebugTimer("platform - updateTexture() - drawing on Pixmap");
         timer.start();
-        for (int y = 0; y < height; y += type.height) {
-            for (int x = 0; x < width; x += type.width) {
-                if (y == 0) {
-                    finalPixmap.drawPixmap(
-                            upPixmap, x, y,
-                            type.upperTextureRegion.getRegionX(), type.upperTextureRegion.getRegionY(),
-                            type.upperTextureRegion.getRegionWidth(), type.upperTextureRegion.getRegionHeight()
-                    );
-                } else {
-                    finalPixmap.drawPixmap(
-                            downPixmap, x, y,
-                            type.downTextureRegion.getRegionX(), type.downTextureRegion.getRegionY(),
-                            type.downTextureRegion.getRegionWidth(), type.downTextureRegion.getRegionHeight()
-                    );
-                }
+
+        finalPixmap.drawPixmap(upPixmap, 0, 0);
+        finalPixmap.drawPixmap(downPixmap, 0, type.height);
+
+        for (int rBound = type.width; less(rBound, width); rBound *= 2) {
+            finalPixmap.drawPixmap(finalPixmap, rBound, 0, 0, 0, rBound, type.height);
+        }
+
+        for (int rBound = type.width, dBound = type.height;
+             less(rBound, width) || less(dBound, height);
+             rBound *= 2, dBound *= 2) {
+            if (less(rBound, width)) {  // TODO optimize (min(dBound, height - type.height) etc.)
+                finalPixmap.drawPixmap(finalPixmap, rBound, type.height, 0, type.height, rBound, Math.min(dBound, height - type.height));
+            }
+            if (less(dBound, height)) {
+                finalPixmap.drawPixmap(finalPixmap, 0, dBound + type.height, 0, type.height, rBound, dBound);
+            }
+            if (less(rBound, width) && less(dBound, height)) {
+                finalPixmap.drawPixmap(finalPixmap, rBound, dBound + type.height, 0, type.height, rBound, dBound);
             }
         }
+
         timer.finish();
 
         tmpTexture = new Texture(finalPixmap);
@@ -134,7 +139,7 @@ public class Platform extends StaticObject {
 
     // TODO private
     public static class PlatformType implements Disposable {
-        float width, height;
+        int width, height;
 
         // both regions must have same size
         TextureRegionInfo upperRegionInfo, downRegionInfo;
