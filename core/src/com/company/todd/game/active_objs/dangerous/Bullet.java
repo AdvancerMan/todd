@@ -8,7 +8,9 @@ import com.company.todd.texture.TextureRegionInfo;
 public class Bullet extends DangerousObject {  // TODO Bullet
     private boolean toRight;
 
-    public Bullet(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo, float speed, boolean toRight) {
+    public Bullet(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+                  float x, float y,
+                  float speed, boolean toRight) {
         super(game, gameProcess, regionInfo, speed);
 
         this.toRight = toRight;
@@ -18,8 +20,7 @@ public class Bullet extends DangerousObject {  // TODO Bullet
         }
 
         setSize(40, 10);
-        if (toRight) setPosition(123, 123);
-        else setPosition(500, 199);
+        setPosition(x, y);
     }
 
     @Override
@@ -36,4 +37,4 @@ public class Bullet extends DangerousObject {  // TODO Bullet
         walk(toRight);
         super.update(delta);
     }
-}
+}  // TODO BulletType

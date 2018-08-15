@@ -50,11 +50,10 @@ public abstract class InGameObject implements Disposable {
 
     public void kill() {
         alive = false;
-        dispose();
     }
 
     /**
-     * if object is not alive Process should delete it
+     * if object is not alive Process should dispose it after draw()
      * @return object is alive
      */
     public boolean isKilled() {

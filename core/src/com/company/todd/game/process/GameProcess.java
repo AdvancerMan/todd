@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import com.company.todd.debug.DebugTimer;
 import com.company.todd.game.InGameObject;
 import com.company.todd.game.active_objs.ActiveObject;
 import com.company.todd.game.active_objs.creatures.Creature;
+import com.company.todd.game.active_objs.creatures.Player;
 import com.company.todd.game.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.static_objs.Platform;
 import com.company.todd.game.static_objs.StaticObject;
@@ -24,6 +26,7 @@ public class GameProcess implements Process {  // TODO GameProcess
     private final InGameInputHandler inputHandler;
     private final MyScreen screen;
 
+    private Player player;
     private Array<Creature> creatures;
     private Array<DangerousObject> dangerousObjects;
     private Array<StaticObject> staticObjects;
@@ -38,13 +41,21 @@ public class GameProcess implements Process {  // TODO GameProcess
         gravity = 9.8f;  // TODO gravity
         maxFallSpeed = 150;  // TODO maxFallSpeed
 
+        // TODO player in GameProcess
+        player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler);
+        player.setPosition(500, 500);
+        player.setSize(50, 100);
+
         creatures = new Array<Creature>();
+        creatures.add(player);
         dangerousObjects = new Array<DangerousObject>();
         staticObjects = new Array<StaticObject>();
         justCreatedObjects = new Array<InGameObject>();
     }
 
     private void handleInput(float delta) {
+        inputHandler.setNewTouchPosition();
+
         if (inputHandler.isPaused()) {
             screen.pause();
         }
@@ -74,30 +85,19 @@ public class GameProcess implements Process {  // TODO GameProcess
         addJustCreatedObjectsToProcess();
         handleInput(delta);
 
-        /*
-        long startTime;
-        if (ToddEthottGame.DEBUG) {
-            startTime = System.currentTimeMillis();
-        }
-        */
-
         for (Creature creature : creatures) {
             creature.update(delta);
         }
+
         for (DangerousObject object : dangerousObjects) {
             object.update(delta);
         }
 
-        /*
-        if (ToddEthottGame.DEBUG) {
-            System.out.print("update active: ");
-            System.out.println((double) (System.currentTimeMillis() - startTime) / 1000.);
-        }
-        */
-
         for (StaticObject object : staticObjects) {
             object.update(delta);
         }
+
+        screen.centerCameraAt(player);
     }
 
     public void addObject(InGameObject object) {
@@ -114,10 +114,11 @@ public class GameProcess implements Process {  // TODO GameProcess
         Iterator<? extends InGameObject> iterator = objects.iterator();
         while (iterator.hasNext()) {
             InGameObject object = iterator.next();
+
+            object.draw(batch, cameraRect);
             if (object.isKilled()) {
+                object.dispose();
                 iterator.remove();
-            } else {
-                object.draw(batch, cameraRect);
             }
         }
     }
@@ -132,7 +133,9 @@ public class GameProcess implements Process {  // TODO GameProcess
         */
 
         drawObjectsFrom(creatures, batch, screen.getCameraRect());
+
         drawObjectsFrom(dangerousObjects, batch, screen.getCameraRect());
+
         drawObjectsFrom(staticObjects, batch, screen.getCameraRect());
 
         /*

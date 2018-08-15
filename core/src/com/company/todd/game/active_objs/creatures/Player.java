@@ -25,6 +25,10 @@ public class Player extends Creature {
             run(false);
         }
 
+        if (inputHandler.isShooting()) {
+            shoot();
+        }
+
         if (inputHandler.isJumping()) {
             jump();
         }

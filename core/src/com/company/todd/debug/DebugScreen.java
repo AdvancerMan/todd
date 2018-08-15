@@ -12,23 +12,14 @@ import com.company.todd.screen.MyScreen;
 
 public class DebugScreen extends MyScreen {
     GameProcess gameProcess;
-    InGameInputHandler inputHandler;
     Platform.PlatformTypes platformTypes;
 
     public DebugScreen(ToddEthottGame game) {
         super(game);
 
-        inputHandler = new InGameInputHandler();
         platformTypes = new Platform.PlatformTypes(game);
 
         gameProcess = new GameProcess(game, this);
-
-        Player pl = new Player(game, gameProcess,
-                game.regionInfos.getRegionInfo("buttonClicked"), inputHandler);
-        pl.setSize(50, 100);
-        pl.setPosition(400, 500);
-
-        gameProcess.addObject(pl);
 
         int[][] pls = {
                 {100, 100, 100, 100},
@@ -41,15 +32,15 @@ public class DebugScreen extends MyScreen {
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
-
+/*
         gameProcess.addObject(new Bullet(game, gameProcess, game.regionInfos.getRegionInfo("buttonNotClicked"), 123, true));
         gameProcess.addObject(new Bullet(game, gameProcess, game.regionInfos.getRegionInfo("buttonNotClicked"), 123, false));
+*/
     }
 
     @Override
     protected void update(float delta) {
         super.update(delta);
-        inputHandler.setNewTouchPosition();
         gameProcess.update(delta);
     }
 

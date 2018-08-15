@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import com.company.todd.game.active_objs.dangerous.Bullet;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
@@ -62,6 +63,16 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         else {
             velocity.set(-runningSpeed, velocity.y);
         }
+    }
+
+    public void shoot() {  // TODO shoot()
+        gameProcess.addObject(
+                new Bullet(
+                        game, gameProcess,
+                        game.regionInfos.getRegionInfo("grassPlatformDown"),
+                        getRect().getX(), getRect().getY(), 100, true
+                        )
+        );
     }
 
     @Override
