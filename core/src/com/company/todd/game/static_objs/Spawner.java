@@ -7,10 +7,11 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
 public class Spawner extends StaticObject {  // TODO Spawner
-    public Spawner(ToddEthottGame game, GameProcess gameProcess, InGameObject spawningObject) {
-        super(game, gameProcess);
+    public Spawner(ToddEthottGame game, GameProcess gameProcess, InGameObject spawningObject,
+                   float x, float y) {
+        super(game, gameProcess, x, y, 0, 0);
         setSpawningObject(spawningObject);
-        // setPosition(x, y);
+
         collidable = false;
     }
 

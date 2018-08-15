@@ -24,8 +24,9 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     protected TextureRegionInfo regionInfo;
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
-                        float walkingSpeed, float runningSpeed) {
-        super(game, gameProcess);
+                        float walkingSpeed, float runningSpeed,
+                        float x, float y, float width, float height) {
+        super(game, gameProcess, x, y, width, height);
         this.regionInfo = regionInfo;
         this.sprite.setRegion(regionInfo.getTextureRegion());
 
@@ -33,6 +34,12 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
+    }
+
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+                        float speed,
+                        float x, float y, float width, float height) {
+        this(game, gameProcess, regionInfo, speed, speed, x, y, width, height);
     }
 
     public void fall(float gravity) {

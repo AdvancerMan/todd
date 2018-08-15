@@ -42,9 +42,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         maxFallSpeed = 150;  // TODO maxFallSpeed
 
         // TODO player in GameProcess
-        player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler);
-        player.setPosition(500, 500);
-        player.setSize(50, 100);
+        player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
 
         creatures = new Array<Creature>();
         creatures.add(player);

@@ -23,15 +23,14 @@ public class Platform extends StaticObject {
     private Texture tmpTexture;
 
     public Platform(ToddEthottGame game, GameProcess gameProcess, PlatformType type,
-                    float x, float y, int width, int height) {
-        super(game, gameProcess);
+                    float x, float y, float width, float height) {
+        super(game, gameProcess, x, y, width, height);
         this.type = type;
         type.init();
 
         tmpTexture = null;
 
-        setPosition(x, y);
-        setSize(width, height);
+        updateTexture();
     }
 
     private void updateTexture() {  // TODO many platforms, one texture, many TextureRegions

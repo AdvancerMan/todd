@@ -15,13 +15,21 @@ public abstract class InGameObject implements Disposable {
     protected boolean collidable;
     private boolean alive;
 
-    // Must set size of sprite before using
-    public InGameObject(ToddEthottGame game, GameProcess gameProcess) {
+    public InGameObject(ToddEthottGame game, GameProcess gameProcess,
+                        float x, float y, float width, float height) {
         this.game = game;
         this.gameProcess = gameProcess;
+
         sprite = new Sprite();
+        sprite.setBounds(x, y, width, height);
+
         alive = true;
         collidable = true;
+    }
+
+    public InGameObject(ToddEthottGame game, GameProcess gameProcess,
+                        float width, float height) {
+        this(game, gameProcess, 0, 0, width, height);
     }
 
     public abstract void update(float delta);

@@ -9,8 +9,9 @@ public class Player extends Creature {
     private final InGameInputHandler inputHandler;
 
     public Player(ToddEthottGame game, GameProcess gameProcess,
-                  TextureRegionInfo regionInfo, InGameInputHandler inputHandler) {
-        super(game, gameProcess, regionInfo, 500, 50, 150);
+                  TextureRegionInfo regionInfo, InGameInputHandler inputHandler,
+                  float x, float y, float width, float height) {
+        super(game, gameProcess, regionInfo, 500, 50, 150, x, y, width, height);
         // TODO walkingSpeed runningSpeed jumpPower
 
         this.inputHandler = inputHandler;

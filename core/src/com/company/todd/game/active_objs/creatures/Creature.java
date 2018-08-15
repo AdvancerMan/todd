@@ -21,8 +21,9 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     // TODO hit(float damage);
 
     public Creature(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
-                    float jumpPower, float walkingSpeed, float runningSpeed) {
-        super(game, gameProcess, regionInfo, walkingSpeed, runningSpeed);
+                    float jumpPower, float walkingSpeed, float runningSpeed,
+                    float x, float y, float width, float height) {
+        super(game, gameProcess, regionInfo, walkingSpeed, runningSpeed, x, y, width, height);
         this.jumpPower = jumpPower;
 
         this.isOnGround = false;

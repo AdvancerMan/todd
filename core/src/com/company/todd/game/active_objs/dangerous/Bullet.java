@@ -11,16 +11,13 @@ public class Bullet extends DangerousObject {  // TODO Bullet
     public Bullet(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
                   float x, float y,
                   float speed, boolean toRight) {
-        super(game, gameProcess, regionInfo, speed);
+        super(game, gameProcess, regionInfo, speed, x, y, 40, 10);  // TODO bullet size
 
         this.toRight = toRight;
         if (!toRight) {
             sprite.rotate90(true);
             sprite.rotate90(true);
         }
-
-        setSize(40, 10);
-        setPosition(x, y);
     }
 
     @Override

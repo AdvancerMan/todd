@@ -6,7 +6,9 @@ import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
 public abstract class DangerousObject extends ActiveObject {  // TODO DangerousObject
-    public DangerousObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo, float speed) {
-        super(game, gameProcess, regionInfo, speed, speed);
+    public DangerousObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+                           float speed,
+                           float x, float y, float width, float height) {
+        super(game, gameProcess, regionInfo, speed, x, y, width, height);
     }
 }
