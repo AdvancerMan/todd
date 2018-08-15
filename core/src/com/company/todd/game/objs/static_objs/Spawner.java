@@ -1,8 +1,8 @@
-package com.company.todd.game.static_objs;
+package com.company.todd.game.objs.static_objs;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.company.todd.game.InGameObject;
+import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 

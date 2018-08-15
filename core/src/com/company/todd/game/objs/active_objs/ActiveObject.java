@@ -1,12 +1,12 @@
-package com.company.todd.game.active_objs;
+package com.company.todd.game.objs.active_objs;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import com.company.todd.game.active_objs.dangerous.Bullet;
+import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.game.process.GameProcess;
-import com.company.todd.game.InGameObject;
+import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;

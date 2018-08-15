@@ -1,4 +1,4 @@
-package com.company.todd.game;
+package com.company.todd.game.objs;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

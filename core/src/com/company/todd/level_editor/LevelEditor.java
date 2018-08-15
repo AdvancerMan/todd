@@ -10,10 +10,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import com.company.todd.game.process.GameProcess;
-import com.company.todd.game.static_objs.Platform;
+import com.company.todd.game.objs.static_objs.Platform;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.GameScreen;
-import com.company.todd.texture.TextureRegionInfo;
 
 // TODO LevelEditor extends GameProcess
 public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor

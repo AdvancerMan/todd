@@ -2,7 +2,7 @@ package com.company.todd.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.company.todd.game.other.Save;
+import com.company.todd.game.save.Save;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.process.PauseProcess;
 import com.company.todd.game.process.Process;

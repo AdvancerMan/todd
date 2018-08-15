@@ -1,6 +1,6 @@
-package com.company.todd.game.active_objs.dangerous;
+package com.company.todd.game.objs.active_objs.dangerous;
 
-import com.company.todd.game.active_objs.ActiveObject;
+import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
