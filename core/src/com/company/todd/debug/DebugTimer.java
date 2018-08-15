@@ -1,11 +1,15 @@
 package com.company.todd.debug;
 
+import com.badlogic.gdx.utils.TimeUtils;
+
 public class DebugTimer {
-    private long startTime;
-    private String name;
+    protected long startTime;
+    protected long workingTime;
+    protected String name;
 
     public DebugTimer(String name) {
         startTime = 0;
+        workingTime = 0;
         this.name = name;
     }
 
@@ -14,10 +18,22 @@ public class DebugTimer {
     }
 
     public void start() {
-        startTime = System.currentTimeMillis();
+        startTime = TimeUtils.nanoTime();
+    }
+
+    public void stop() {
+        workingTime += TimeUtils.nanoTime() - startTime;
+        startTime = 0;
     }
 
     public void finish() {
-        System.out.println(name + " debug time: " + (System.currentTimeMillis() - startTime));
+        if (startTime != 0) {
+            workingTime += TimeUtils.nanoTime() - startTime;
+        }
+
+        System.out.println(name + " debug time in nanos: " + workingTime);
+
+        workingTime = 0;
+        startTime = 0;
     }
 }
