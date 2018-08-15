@@ -1,6 +1,6 @@
 package com.company.todd.game.level;
 
-import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Array;
 
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.game.process.GameProcess;
@@ -8,18 +8,19 @@ import com.company.todd.launcher.ToddEthottGame;
 
 import java.util.Stack;
 
-public class Level implements Disposable {  // TODO Level
+public class Level {  // TODO Level
     protected ToddEthottGame game;
-    protected GameProcess gameProcess;
 
     protected Stack<StaticObject> objects;
 
-    public Level(ToddEthottGame game, GameProcess gameProcess) {
+    public Level(ToddEthottGame game) {
         this.game = game;
-        this.gameProcess = gameProcess;
+
+        objects = new Stack<StaticObject>();
     }
 
     public void addObject(StaticObject object) {
+        object.setGameProcess(null);
         objects.push(object);
     }
 
@@ -27,16 +28,17 @@ public class Level implements Disposable {  // TODO Level
         return objects.size() > 0;
     }
 
-    public StaticObject nextObject() {
-        return objects.pop();
+    public StaticObject nextObject(GameProcess gameProcess) {
+        StaticObject object = objects.pop();
+        object.setGameProcess(gameProcess);
+        return object;
+    }
+
+    public void unpackTo(GameProcess gameProcess, Array<? super StaticObject> array) {
+        while (hasNext()) {
+            array.add(nextObject(gameProcess));
+        }
     }
 
     // TODO read level from save
-
-    @Override
-    public void dispose() {
-        while (hasNext()) {
-            nextObject().dispose();
-        }
-    }
 }

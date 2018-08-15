@@ -2,6 +2,7 @@ package com.company.todd.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.company.todd.game.level.Level;
 import com.company.todd.game.save.Save;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.process.PauseProcess;
@@ -16,7 +17,7 @@ public class GameScreen extends MyScreen { // TODO GameScreen
 
     public GameScreen(ToddEthottGame game) {
         super(game);
-        gameProcess = new GameProcess(game, this);
+        gameProcess = new GameProcess(game, this, new Level(game));  // TODO Level loading
         pauseProcess = new PauseProcess(game, this, gameProcess);
 
         usingProcess = gameProcess;

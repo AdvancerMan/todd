@@ -10,7 +10,7 @@ import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class InGameObject implements Disposable {
     protected final ToddEthottGame game;
-    protected final GameProcess gameProcess;
+    protected GameProcess gameProcess;
     protected Sprite sprite;
     protected boolean collidable;
     private boolean alive;
@@ -54,6 +54,10 @@ public abstract class InGameObject implements Disposable {
 
     public boolean isCollidable() {
         return collidable;
+    }
+
+    public void setGameProcess(GameProcess gameProcess) {
+        this.gameProcess = gameProcess;
     }
 
     public void kill() {

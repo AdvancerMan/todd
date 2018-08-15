@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import com.company.todd.game.level.Level;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.objs.static_objs.Platform;
 import com.company.todd.launcher.ToddEthottGame;
@@ -34,7 +35,7 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
 
         GameScreen screen = new GameScreen(game);
         screenRect = screen.getCameraRect();
-        process = new GameProcess(game, screen);
+        process = new GameProcess(game, screen, new Level(game));
 
         platformTypes = new Platform.PlatformTypes(game);
 

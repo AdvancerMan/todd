@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
@@ -17,20 +18,20 @@ import com.company.todd.screen.MyScreen;
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
-    private float gravity;
-    private float maxFallSpeed;
+    protected float gravity;
+    protected float maxFallSpeed;
 
-    private final ToddEthottGame game;
-    private final InGameInputHandler inputHandler;
-    private final MyScreen screen;
+    protected final ToddEthottGame game;
+    protected final InGameInputHandler inputHandler;
+    protected final MyScreen screen;
 
-    private Player player;
-    private Array<Creature> creatures;
-    private Array<DangerousObject> dangerousObjects;
-    private Array<StaticObject> staticObjects;
-    private Array<InGameObject> justCreatedObjects;
+    protected Player player;
+    protected Array<Creature> creatures;
+    protected Array<DangerousObject> dangerousObjects;
+    protected Array<StaticObject> staticObjects;
+    protected Array<InGameObject> justCreatedObjects;
 
-    public GameProcess(ToddEthottGame game, MyScreen screen) {  // TODO level + save
+    public GameProcess(ToddEthottGame game, MyScreen screen, Level level) {  // TODO level + save
         this.game = game;
         this.screen = screen;
 
@@ -43,13 +44,15 @@ public class GameProcess implements Process {  // TODO GameProcess
         player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
 
         creatures = new Array<Creature>();
-        creatures.add(player);
         dangerousObjects = new Array<DangerousObject>();
         staticObjects = new Array<StaticObject>();
         justCreatedObjects = new Array<InGameObject>();
+
+        creatures.add(player);
+        level.unpackTo(this, staticObjects);
     }
 
-    private void handleInput(float delta) {
+    protected void handleInput(float delta) {
         inputHandler.setNewTouchPosition();
 
         if (inputHandler.isPaused()) {
@@ -57,7 +60,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
-    private void addJustCreatedObjectsToProcess() {
+    protected void addJustCreatedObjectsToProcess() {
         Iterator<InGameObject> objectIterator = justCreatedObjects.iterator();
         while (objectIterator.hasNext()) {
             InGameObject object = objectIterator.next();
@@ -106,7 +109,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
-    private void drawObjectsFrom(Array<? extends InGameObject> objects, SpriteBatch batch, Rectangle cameraRect) {
+    protected void drawObjectsFrom(Array<? extends InGameObject> objects, SpriteBatch batch, Rectangle cameraRect) {
         Iterator<? extends InGameObject> iterator = objects.iterator();
         while (iterator.hasNext()) {
             InGameObject object = iterator.next();
