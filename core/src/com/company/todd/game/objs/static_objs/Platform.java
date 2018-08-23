@@ -18,10 +18,10 @@ import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.more;
 
 public class Platform extends StaticObject {
-    private PlatformType type;
+    private Type type;
     private Texture tmpTexture;
 
-    public Platform(ToddEthottGame game, GameProcess gameProcess, PlatformType type,
+    public Platform(ToddEthottGame game, GameProcess gameProcess, Type type,
                     float x, float y, float width, float height) {
         super(game, gameProcess, x, y, width, height);
         this.type = type;
@@ -105,22 +105,9 @@ public class Platform extends StaticObject {
 
     @Override
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        /*
-        long startTime;
-        if (ToddEthottGame.DEBUG) {
-            startTime = System.currentTimeMillis();
-        }
-        */
-
         if (getRect().overlaps(cameraRectangle)) {
             sprite.draw(batch);
         }
-
-        /*
-        if (ToddEthottGame.DEBUG) {
-            System.out.println((double)(System.currentTimeMillis() - startTime) / 1000.);
-        }
-        */
     }
 
     @Override
@@ -137,14 +124,14 @@ public class Platform extends StaticObject {
         }
     }
 
-    private static class PlatformType implements Disposable {
+    private static class Type implements Disposable {
         int width, height;
 
         // both regions must have same size
         TextureRegionInfo upperRegionInfo, downRegionInfo;
         TextureRegion upperTextureRegion, downTextureRegion;
 
-        public PlatformType(TextureRegionInfo upperRegionInfo, TextureRegionInfo downRegionInfo) {
+        public Type(TextureRegionInfo upperRegionInfo, TextureRegionInfo downRegionInfo) {
             this.upperRegionInfo = upperRegionInfo;
             this.downRegionInfo = downRegionInfo;
 
@@ -172,20 +159,20 @@ public class Platform extends StaticObject {
         }
     }
 
-    public static class PlatformTypes {
-        ArrayMap<String, PlatformType> types;
+    public static class Types {
+        ArrayMap<String, Type> types;
 
-        public PlatformTypes(ToddEthottGame game) {
-            types = new ArrayMap<String, PlatformType>();
+        public Types(ToddEthottGame game) {
+            types = new ArrayMap<String, Type>();
 
             types.put(
                     "grassPlatform",
-                    new PlatformType(game.regionInfos.getRegionInfo("grassPlatformUp"),
+                    new Type(game.regionInfos.getRegionInfo("grassPlatformUp"),
                                      game.regionInfos.getRegionInfo("grassPlatformDown"))
             );
         }
 
-        public PlatformType getPlatformType(String platformTypeName) {
+        public Type getPlatformType(String platformTypeName) {
             return types.get(platformTypeName);
         }
     }

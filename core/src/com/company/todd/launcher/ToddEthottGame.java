@@ -34,7 +34,7 @@ public class ToddEthottGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-        mainFont = FontHandler.generateFont("segoesc.ttf", 16, Color.BLACK);
+        mainFont = FontHandler.generateFont("segoesc.ttf", 16, Color.RED);
         buttonsFont = mainFont;
         textureManager = new TextureManager();
         regionInfos = new TextureRegionInfos(textureManager);
@@ -57,12 +57,6 @@ public class ToddEthottGame extends ApplicationAdapter {
 
         textureManager.update(Gdx.graphics.getDeltaTime());
         screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
-
-        if (DEBUG) {
-            batch.begin();
-            mainFont.draw(batch, "" + (1f / Gdx.graphics.getDeltaTime()), 0, 400);
-            batch.end();
-        }
 	}
 	
 	@Override

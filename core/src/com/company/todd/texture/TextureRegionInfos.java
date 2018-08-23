@@ -23,11 +23,11 @@ public class TextureRegionInfos {
         );
         regions.put(
                 "grassPlatformUp", // TODO texture
-                new TextureRegionInfo(mng, "white.png", 10, 10, 10, 10)
+                new TextureRegionInfo(mng, "badlogic.jpg", 0, 0, 100, 100)
         );
         regions.put(
                 "grassPlatformDown", // TODO texture
-                new TextureRegionInfo(mng, "friend.png", 0, 0, 118, 122)
+                new TextureRegionInfo(mng, "friend.png", 0, 0, 100, 100)
         );
     }
 

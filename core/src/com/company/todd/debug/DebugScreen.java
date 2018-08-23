@@ -1,5 +1,6 @@
 package com.company.todd.debug;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.company.todd.game.level.Level;
@@ -10,15 +11,15 @@ import com.company.todd.screen.MyScreen;
 
 public class DebugScreen extends MyScreen {
     GameProcess gameProcess;
-    Platform.PlatformTypes platformTypes;
+    Platform.Types platformTypes;
 
     public DebugScreen(ToddEthottGame game) {
         super(game);
 
-        platformTypes = new Platform.PlatformTypes(game);
+        platformTypes = new Platform.Types(game);
 
         Level level = new Level(game);
-        int[][] pls = {
+        int[][] pls = {  // x, y, width, height
                 {100, 100, 100, 100},
                 {200, 25, 500, 100},
                 {123, 321, 123, 317},
@@ -51,6 +52,9 @@ public class DebugScreen extends MyScreen {
         batch.begin();
 
         gameProcess.draw(batch);
+
+        game.mainFont.draw(batch, (int)(1f / Gdx.graphics.getDeltaTime()) + " fps",
+                getCameraRect().x + 5, getCameraRect().y + getCameraRect().height - 10);
 
         batch.end();
     }

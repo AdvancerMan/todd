@@ -1,6 +1,5 @@
 package com.company.todd.debug;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class DebugTimer {
@@ -40,7 +39,7 @@ public class DebugTimer {
     }
 
     public void finishInSeconds(int frames) {
-        finish(-9, 1f / frames, "time in seconds * " + frames + " frames");
+        finish(-9, frames, "time in seconds * " + frames + " frames");
     }
 
     protected void finish(int exp10, String message) {

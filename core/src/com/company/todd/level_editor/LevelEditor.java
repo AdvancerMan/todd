@@ -23,7 +23,7 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
     GameProcess process;
     Rectangle screenRect;
     OrthographicCamera camera;
-    Platform.PlatformTypes platformTypes;
+    Platform.Types platformTypes;
     Vector3 touchPos;
     Vector2 firstTouchPos;
     boolean created;
@@ -37,7 +37,7 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         screenRect = screen.getCameraRect();
         process = new GameProcess(game, screen, new Level(game));
 
-        platformTypes = new Platform.PlatformTypes(game);
+        platformTypes = new Platform.Types(game);
 
         platforms = new Array<Platform>();
         platformNow = null;

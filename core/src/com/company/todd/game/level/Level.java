@@ -8,7 +8,7 @@ import com.company.todd.launcher.ToddEthottGame;
 
 import java.util.Stack;
 
-public class Level {  // TODO Level
+public class Level {
     protected ToddEthottGame game;
 
     protected Stack<StaticObject> objects;
