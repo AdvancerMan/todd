@@ -66,12 +66,12 @@ public class ToddEthottGame implements ApplicationListener {
 
     @Override
     public void pause() {
-        // TODO pause()
+	    screenManager.pause();
     }
 
     @Override
     public void resume() {
-        // TODO resume()
+	    screenManager.resume();
     }
 
     @Override
