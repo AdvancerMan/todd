@@ -58,8 +58,14 @@ public class ToddEthottGame extends ApplicationAdapter {
         textureManager.update(Gdx.graphics.getDeltaTime());
         screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
 	}
-	
-	@Override
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        // TODO resize
+    }
+
+    @Override
 	public void dispose () { // Освобождаем ресурсы
         batch.dispose();
 		mainFont.dispose();
