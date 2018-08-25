@@ -60,6 +60,10 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
+    public void resizeInputHandler(int width, int height) {
+        inputHandler.resize(width, height);
+    }
+
     protected void addJustCreatedObjectsToProcess() {
         Iterator<InGameObject> objectIterator = justCreatedObjects.iterator();
         while (objectIterator.hasNext()) {
@@ -124,25 +128,11 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void draw(SpriteBatch batch) {
-        /*
-        long startTime;
-        if (ToddEthottGame.DEBUG) {
-            startTime = System.currentTimeMillis();
-        }
-        */
-
         drawObjectsFrom(creatures, batch, screen.getCameraRect());
 
         drawObjectsFrom(dangerousObjects, batch, screen.getCameraRect());
 
         drawObjectsFrom(staticObjects, batch, screen.getCameraRect());
-
-        /*
-        if (ToddEthottGame.DEBUG) {
-            System.out.print("draw all: ");
-            System.out.println((double) (System.currentTimeMillis() - startTime) / 1000.);
-        }
-        */
     }
 
     public float getGravity() {

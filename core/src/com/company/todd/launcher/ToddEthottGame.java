@@ -1,6 +1,6 @@
 package com.company.todd.launcher;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -15,15 +15,15 @@ import com.company.todd.screen.ScreenManager;
 import com.company.todd.texture.TextureManager;
 import com.company.todd.texture.TextureRegionInfos;
 
-public class ToddEthottGame extends ApplicationAdapter {
+public class ToddEthottGame implements ApplicationListener {
 	public static final boolean DEBUG = true;
 
 	public static final String FONTS_FOLDER = "fonts";
 	public static final String SAVES_FOLDER = "saves";
 	public static final String TEXTURES_FOLDER = "textures";
     public static final String TITLE = "Todd";
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 480;
+    public static final int STANDART_WIDTH = 800;
+    public static final int STANDART_HEIGHT = 480;
 
     public SpriteBatch batch;
 	public BitmapFont mainFont, buttonsFont;
@@ -61,8 +61,17 @@ public class ToddEthottGame extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
-        // TODO resize
+        screenManager.resize(width, height);
+    }
+
+    @Override
+    public void pause() {
+        // TODO pause()
+    }
+
+    @Override
+    public void resume() {
+        // TODO resume()
     }
 
     @Override

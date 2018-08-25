@@ -15,18 +15,24 @@ public class InGameInputHandler {
     private Rectangle pause;
     private Vector2[] inputPoints;
 
-    public InGameInputHandler() {  // TODO input rectangles
-        right = new Rectangle(400, 0, 400, ToddEthottGame.HEIGHT - 100);
-        left = new Rectangle(0, 0, 400, ToddEthottGame.HEIGHT - 100);
-        jump = new Rectangle(0, ToddEthottGame.HEIGHT - 100, ToddEthottGame.WIDTH, 100);
-        shoot = new Rectangle(100, 100, 100, 100);
-        pause = new Rectangle(200, 0, 100, 100);
+    public InGameInputHandler() {
+        updateRectangles(ToddEthottGame.STANDART_WIDTH, ToddEthottGame.STANDART_HEIGHT);
 
         inputPoints = new Vector2[maxFingersOnScreenCount];
 
         for (int i = 0; i < maxFingersOnScreenCount; i++) {
             inputPoints[i] = new Vector2();
         }
+    }
+
+    protected void updateRectangles(int width, int height) {  // TODO input rectangles
+        // TODO koef for input rects
+
+        right = new Rectangle(width / 2, 0, width / 2, height - 100);
+        left = new Rectangle(0, 0, width / 2, height - 100);
+        jump = new Rectangle(0, height - 100, width, 100);
+        shoot = new Rectangle(100, 100, 100, 100);
+        pause = new Rectangle(200, 0, 100, 100);
     }
 
     public void setNewTouchPosition() {
@@ -73,5 +79,9 @@ public class InGameInputHandler {
 
     public boolean isPaused() {
         return rectIsTouched(pause);
+    }
+
+    public void resize(int width, int height) {
+        updateRectangles(width, height);
     }
 }

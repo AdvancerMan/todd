@@ -2,16 +2,22 @@ package com.company.todd.screen;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Disposable;
+import com.company.todd.launcher.ToddEthottGame;
 
 import java.util.Stack;
 
 public class ScreenManager implements Disposable {
-    private Stack<Screen> screens;
-    private boolean screenRemoved;
+    protected Stack<Screen> screens;
+    protected boolean screenRemoved;
+    protected int screenWidth, screenHeight;
 
     public ScreenManager(Screen firstScreen) {
         screens = new Stack<Screen>();
         screens.push(firstScreen);
+
+        screenHeight = ToddEthottGame.STANDART_HEIGHT;
+        screenWidth = ToddEthottGame.STANDART_WIDTH;
+        firstScreen.resize(screenWidth, screenHeight);
     }
 
     public void setNextScreen(Screen screen) {
@@ -19,6 +25,7 @@ public class ScreenManager implements Disposable {
             screens.peek().pause();
         }
 
+        screen.resize(screenWidth, screenHeight);
         screens.push(screen);
     }
 
@@ -31,6 +38,7 @@ public class ScreenManager implements Disposable {
 
         if (!screens.empty()) {
             screens.peek().resume();
+            screens.peek().resize(screenWidth, screenHeight);
         }
     }
 
@@ -44,6 +52,20 @@ public class ScreenManager implements Disposable {
     public void render(float delta) {
         screens.peek().render(delta);
         update();
+    }
+
+    public void resize(int width, int height) {
+        screenWidth = width;
+        screenHeight = height;
+        screens.peek().resize(screenWidth, screenHeight);
+    }
+
+    public void pause() {
+        screens.peek().pause();
+    }
+
+    public void resume() {
+        screens.peek().resume();
     }
 
     @Override

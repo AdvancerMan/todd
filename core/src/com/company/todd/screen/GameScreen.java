@@ -10,10 +10,10 @@ import com.company.todd.game.process.Process;
 import com.company.todd.launcher.ToddEthottGame;
 
 public class GameScreen extends MyScreen { // TODO GameScreen
-    private GameProcess gameProcess;
-    private PauseProcess pauseProcess;
-    private Process usingProcess;
-    private boolean gamePaused;
+    protected GameProcess gameProcess;
+    protected PauseProcess pauseProcess;
+    protected Process usingProcess;
+    protected boolean gamePaused;
 
     public GameScreen(ToddEthottGame game) {
         super(game);
@@ -49,6 +49,12 @@ public class GameScreen extends MyScreen { // TODO GameScreen
         else {
             usingProcess = gameProcess;
         }
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        gameProcess.resizeInputHandler(width, height);
     }
 
     @Override

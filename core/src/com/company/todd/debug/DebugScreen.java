@@ -60,6 +60,12 @@ public class DebugScreen extends MyScreen {
     }
 
     @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        gameProcess.resizeInputHandler(width, height);
+    }
+
+    @Override
     public void dispose() {
         gameProcess.dispose();
     }
