@@ -37,9 +37,9 @@ public class InGameInputHandler {
         }
     }
 
-    private boolean rectIsTouched(Rectangle rect, InputActivator activator) {
+    private boolean rectIsTouched(Rectangle rect, InputDetector detector) {
         for (int i = 0; i < maxFingersOnScreenCount; i++) {
-            if (activator.activate(i) && rect.contains(inputPoints[i])) {
+            if (detector.isActive(i) && rect.contains(inputPoints[i])) {
                 return true;
             }
         }
@@ -47,9 +47,9 @@ public class InGameInputHandler {
     }
 
     private boolean rectIsTouched(Rectangle rect) {
-        return rectIsTouched(rect, new InputActivator() {
+        return rectIsTouched(rect, new InputDetector() {
             @Override
-            public boolean activate(int i) {
+            public boolean isActive(int i) {
                 return Gdx.input.isTouched(i);
             }
         });
