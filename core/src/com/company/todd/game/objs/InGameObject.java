@@ -41,7 +41,8 @@ public abstract class InGameObject implements Disposable {
         float width = rectangle.width, height = rectangle.height;
 
         body = createBody(gameProcess.getWorld(), bodyType, new Vector2(x + width / 2, y + height / 2));
-        addBox(body, width, height);
+        addBox(body, width / 2, height / 2);
+        body.setUserData(this);
     }
 
     private void updateMyBody() {

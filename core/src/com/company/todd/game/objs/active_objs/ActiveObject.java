@@ -3,6 +3,7 @@ package com.company.todd.game.objs.active_objs;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
@@ -75,11 +76,17 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     }
 
     protected void updatePosition(float delta) {
-        body.getLinearVelocity();
+        for (Fixture fixture : body.getFixtureList()) {
+            if (velocity.x == 0) {
+                fixture.setFriction(1000);
+            } else {
+                fixture.setFriction(0);
+            }
+        }
+
         body.applyLinearImpulse(new Vector2(velocity.x - body.getLinearVelocity().x, velocity.y),
                 body.getWorldCenter(), true);
         velocity.set(0, 0);
-        System.out.println(body.getLinearVelocity().y);
     }
 
     @Override

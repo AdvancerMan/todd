@@ -35,14 +35,17 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public void jump() { // TODO energy consuming: jump()
-        // if (isOnGround) {  // TODO isOnGround
+        if (isOnGround) {  // TODO isOnGround
             velocity.set(velocity.x, jumpPower);
-        // }
+        }
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
-        isOnGround = false;
+    }
+
+    public void setOnGround(boolean onGround) {
+        isOnGround = onGround;
     }
 }

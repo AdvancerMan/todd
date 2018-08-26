@@ -3,9 +3,12 @@ package com.company.todd.game.process;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.ArrayMap;
+import com.company.todd.game.contact.MyContactListener;
 import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
@@ -25,6 +28,7 @@ public class GameProcess implements Process {  // TODO GameProcess
     protected final ToddEthottGame game;
     protected final InGameInputHandler inputHandler;
     protected final MyScreen screen;
+    protected final MyContactListener contactListener;
 
     protected World world;
     protected Player player;
@@ -38,6 +42,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         this.screen = screen;
 
         world = new World(new Vector2(0, -20f), false);  // TODO optimize gravity
+        contactListener = new MyContactListener(this);
 
         inputHandler = new InGameInputHandler();
 
@@ -49,12 +54,12 @@ public class GameProcess implements Process {  // TODO GameProcess
         staticObjects = new Array<StaticObject>();
         justCreatedObjects = new Array<InGameObject>();
 
-        creatures.add(player);
+        justCreatedObjects.add(player);
         setLevel(level);
     }
 
     public void setLevel(Level level) {  // TODO GameProcess.setLevel()
-        level.unpackTo(this, staticObjects);
+        level.unpackTo(this, justCreatedObjects);
     }
 
     protected void handleInput(float delta) {
