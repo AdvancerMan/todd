@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import com.company.todd.launcher.ToddEthottGame;
 
-public class InGameInputHandler {
+public class InGameInputHandler {  // TODO implements InputProcessor
     public static final int maxFingersOnScreenCount = 5;
     private Rectangle right;
     private Rectangle left;

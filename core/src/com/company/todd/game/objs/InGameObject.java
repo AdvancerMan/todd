@@ -45,9 +45,11 @@ public abstract class InGameObject implements Disposable {
     }
 
     private void updateMyBody() {
-        BodyDef.BodyType bodyType = body.getType();
-        gameProcess.getWorld().destroyBody(body);
-        createMyBody(bodyType);
+        if (body != null) {
+            BodyDef.BodyType bodyType = body.getType();
+            gameProcess.getWorld().destroyBody(body);
+            createMyBody(bodyType);
+        }
     }
 
     public void update(float delta) {
