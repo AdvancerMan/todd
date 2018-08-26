@@ -124,7 +124,7 @@ public class Platform extends StaticObject {
         }
     }
 
-    private static class Type implements Disposable {
+    public static class Type implements Disposable {
         int width, height;
 
         // both regions must have same size
