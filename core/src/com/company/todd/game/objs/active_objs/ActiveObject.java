@@ -80,6 +80,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     protected void updatePosition(float delta) {
         body.applyForceToCenter(force, true);
+        force.set(0, 0);
     }
 
     @Override

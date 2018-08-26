@@ -36,22 +36,14 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public void jump() { // TODO energy consuming: jump()
-        if (isOnGround) {
-            velocity.set(velocity.x, jumpPower);
-        }
+        // if (isOnGround) {  // TODO isOnGround
+            force.set(force.x, jumpPower);
+        // }
     }
 
     @Override
     public void update(float delta) {
-        fall(gameProcess.getGravity());
-
-        isOnGround = false;
-        boolean isFalling = less(velocity.y, 0);
-
         super.update(delta);
-
-        if (isFalling && FloatCmp.equals(velocity.y, 0)) {
-            isOnGround = true;
-        }
+        isOnGround = false;
     }
 }

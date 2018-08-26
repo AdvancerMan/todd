@@ -37,7 +37,6 @@ public class Player extends Creature {
 
     @Override
     public void update(float delta) {
-        stand();
         handleInput();
 
         super.update(delta);
