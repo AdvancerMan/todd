@@ -11,17 +11,16 @@ import java.util.Stack;
 public class Level {
     protected ToddEthottGame game;
 
-    protected Stack<StaticObject> objects;
+    protected Stack<StaticObjectTemplate> objects;
 
     public Level(ToddEthottGame game) {
         this.game = game;
 
-        objects = new Stack<StaticObject>();
+        objects = new Stack<StaticObjectTemplate>();
     }
 
-    public void addObject(StaticObject object) {
-        object.setGameProcess(null);
-        objects.push(object);
+    public void addObjectTemplate(StaticObjectTemplate template) {
+        objects.push(template);
     }
 
     public boolean hasNext() {
@@ -29,9 +28,7 @@ public class Level {
     }
 
     public StaticObject nextObject(GameProcess gameProcess) {
-        StaticObject object = objects.pop();
-        object.setGameProcess(gameProcess);
-        return object;
+        return objects.pop().getObject(gameProcess);
     }
 
     public void unpackTo(GameProcess gameProcess, Array<? super StaticObject> array) {

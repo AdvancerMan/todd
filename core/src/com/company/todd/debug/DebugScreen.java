@@ -19,6 +19,7 @@ public class DebugScreen extends MyScreen {
         platformTypes = new Platform.Types(game);
 
         Level level = new Level(game);
+        /*
         int[][] pls = {  // x, y, width, height
                 {100, 100, 100, 100},
                 {200, 25, 500, 100},
@@ -26,10 +27,11 @@ public class DebugScreen extends MyScreen {
                 {10, 3, 500, 1}
         };
         for (int i = 0; i < pls.length; i++) {
-            level.addObject(new Platform(game, null,
+            level.addObjectTemplate(new Platform(game, null,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
+        */
 
         gameProcess = new GameProcess(game, this, level);
 
