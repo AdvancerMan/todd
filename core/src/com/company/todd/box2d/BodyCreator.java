@@ -36,30 +36,28 @@ public class BodyCreator {
         return createBody(world, type, position, true, 0);
     }
 
-    public static Body addBox(Body body, float width, float height, Vector2 center, float density, float angle) {
+    public static void addBox(Body body, float width, float height, Vector2 center, float density, float angle) {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width * GameProcess.metersPerPix, height * GameProcess.metersPerPix,
                 center.scl(GameProcess.metersPerPix), angle / FloatCmp.degsInRad);
 
         body.createFixture(shape, density);
         shape.dispose();
-
-        return body;
     }
 
-    public static Body addBox(Body body, float width, float height, Vector2 center, float density) {
-        return addBox(body, width, height, center, density, 0);
+    public static void addBox(Body body, float width, float height, Vector2 center, float density) {
+        addBox(body, width, height, center, density, 0);
     }
 
-    public static Body addBox(Body body, float width, float height, Vector2 center) {
-        return addBox(body, width, height, center, 1);
+    public static void addBox(Body body, float width, float height, Vector2 center) {
+        addBox(body, width, height, center, 1);
     }
 
-    public static Body addBox(Body body, float width, float height) {
-        return addBox(body, width, height, new Vector2(0, 0));
+    public static void addBox(Body body, float width, float height) {
+        addBox(body, width, height, new Vector2(0, 0));
     }
 
-    public static Body addPolygon(Body body, float[] vertices, float density) {
+    public static void addPolygon(Body body, float[] vertices, float density) {
         PolygonShape shape = new PolygonShape();
 
         for (int i = 0; i < vertices.length; i++) {
@@ -69,26 +67,22 @@ public class BodyCreator {
 
         body.createFixture(shape, density);
         shape.dispose();
-
-        return body;
     }
 
-    public static Body addPolygon(Body body, float[] vertices) {
-        return addPolygon(body, vertices, 1);
+    public static void addPolygon(Body body, float[] vertices) {
+        addPolygon(body, vertices, 1);
     }
 
-    public static Body addCircle(Body body, Vector2 center, float radius, float density) {
+    public static void addCircle(Body body, Vector2 center, float radius, float density) {
         CircleShape shape = new CircleShape();
         shape.setPosition(center.scl(GameProcess.metersPerPix));
         shape.setRadius(radius * GameProcess.metersPerPix);
 
         body.createFixture(shape, density);
         shape.dispose();
-
-        return body;
     }
 
-    public static Body addCircle(Body body, Vector2 center, float radius) {
-        return addCircle(body, center, radius, 1);
+    public static void addCircle(Body body, Vector2 center, float radius) {
+        addCircle(body, center, radius, 1);
     }
 }
