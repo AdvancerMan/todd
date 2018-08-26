@@ -7,13 +7,17 @@ import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
-class StaticObjectTemplate {
+public class StaticObjectTemplate {
     protected Array<Object> template;
     private int indexNow;
 
     public StaticObjectTemplate(Array<Object> template) {
         this.template = template;
         indexNow = 0;
+    }
+
+    public StaticObjectTemplate(Object ... objects) {
+        this(new Array<Object>(objects));
     }
 
     protected Object next() {
