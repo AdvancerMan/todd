@@ -4,7 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
@@ -12,6 +14,7 @@ import com.company.todd.util.FloatCmp;
 
 public class BodyCreator {
     protected static BodyDef bodyDef = new BodyDef();
+    protected static FixtureDef fixtureDef = new FixtureDef();
 
     public static Body createBody(World world, BodyDef.BodyType type, Vector2 position,
                                   boolean fixedRotation, float angle, boolean isBullet) {
@@ -36,28 +39,39 @@ public class BodyCreator {
         return createBody(world, type, position, true, 0);
     }
 
-    public static void addBox(Body body, float width, float height, Vector2 center, float density, float angle) {
+    protected static void createFixture(Body body, Shape shape, float density, float friction, float restitution) {
+        fixtureDef.density = density;
+        fixtureDef.friction = friction;
+        fixtureDef.restitution = restitution;
+        fixtureDef.shape = shape;
+
+        body.createFixture(fixtureDef);
+    }
+
+    public static void addBox(Body body, float width, float height, Vector2 center,
+                              float density, float friction, float restitution, float angle) {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width * GameProcess.metersPerPix, height * GameProcess.metersPerPix,
                 center.scl(GameProcess.metersPerPix), angle / FloatCmp.degsInRad);
 
-        body.createFixture(shape, density);
+        createFixture(body, shape, density, friction, restitution);
         shape.dispose();
     }
 
-    public static void addBox(Body body, float width, float height, Vector2 center, float density) {
-        addBox(body, width, height, center, density, 0);
+    public static void addBox(Body body, float width, float height, Vector2 center,
+                              float density, float friction, float restitution) {
+        addBox(body, width, height, center, density, friction, restitution, 0);
     }
 
     public static void addBox(Body body, float width, float height, Vector2 center) {
-        addBox(body, width, height, center, 1);
+        addBox(body, width, height, center, 1, 0.2f, 0);
     }
 
     public static void addBox(Body body, float width, float height) {
         addBox(body, width, height, new Vector2(0, 0));
     }
 
-    public static void addPolygon(Body body, float[] vertices, float density) {
+    public static void addPolygon(Body body, float[] vertices, float density, float friction, float restitution) {
         PolygonShape shape = new PolygonShape();
 
         for (int i = 0; i < vertices.length; i++) {
@@ -65,24 +79,24 @@ public class BodyCreator {
         }
         shape.set(vertices);
 
-        body.createFixture(shape, density);
+        createFixture(body, shape, density, friction, restitution);
         shape.dispose();
     }
 
     public static void addPolygon(Body body, float[] vertices) {
-        addPolygon(body, vertices, 1);
+        addPolygon(body, vertices, 1, 0.2f, 0);
     }
 
-    public static void addCircle(Body body, Vector2 center, float radius, float density) {
+    public static void addCircle(Body body, Vector2 center, float radius, float density, float friction, float restitution) {
         CircleShape shape = new CircleShape();
         shape.setPosition(center.scl(GameProcess.metersPerPix));
         shape.setRadius(radius * GameProcess.metersPerPix);
 
-        body.createFixture(shape, density);
+        createFixture(body, shape, density, friction, restitution);
         shape.dispose();
     }
 
     public static void addCircle(Body body, Vector2 center, float radius) {
-        addCircle(body, center, radius, 1);
+        addCircle(body, center, radius, 1, 0.2f, 0);
     }
 }
