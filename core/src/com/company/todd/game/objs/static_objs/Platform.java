@@ -18,8 +18,8 @@ import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.more;
 
 public class Platform extends StaticObject {
-    private Type type;
-    private Texture tmpTexture;
+    protected Type type;
+    protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
 
     public Platform(ToddEthottGame game, GameProcess gameProcess, Type type,
                     float x, float y, float width, float height) {
@@ -32,9 +32,9 @@ public class Platform extends StaticObject {
         updateTexture();
     }
 
-    private void updateTexture() {  // TODO many platforms, one texture, many TextureRegions
+    private void updateTexture() {  // TODO many platforms, one texture, many TextureRegions (move tmpTexture to TextureManager)
         if (tmpTexture != null) {
-            tmpTexture.dispose();
+            tmpTexture.dispose();  // TODO move tmpTexture to TextureManager
         }
 
         Pixmap upPixmap, downPixmap;
@@ -81,7 +81,7 @@ public class Platform extends StaticObject {
 
         timer.finish();
 
-        tmpTexture = new Texture(finalPixmap);
+        tmpTexture = new Texture(finalPixmap);  // TODO move tmpTexture to TextureManager
 
         finalPixmap.dispose();
         if (tmpData.disposePixmap()) {
@@ -99,18 +99,6 @@ public class Platform extends StaticObject {
     }
 
     @Override
-    public void update(float delta) {
-
-    }
-
-    @Override
-    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        if (getRect().overlaps(cameraRectangle)) {
-            sprite.draw(batch);
-        }
-    }
-
-    @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
         updateTexture();
@@ -119,7 +107,7 @@ public class Platform extends StaticObject {
     @Override
     public void dispose() {
         type.dispose();
-        if (tmpTexture != null) {
+        if (tmpTexture != null) {  // TODO move tmpTexture to TextureManager
             tmpTexture.dispose();
         }
     }
