@@ -64,7 +64,7 @@ public class BodyCreator {
     }
 
     public static void addBox(Body body, float width, float height, Vector2 center) {
-        addBox(body, width, height, center, 1, 0.2f, 0);
+        addBox(body, width, height, center, 1, 1f, 0);
     }
 
     public static void addBox(Body body, float width, float height) {
@@ -84,7 +84,7 @@ public class BodyCreator {
     }
 
     public static void addPolygon(Body body, float[] vertices) {
-        addPolygon(body, vertices, 1, 0.2f, 0);
+        addPolygon(body, vertices, 1, 1f, 0);
     }
 
     public static void addCircle(Body body, Vector2 center, float radius, float density, float friction, float restitution) {
@@ -97,6 +97,6 @@ public class BodyCreator {
     }
 
     public static void addCircle(Body body, Vector2 center, float radius) {
-        addCircle(body, center, radius, 1, 0.2f, 0);
+        addCircle(body, center, radius, 1, 1f, 0);
     }
 }
