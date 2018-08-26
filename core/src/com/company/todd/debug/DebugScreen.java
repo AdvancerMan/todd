@@ -21,14 +21,14 @@ public class DebugScreen extends MyScreen {
 
         Level level = new Level(game);
 
-        int[][] pls = {  // x, y, width, height
+        float[][] pls = {  // x, y, width, height
                 {100, 100, 100, 100},
                 {200, 25, 500, 100},
                 {123, 321, 123, 317},
                 {10, 3, 500, 1}
         };
         for (int i = 0; i < pls.length; i++) {
-            level.addObjectTemplate(new StaticObjectTemplate(game,
+            level.addObjectTemplate(new StaticObjectTemplate("Platform", game,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }

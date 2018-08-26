@@ -21,15 +21,6 @@ public class Bullet extends DangerousObject {  // TODO Bullet
     }
 
     @Override
-    public boolean collideWith(InGameObject object, float delta) {
-        if (super.collideWith(object, delta)) {
-            kill();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public void update(float delta) {
         walk(toRight);
         super.update(delta);

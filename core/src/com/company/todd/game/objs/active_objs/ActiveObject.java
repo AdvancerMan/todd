@@ -1,16 +1,12 @@
 package com.company.todd.game.objs.active_objs;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
-import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.lessOrEquals;
@@ -20,7 +16,7 @@ import static com.company.todd.util.FloatCmp.moreOrEquals;
 public abstract class ActiveObject extends InGameObject { // TODO animation
     protected float walkingSpeed;
     protected float runningSpeed;
-    protected Vector2 force;
+    protected Vector2 velocity;
 
     protected TextureRegionInfo regionInfo;  // TODO delete this PLEASE
 
@@ -33,7 +29,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
-        this.force = new Vector2();
+        this.velocity = new Vector2();
     }
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
@@ -44,19 +40,19 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     public void walk(boolean toRight) {
         if (toRight) {
-            force.set(walkingSpeed, force.y);
+            velocity.set(walkingSpeed, velocity.y);
         }
         else {
-            force.set(-walkingSpeed, force.y);
+            velocity.set(-walkingSpeed, velocity.y);
         }
     }
 
     public void run(boolean toRight) { // TODO energy consuming: run()
         if (toRight) {
-            force.set(runningSpeed, force.y);
+            velocity.set(runningSpeed, velocity.y);
         }
         else {
-            force.set(-runningSpeed, force.y);
+            velocity.set(-runningSpeed, velocity.y);
         }
     }
 
@@ -79,8 +75,11 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
     }
 
     protected void updatePosition(float delta) {
-        body.applyForceToCenter(force, true);
-        force.set(0, 0);
+        body.getLinearVelocity();
+        body.applyLinearImpulse(new Vector2(velocity.x - body.getLinearVelocity().x, velocity.y),
+                body.getWorldCenter(), true);
+        velocity.set(0, 0);
+        System.out.println(body.getLinearVelocity().y);
     }
 
     @Override

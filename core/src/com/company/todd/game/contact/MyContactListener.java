@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.contact;
+package com.company.todd.game.contact;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -8,6 +8,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class MyContactListener implements ContactListener {  // TODO ContactListener
     public MyContactListener(World world) {
+        world.setContactListener(this);
+    }
+
+    public void setWorld(World world) {
         world.setContactListener(this);
     }
 

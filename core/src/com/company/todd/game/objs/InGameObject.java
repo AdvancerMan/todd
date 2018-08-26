@@ -53,7 +53,7 @@ public abstract class InGameObject implements Disposable {
     }
 
     public void update(float delta) {
-        Vector2 tmpVec = body.getPosition();
+        Vector2 tmpVec = body.getPosition().scl(1 / GameProcess.metersPerPix);
         sprite.setCenter(tmpVec.x, tmpVec.y);
         if (!body.isFixedRotation()) {
             sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
@@ -71,7 +71,7 @@ public abstract class InGameObject implements Disposable {
         updateMyBody();
     }
 
-    public void setSize(float width, float height) {
+    public void setSize(float width, float height) {  // TODO  body.setTransform()
         sprite.setSize(width, height);
         updateMyBody();
     }

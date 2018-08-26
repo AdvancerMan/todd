@@ -4,7 +4,6 @@ import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
-import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.util.FloatCmp.less;
 
@@ -37,7 +36,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     public void jump() { // TODO energy consuming: jump()
         // if (isOnGround) {  // TODO isOnGround
-            force.set(force.x, jumpPower);
+            velocity.set(velocity.x, jumpPower);
         // }
     }
 

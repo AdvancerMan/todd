@@ -20,7 +20,7 @@ import com.company.todd.screen.MyScreen;
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
-    public static final float metersPerPix = 1f / 100;
+    public static final float metersPerPix = 1f / 30;
 
     protected final ToddEthottGame game;
     protected final InGameInputHandler inputHandler;
@@ -37,7 +37,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         this.game = game;
         this.screen = screen;
 
-        world = new World(new Vector2(0, -9.8f), false);  // TODO optimize gravity
+        world = new World(new Vector2(0, -20f), false);  // TODO optimize gravity
 
         inputHandler = new InGameInputHandler();
 
