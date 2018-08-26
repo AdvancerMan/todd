@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.objs.InGameObject;
@@ -17,23 +18,22 @@ import static com.company.todd.util.FloatCmp.more;
 import static com.company.todd.util.FloatCmp.moreOrEquals;
 
 public abstract class ActiveObject extends InGameObject { // TODO animation
-    protected Vector2 velocity;
     protected float walkingSpeed;
     protected float runningSpeed;
+    protected Vector2 force;
 
-    protected TextureRegionInfo regionInfo;
+    protected TextureRegionInfo regionInfo;  // TODO delete this PLEASE
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
                         float walkingSpeed, float runningSpeed,
                         float x, float y, float width, float height) {
-        super(game, gameProcess, x, y, width, height);
+        super(game, gameProcess, BodyDef.BodyType.DynamicBody, x, y, width, height);
         this.regionInfo = regionInfo;
         this.sprite.setRegion(regionInfo.getTextureRegion());
 
-        velocity = new Vector2(0, 0);
-
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
+        this.force = new Vector2();
     }
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
@@ -42,60 +42,60 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         this(game, gameProcess, regionInfo, speed, speed, x, y, width, height);
     }
 
-    public void fall(float gravity) {
-        velocity.add(0, -gravity);
-
-        if (less(velocity.y, -gameProcess.getMaxFallSpeed())) {
-            velocity.set(velocity.x, -gameProcess.getMaxFallSpeed());
-        }
-    }
-
-    public void stand() {
-        velocity.set(0, velocity.y);
-    }
-
     public void walk(boolean toRight) {
         if (toRight) {
-            velocity.set(walkingSpeed, velocity.y);
+            force.set(walkingSpeed, force.y);
         }
         else {
-            velocity.set(-walkingSpeed, velocity.y);
+            force.set(-walkingSpeed, force.y);
         }
     }
 
     public void run(boolean toRight) { // TODO energy consuming: run()
         if (toRight) {
-            velocity.set(runningSpeed, velocity.y);
+            force.set(runningSpeed, force.y);
         }
         else {
-            velocity.set(-runningSpeed, velocity.y);
+            force.set(-runningSpeed, force.y);
         }
     }
 
     public void shoot() {  // TODO shoot()
+        /*
         gameProcess.addObject(
                 new Bullet(
                         game, gameProcess,
                         game.regionInfos.getRegionInfo("grassPlatformDown"),
-                        getRect().getX(), getRect().getY(), 100, true
+                        getSpriteRect().getX(), getSpriteRect().getY(), 100, true
                         )
         );
+        */
     }
 
     @Override
     public void update(float delta) {
-        gameProcess.handleCollisions(this, delta);
-
+        super.update(delta);
         updatePosition(delta);
     }
+
+    protected void updatePosition(float delta) {
+        body.applyForceToCenter(force, true);
+    }
+
+    @Override
+    public void dispose() {
+        regionInfo.dispose();
+    }
+
+/* dead code
 
     private static boolean segmentsIntersect(float x1, float size1, float x2, float size2) {
         return
                 lessOrEquals(x1, x2) && more(x1 + size1, x2) ||
-                lessOrEquals(x1, x2 + size2 - 1) && more(x1 + size1, x2 + size2 - 1) ||
+                        lessOrEquals(x1, x2 + size2 - 1) && more(x1 + size1, x2 + size2 - 1) ||
 
-                lessOrEquals(x2, x1) && more(x2 + size2, x1) ||
-                lessOrEquals(x2, x1 + size1 - 1) && more(x2 + size2, x1 + size1 - 1);
+                        lessOrEquals(x2, x1) && more(x2 + size2, x1) ||
+                        lessOrEquals(x2, x1 + size1 - 1) && more(x2 + size2, x1 + size1 - 1);
     }
 
     private static float calcCollisionTime(Rectangle activeRect, Rectangle staticRect, float vel, float yVel) {
@@ -109,7 +109,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
                 time = Math.abs((staticRect.x - (activeRect.x + activeRect.width)) / vel);
 
                 if (!segmentsIntersect(staticRect.y, staticRect.height,
-                                         activeRect.y + yVel * time, activeRect.height)) {
+                        activeRect.y + yVel * time, activeRect.height)) {
                     time = 2;
                 }
             }
@@ -119,7 +119,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
                 time = Math.abs((activeRect.x - (staticRect.x + staticRect.width)) / vel);
 
                 if (!segmentsIntersect(staticRect.y, staticRect.height,
-                                         activeRect.y + yVel * time, activeRect.height)) {
+                        activeRect.y + yVel * time, activeRect.height)) {
                     time = 2;
                 }
             }
@@ -133,21 +133,17 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
      * @param object object to collide with
      * @param delta delta time between this frame and last frame
      * @return if this intersects with object
-     */
+     *
     public boolean collideWith(InGameObject object, float delta) {
-        if (!object.isCollidable()) {
-            return false;
-        }
-
-        Rectangle objectRect = object.getRect();
-        Rectangle thisRect = this.getRect();
+        Rectangle objectRect = object.getSpriteRect();
+        Rectangle thisRect = this.getSpriteRect();
 
         float xTime = calcCollisionTime(thisRect, objectRect, velocity.x * delta, velocity.y * delta);
 
         // swapping x and y coordinates (+ width and height)
         // this action does not affect sprites' state
         objectRect.setPosition(objectRect.y, objectRect.x)
-                  .setSize(objectRect.height, objectRect.width);
+                .setSize(objectRect.height, objectRect.width);
         thisRect.setPosition(thisRect.y, thisRect.x)
                 .setSize(thisRect.height, thisRect.width);
 
@@ -164,20 +160,6 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         }
         return true;
     }
+*/
 
-    protected void updatePosition(float delta) {
-        sprite.translate(velocity.x * delta, velocity.y * delta);
-    }
-
-    @Override
-    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        if (getRect().overlaps(cameraRectangle)) {
-            sprite.draw(batch);
-        }
-    }
-
-    @Override
-    public void dispose() {
-        regionInfo.dispose();
-    }
 }
