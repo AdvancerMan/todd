@@ -2,6 +2,8 @@ package com.company.todd.game.process;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import com.company.todd.game.level.Level;
@@ -18,13 +20,13 @@ import com.company.todd.screen.MyScreen;
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
-    protected float gravity;
-    protected float maxFallSpeed;
+    public static final float metersPerPix = 1f / 100;
 
     protected final ToddEthottGame game;
     protected final InGameInputHandler inputHandler;
     protected final MyScreen screen;
 
+    protected World world;
     protected Player player;
     protected Array<Creature> creatures;
     protected Array<DangerousObject> dangerousObjects;
@@ -35,10 +37,9 @@ public class GameProcess implements Process {  // TODO GameProcess
         this.game = game;
         this.screen = screen;
 
-        inputHandler = new InGameInputHandler();
+        world = new World(new Vector2(0, -9.8f), false);  // TODO optimize gravity
 
-        gravity = 9.8f;  // TODO gravity
-        maxFallSpeed = 150;  // TODO maxFallSpeed
+        inputHandler = new InGameInputHandler();
 
         // TODO player in GameProcess
         player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
@@ -49,6 +50,10 @@ public class GameProcess implements Process {  // TODO GameProcess
         justCreatedObjects = new Array<InGameObject>();
 
         creatures.add(player);
+        setLevel(level);
+    }
+
+    public void setLevel(Level level) {  // TODO GameProcess.setLevel()
         level.unpackTo(this, staticObjects);
     }
 
@@ -83,34 +88,29 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
+    protected void updateObjectsFrom(Array<? extends InGameObject> objects, float delta) {
+        for (InGameObject object : objects) {
+            object.update(delta);
+        }
+    }
+
     @Override
     public void update(float delta) {
         addJustCreatedObjectsToProcess();
         handleInput(delta);
 
-        for (Creature creature : creatures) {
-            creature.update(delta);
-        }
+        // TODO for (delta * 60 times) world.step(1f / 60, ..., ...) (does it optimize the game?)
+        world.step(delta, 10, 10);  // TODO optimize iterations for world.step()
 
-        for (DangerousObject object : dangerousObjects) {
-            object.update(delta);
-        }
-
-        for (StaticObject object : staticObjects) {
-            object.update(delta);
-        }
+        updateObjectsFrom(creatures, delta);
+        updateObjectsFrom(dangerousObjects, delta);
+        updateObjectsFrom(staticObjects, delta);
 
         screen.centerCameraAt(player);
     }
 
     public void addObject(InGameObject object) {
         justCreatedObjects.add(object);
-    }
-
-    public void handleCollisions(ActiveObject object, float delta) {
-        for (StaticObject staticObject : staticObjects) {
-            object.collideWith(staticObject, delta);
-        }
     }
 
     protected void drawObjectsFrom(Array<? extends InGameObject> objects, SpriteBatch batch, Rectangle cameraRect) {
@@ -129,41 +129,33 @@ public class GameProcess implements Process {  // TODO GameProcess
     @Override
     public void draw(SpriteBatch batch) {
         drawObjectsFrom(creatures, batch, screen.getCameraRect());
-
         drawObjectsFrom(dangerousObjects, batch, screen.getCameraRect());
-
         drawObjectsFrom(staticObjects, batch, screen.getCameraRect());
     }
 
-    public float getGravity() {
-        return gravity;
+    public World getWorld() {
+        return world;
     }
 
-    public float getMaxFallSpeed() {
-        return maxFallSpeed;
+    public Vector2 getGravity() {
+        return world.getGravity();
+    }
+
+    protected void disposeObjectsFrom(Array<? extends InGameObject> objects) {
+        for (InGameObject object : objects) {
+            if (!object.isKilled()) {
+                object.dispose();
+            }
+        }
     }
 
     @Override
     public void dispose() {
-        for (Creature creature : creatures) {
-            if (!creature.isKilled()) {
-                creature.dispose();
-            }
-        }
-        for (DangerousObject object : dangerousObjects) {
-            if (!object.isKilled()) {
-                object.dispose();
-            }
-        }
-        for (StaticObject object : staticObjects) {
-            if (!object.isKilled()) {
-                object.dispose();
-            }
-        }
-        for (InGameObject object : justCreatedObjects) {
-            if (!object.isKilled()) {
-                object.dispose();
-            }
-        }
+        world.dispose();
+
+        disposeObjectsFrom(creatures);
+        disposeObjectsFrom(dangerousObjects);
+        disposeObjectsFrom(staticObjects);
+        disposeObjectsFrom(justCreatedObjects);
     }
 }
