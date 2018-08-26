@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -31,7 +32,7 @@ public abstract class MyScreen implements Screen {
     }
 
     protected void draw(SpriteBatch batch) {
-        batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(getCameraProjectionMatrix());
     }
 
     @Override
@@ -58,7 +59,7 @@ public abstract class MyScreen implements Screen {
     }
 
     public void centerCameraAt(InGameObject object) {
-        Rectangle objectRect = object.getRect();
+        Rectangle objectRect = object.getSpriteRect();
         float x = objectRect.getX(), y = objectRect.getY();
         float width = objectRect.getWidth(), height = objectRect.getHeight();
 
@@ -73,6 +74,10 @@ public abstract class MyScreen implements Screen {
 
     public void changeCameraViewportSize(float deltaWidth, float deltaHeight) {
         setCameraViewportSize(camera.viewportWidth + deltaWidth, camera.viewportHeight + deltaHeight);
+    }
+
+    public Matrix4 getCameraProjectionMatrix() {
+        return camera.combined;
     }
 
     @Override
