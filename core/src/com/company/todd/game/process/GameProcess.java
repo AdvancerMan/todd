@@ -62,9 +62,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         level.unpackTo(this, justCreatedObjects);
     }
 
-    protected void handleInput(float delta) {
-        inputHandler.setNewTouchPosition();
-
+    protected void handleInput() {
         if (inputHandler.isPaused()) {
             screen.pause();
         }
@@ -102,7 +100,7 @@ public class GameProcess implements Process {  // TODO GameProcess
     @Override
     public void update(float delta) {
         addJustCreatedObjectsToProcess();
-        handleInput(delta);
+        handleInput();
 
         // TODO for (delta * 60 times) world.step(1f / 60, ..., ...) (does it optimize the game?)
         world.step(delta, 10, 10);  // TODO optimize iterations for world.step()
