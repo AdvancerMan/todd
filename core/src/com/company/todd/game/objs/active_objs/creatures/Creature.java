@@ -4,6 +4,7 @@ import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
+import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.util.FloatCmp.less;
 
@@ -40,9 +41,19 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         }
     }
 
+    private float prevYVel = 1;
+
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        float nowYVel = body.getLinearVelocity().y;
+        if (FloatCmp.equals(nowYVel, 0) && FloatCmp.lessOrEquals(prevYVel, 0)) {
+            isOnGround = true;
+        } else {
+            isOnGround = false;
+        }
+        prevYVel = nowYVel;
     }
 
     public void setOnGround(boolean onGround) {
