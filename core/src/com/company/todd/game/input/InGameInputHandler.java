@@ -112,7 +112,8 @@ public class InGameInputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        touchDragged(screenX, screenY, pointer);
+        return true;
     }
 
     @Override
