@@ -16,6 +16,8 @@ import static com.company.todd.util.FloatCmp.more;
 import static com.company.todd.util.FloatCmp.moreOrEquals;
 
 public abstract class ActiveObject extends InGameObject { // TODO animation
+    protected boolean toRight;
+
     protected float walkingSpeed;
     protected float runningSpeed;
     protected Vector2 velocity;
@@ -32,12 +34,24 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
         this.velocity = new Vector2();
+
+        toRight = true;
     }
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
                         float speed,
                         float x, float y, float width, float height) {
         this(game, gameProcess, regionInfo, speed, speed, x, y, width, height);
+    }
+
+    public void changeDirection(boolean toRight) {
+        if (toRight == this.toRight) {
+            return;
+        }
+
+        this.toRight = toRight;
+        sprite.rotate90(true);
+        sprite.rotate90(true);
     }
 
     public void walk(boolean toRight) {
