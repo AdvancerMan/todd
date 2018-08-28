@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
@@ -57,18 +58,6 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         }
     }
 
-    public void shoot() {  // TODO shoot()
-        /*
-        gameProcess.addObject(
-                new Bullet(
-                        game, gameProcess,
-                        game.regionInfos.getRegionInfo("grassPlatformDown"),
-                        getSpriteRect().getX(), getSpriteRect().getY(), 100, true
-                        )
-        );
-        */
-    }
-
     @Override
     public void update(float delta) {
         super.update(delta);
@@ -88,6 +77,8 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
                 body.getWorldCenter(), true);
         velocity.set(0, 0);
     }
+
+    public abstract void damage(float amount);
 
     @Override
     public void dispose() {

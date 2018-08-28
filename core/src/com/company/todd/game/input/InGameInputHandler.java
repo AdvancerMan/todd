@@ -1,4 +1,4 @@
-package com.company.todd.input;
+package com.company.todd.game.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;

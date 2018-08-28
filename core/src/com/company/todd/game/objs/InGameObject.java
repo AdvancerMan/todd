@@ -82,8 +82,15 @@ public abstract class InGameObject implements Disposable {
     }
 
     public void kill() {
-        gameProcess.getWorld().destroyBody(body);
         alive = false;
+    }
+
+    public void destroyBody() {
+        if (alive) {
+            System.out.println("wtf destroying");
+        }
+
+        gameProcess.getWorld().destroyBody(body);
     }
 
     /**

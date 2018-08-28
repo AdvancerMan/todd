@@ -1,7 +1,7 @@
 package com.company.todd.game.objs.active_objs.creatures;
 
 import com.company.todd.game.process.GameProcess;
-import com.company.todd.input.InGameInputHandler;
+import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 

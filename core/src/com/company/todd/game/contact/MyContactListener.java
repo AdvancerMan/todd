@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.process.GameProcess;
 
 public class MyContactListener implements ContactListener {  // TODO ContactListener
@@ -16,8 +18,15 @@ public class MyContactListener implements ContactListener {  // TODO ContactList
     }
 
     @Override
-    public void beginContact(Contact contact) {
+    public void beginContact(Contact contact) {  // TODO check DangerousObject
+        InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
+        InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
+        if (objectA instanceof DangerousObject) {
+            ((DangerousObject) objectA).hit(objectB);
+        } else if (objectB instanceof DangerousObject) {
+            ((DangerousObject) objectB).hit(objectA);
+        }
     }
 
     @Override

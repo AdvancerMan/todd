@@ -3,20 +3,17 @@ package com.company.todd.game.process;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-import com.badlogic.gdx.utils.ArrayMap;
 import com.company.todd.game.contact.MyContactListener;
 import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.InGameObject;
-import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.game.objs.active_objs.creatures.Player;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.objs.static_objs.StaticObject;
-import com.company.todd.input.InGameInputHandler;
+import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
 
@@ -93,7 +90,9 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     protected void updateObjectsFrom(Array<? extends InGameObject> objects, float delta) {
         for (InGameObject object : objects) {
-            object.update(delta);
+            if (!object.isKilled()) {
+                object.update(delta);
+            }
         }
     }
 
@@ -123,6 +122,7 @@ public class GameProcess implements Process {  // TODO GameProcess
 
             object.draw(batch, cameraRect);
             if (object.isKilled()) {
+                object.destroyBody();
                 object.dispose();
                 iterator.remove();
             }

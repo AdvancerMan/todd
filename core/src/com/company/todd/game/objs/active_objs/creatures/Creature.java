@@ -1,12 +1,15 @@
 package com.company.todd.game.objs.active_objs.creatures;
 
 import com.company.todd.game.objs.active_objs.ActiveObject;
+import com.company.todd.game.objs.active_objs.dangerous.Bullet;
+import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.util.FloatCmp.less;
+import static com.company.todd.util.FloatCmp.lessOrEquals;
 
 public abstract class Creature extends ActiveObject {  // TODO Creature
     protected float jumpPower;
@@ -58,5 +61,23 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     public void setOnGround(boolean onGround) {
         isOnGround = onGround;
+    }
+
+    public void shoot() {  // TODO shoot()
+        gameProcess.addObject(
+                new Bullet(
+                        game, gameProcess,
+                        game.regionInfos.getRegionInfo("grassPlatformDown"),
+                        getSpriteRect().getX(), getSpriteRect().getY(), 100, 20, true
+                )
+        );
+    }
+
+    @Override
+    public void damage(float amount) {
+        health -= amount;
+        if (lessOrEquals(health, 0)) {
+            kill();
+        }
     }
 }
