@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.company.todd.game.level.Level;
-import com.company.todd.game.level.StaticObjectTemplate;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.objs.static_objs.Platform;
 import com.company.todd.launcher.ToddEthottGame;
@@ -28,7 +27,7 @@ public class DebugScreen extends MyScreen {
                 {10, 3, 500, 1}
         };
         for (int i = 0; i < pls.length; i++) {
-            level.addObjectTemplate(new StaticObjectTemplate("Platform", game,
+            level.addObject(new Platform(game,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }

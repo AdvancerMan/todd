@@ -21,9 +21,9 @@ public class Platform extends StaticObject {
     protected Type type;
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
 
-    public Platform(ToddEthottGame game, GameProcess gameProcess, Type type,
+    public Platform(ToddEthottGame game, Type type,
                     float x, float y, float width, float height) {
-        super(game, gameProcess, x, y, width, height);
+        super(game, x, y, width, height);
         this.type = type;
         type.init();
 

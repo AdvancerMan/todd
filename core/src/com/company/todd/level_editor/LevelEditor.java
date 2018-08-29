@@ -61,8 +61,9 @@ public class LevelEditor extends ApplicationAdapter {  // TODO LevelEditor
         camera.unproject(touchPos);
 
         if (Gdx.input.justTouched()) {
-            platformNow = new Platform(game, process, platformTypes.getPlatformType("grassPlatform"),
+            platformNow = new Platform(game, platformTypes.getPlatformType("grassPlatform"),
                     touchPos.x, touchPos.y, 0, 0);
+            platformNow.init(process);
             firstTouchPos.set(touchPos.x, touchPos.y);
         }
         if (Gdx.input.isTouched() && platformNow != null) {

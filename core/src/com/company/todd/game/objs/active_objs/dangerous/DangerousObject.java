@@ -11,10 +11,10 @@ import com.company.todd.texture.TextureRegionInfo;
 public abstract class DangerousObject extends ActiveObject {  // TODO DangerousObject
     protected float damage;
 
-    public DangerousObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+    public DangerousObject(ToddEthottGame game, TextureRegionInfo regionInfo,
                            float speed, float damage,
                            float x, float y, float width, float height) {
-        super(game, gameProcess, regionInfo, speed, x, y, width, height);
+        super(game, regionInfo, speed, x, y, width, height);
         this.damage = damage;
     }
 

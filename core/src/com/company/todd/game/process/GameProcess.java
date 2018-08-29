@@ -44,7 +44,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         inputHandler = new InGameInputHandler();
 
         // TODO player in GameProcess
-        player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
+        player = new Player(game, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
 
         creatures = new Array<Creature>();
         dangerousObjects = new Array<DangerousObject>();
@@ -56,7 +56,7 @@ public class GameProcess implements Process {  // TODO GameProcess
     }
 
     public void setLevel(Level level) {  // TODO GameProcess.setLevel()
-        level.unpackTo(this, justCreatedObjects);
+        level.unpackTo(justCreatedObjects);
     }
 
     protected void handleInput() {
@@ -73,6 +73,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         Iterator<InGameObject> objectIterator = justCreatedObjects.iterator();
         while (objectIterator.hasNext()) {
             InGameObject object = objectIterator.next();
+            object.init(this);
 
             if (object instanceof Creature) {
                 creatures.add((Creature) object);

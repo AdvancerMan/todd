@@ -1,5 +1,6 @@
 package com.company.todd.game.objs;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,25 +18,32 @@ import static com.company.todd.box2d.BodyCreator.createBody;
 
 public abstract class InGameObject implements Disposable {
     protected final ToddEthottGame game;
-    protected final GameProcess gameProcess;
+    protected GameProcess gameProcess;
     protected Sprite sprite;
     protected Body body;
+    private BodyDef.BodyType bodyType;
     private boolean alive;
 
-    public InGameObject(ToddEthottGame game, GameProcess gameProcess, BodyDef.BodyType bodyType,
+    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType,
                         float x, float y, float width, float height) {
         this.game = game;
-        this.gameProcess = gameProcess;
+        this.gameProcess = null;
 
         sprite = new Sprite();
         sprite.setBounds(x, y, width, height);
 
-        createMyBody(bodyType);
+        body = null;
+        this.bodyType = bodyType;
 
         alive = true;
     }
 
-    protected void createMyBody(BodyDef.BodyType bodyType) {
+    public void init(GameProcess gameProcess) {
+        this.gameProcess = gameProcess;
+        createMyBody();
+    }
+
+    protected void createMyBody() {
         Rectangle rectangle = getSpriteRect();
         float x = rectangle.x, y = rectangle.y;
         float width = rectangle.width, height = rectangle.height;
@@ -45,11 +53,9 @@ public abstract class InGameObject implements Disposable {
         body.setUserData(this);
     }
 
-    private void updateMyBody() {
+    public void setBodyActive(boolean bodyActive) {
         if (body != null) {
-            BodyDef.BodyType bodyType = body.getType();
-            gameProcess.getWorld().destroyBody(body);
-            createMyBody(bodyType);
+            body.setActive(bodyActive);
         }
     }
 
@@ -69,12 +75,12 @@ public abstract class InGameObject implements Disposable {
 
     public void setPosition(float x, float y) {
         sprite.setPosition(x, y);
-        updateMyBody();
+        // TODO updateMyBody();
     }
 
     public void setSize(float width, float height) {  // TODO  body.setTransform()
         sprite.setSize(width, height);
-        updateMyBody();
+        // TODO updateMyBody();
     }
 
     public Rectangle getSpriteRect() {
@@ -87,10 +93,12 @@ public abstract class InGameObject implements Disposable {
 
     public void destroyBody() {
         if (alive) {
-            System.out.println("wtf destroying");
+            System.out.println("wtf destroying");  // TODO log destroying if alive
         }
 
-        gameProcess.getWorld().destroyBody(body);
+        if (body != null) {
+            gameProcess.getWorld().destroyBody(body);
+        }
     }
 
     /**

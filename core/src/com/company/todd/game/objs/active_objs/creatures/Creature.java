@@ -22,10 +22,10 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     // TODO health, energy
     // TODO hit(float damage);
 
-    public Creature(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+    public Creature(ToddEthottGame game, TextureRegionInfo regionInfo,
                     float jumpPower, float walkingSpeed, float runningSpeed,
                     float x, float y, float width, float height) {
-        super(game, gameProcess, regionInfo, walkingSpeed, runningSpeed, x, y, width, height);
+        super(game, regionInfo, walkingSpeed, runningSpeed, x, y, width, height);
         this.jumpPower = jumpPower;
 
         this.isOnGround = false;
@@ -76,7 +76,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
         gameProcess.addObject(
                 new Bullet(
-                        game, gameProcess,
+                        game,
                         game.regionInfos.getRegionInfo("grassPlatformDown"),
                         x, y, 100, 20, toRight
                 )

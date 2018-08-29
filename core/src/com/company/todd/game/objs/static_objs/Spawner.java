@@ -8,15 +8,15 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
 public class Spawner extends StaticObject {  // TODO Spawner
-    public Spawner(ToddEthottGame game, GameProcess gameProcess, InGameObject spawningObject,
+    public Spawner(ToddEthottGame game, InGameObject spawningObject,
                    float x, float y) {
-        super(game, gameProcess, x, y, 0, 0);
+        super(game, x, y, 0, 0);
         spawningObject.kill();  // TODO do something with spawning object
         setSpawningObject(spawningObject);
     }
 
     @Override
-    protected void createMyBody(BodyDef.BodyType bodyType) {
+    protected void createMyBody() {
         body = null;
     }
 

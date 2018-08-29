@@ -11,29 +11,30 @@ import java.util.Stack;
 public class Level {
     protected ToddEthottGame game;
 
-    protected Stack<StaticObjectTemplate> objects;
+    // not initialized objects
+    protected Stack<StaticObject> objects;
 
     public Level(ToddEthottGame game) {
         this.game = game;
 
-        objects = new Stack<StaticObjectTemplate>();
+        objects = new Stack<StaticObject>();
     }
 
-    public void addObjectTemplate(StaticObjectTemplate template) {
-        objects.push(template);
+    public void addObject(StaticObject object) {
+        objects.push(object);
     }
 
     public boolean hasNext() {
         return objects.size() > 0;
     }
 
-    public StaticObject nextObject(GameProcess gameProcess) {
-        return objects.pop().getObject(gameProcess);
+    public StaticObject nextObject() {
+        return objects.pop();
     }
 
-    public void unpackTo(GameProcess gameProcess, Array<? super StaticObject> array) {
+    public void unpackTo(Array<? super StaticObject> array) {
         while (hasNext()) {
-            array.add(nextObject(gameProcess));
+            array.add(nextObject());
         }
     }
 
