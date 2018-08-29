@@ -63,6 +63,7 @@ public abstract class InGameObject implements Disposable {
         Vector2 tmpVec = body.getPosition().scl(1 / GameProcess.metersPerPix);
         sprite.setCenter(tmpVec.x, tmpVec.y);
         if (!body.isFixedRotation()) {
+            sprite.setOriginCenter();
             sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
         }
     }
