@@ -102,12 +102,12 @@ public class GameProcess implements Process {  // TODO GameProcess
         addJustCreatedObjectsToProcess();
         handleInput();
 
-        // TODO for (delta * 60 times) world.step(1f / 60, ..., ...) (does it optimize the game?)
-        world.step(delta, 10, 10);  // TODO optimize iterations for world.step()
-
         updateObjectsFrom(creatures, delta);
         updateObjectsFrom(dangerousObjects, delta);
         updateObjectsFrom(staticObjects, delta);
+
+        // TODO for (delta * 60 times) world.step(1f / 60, ..., ...) (does it optimize the game?)
+        world.step(delta, 10, 10);  // TODO optimize iterations for world.step()
 
         screen.centerCameraAt(player);
     }
