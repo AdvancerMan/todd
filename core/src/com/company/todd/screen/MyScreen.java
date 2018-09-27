@@ -28,7 +28,32 @@ public abstract class MyScreen implements Screen {
 
     protected void update(float delta) {
         touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        camera.unproject(touchPos);
+        toScreenCoord(touchPos);
+    }
+
+    public Vector3 toScreenCoord(Vector3 vector) {
+        float x = vector.x, y = vector.y;
+        y = Gdx.graphics.getHeight() - y - 1;
+        return vector.set(x, y, vector.z);
+    }
+
+    public Vector3 fromScreenToWorldCoord(Vector3 vector) {
+        float widthK = camera.viewportWidth / Gdx.graphics.getWidth();
+        float heightK = camera.viewportHeight / Gdx.graphics.getHeight();
+
+        vector.set(vector.x * widthK, vector.y * heightK, vector.z);
+
+        vector.add(camera.position.x - camera.viewportWidth / 2,
+                camera.position.y - camera.viewportHeight / 2, 0);
+        return vector;
+    }
+
+    public float getCameraViewportHeight() {
+        return camera.viewportHeight;
+    }
+
+    public float getCameraViewportWidth() {
+        return camera.viewportWidth;
     }
 
     protected void draw(SpriteBatch batch) {
