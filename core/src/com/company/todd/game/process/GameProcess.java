@@ -132,9 +132,9 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void draw(SpriteBatch batch) {
+        drawObjectsFrom(staticObjects, batch, screen.getCameraRect());
         drawObjectsFrom(creatures, batch, screen.getCameraRect());
         drawObjectsFrom(dangerousObjects, batch, screen.getCameraRect());
-        drawObjectsFrom(staticObjects, batch, screen.getCameraRect());
     }
 
     public World getWorld() {
