@@ -1,12 +1,11 @@
 package com.company.todd.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.company.todd.game.level.Level;
-import com.company.todd.game.save.Save;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.process.PauseProcess;
 import com.company.todd.game.process.Process;
+import com.company.todd.game.save.Save;
 import com.company.todd.launcher.ToddEthottGame;
 
 public class GameScreen extends MyScreen { // TODO GameScreen
@@ -45,8 +44,7 @@ public class GameScreen extends MyScreen { // TODO GameScreen
 
         if (gamePaused) {
             usingProcess = pauseProcess;
-        }
-        else {
+        } else {
             usingProcess = gameProcess;
         }
     }

@@ -5,23 +5,20 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-
 import com.company.todd.game.contact.MyContactListener;
+import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.game.objs.active_objs.creatures.Player;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.objs.static_objs.StaticObject;
-import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
 
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
-    public static final float metersPerPix = 1f / 30;
-
     protected final ToddEthottGame game;
     protected final InGameInputHandler inputHandler;
     protected final MyScreen screen;
@@ -44,7 +41,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         inputHandler = new InGameInputHandler();
 
         // TODO player in GameProcess
-        player = new Player(game, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
+        player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
 
         creatures = new Array<Creature>();
         dangerousObjects = new Array<DangerousObject>();
@@ -73,15 +70,13 @@ public class GameProcess implements Process {  // TODO GameProcess
         Iterator<InGameObject> objectIterator = justCreatedObjects.iterator();
         while (objectIterator.hasNext()) {
             InGameObject object = objectIterator.next();
-            object.init(this);
+            object.setGameProcess(this);
 
             if (object instanceof Creature) {
                 creatures.add((Creature) object);
-            }
-            else if (object instanceof DangerousObject) {
+            } else if (object instanceof DangerousObject) {
                 dangerousObjects.add((DangerousObject) object);
-            }
-            else if (object instanceof StaticObject) {
+            } else if (object instanceof StaticObject) {
                 staticObjects.add((StaticObject) object);
             }
 
@@ -123,7 +118,6 @@ public class GameProcess implements Process {  // TODO GameProcess
 
             object.draw(batch, cameraRect);
             if (object.isKilled()) {
-                object.destroyBody();
                 object.dispose();
                 iterator.remove();
             }
@@ -162,4 +156,39 @@ public class GameProcess implements Process {  // TODO GameProcess
         disposeObjectsFrom(staticObjects);
         disposeObjectsFrom(justCreatedObjects);
     }
+
+    public static final float metersPerPix = 1f / 30;
+
+    public static float toPix(float value) {
+        return value / metersPerPix;
+    }
+
+    public static Vector2 toPix(Vector2 vector) {
+        return vector.scl(1 / metersPerPix);
+    }
+
+    public static Rectangle toPix(Rectangle rect) {
+        rect.x /= metersPerPix;
+        rect.y /= metersPerPix;
+        rect.width /= metersPerPix;
+        rect.height /= metersPerPix;
+        return rect;
+    }
+
+    public static float toMeters(float value) {
+        return value * metersPerPix;
+    }
+
+    public static Vector2 toMeters(Vector2 vector) {
+        return vector.scl(metersPerPix);
+    }
+
+    public static Rectangle toMeters(Rectangle rect) {
+        rect.x *= metersPerPix;
+        rect.y *= metersPerPix;
+        rect.width *= metersPerPix;
+        rect.height *= metersPerPix;
+        return rect;
+    }
+
 }

@@ -3,10 +3,7 @@ package com.company.todd.game.objs.static_objs;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.debug.DebugTimer;
@@ -15,15 +12,14 @@ import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
 import static com.company.todd.util.FloatCmp.less;
-import static com.company.todd.util.FloatCmp.more;
 
 public class Platform extends StaticObject {
     protected Type type;
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
 
-    public Platform(ToddEthottGame game, Type type,
+    public Platform(ToddEthottGame game, GameProcess gameProcess, Type type,
                     float x, float y, float width, float height) {
-        super(game, x, y, width, height);
+        super(game, gameProcess, x, y, width, height);
         this.type = type;
         type.init();
 
@@ -97,6 +93,9 @@ public class Platform extends StaticObject {
         sprite.setRegionWidth(tmpTexture.getWidth());
         sprite.setRegionHeight(tmpTexture.getHeight());
     }
+
+    @Override
+    public void update(float delta) {}
 
     @Override
     public void setSize(float width, float height) {

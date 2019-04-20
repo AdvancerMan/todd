@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 
@@ -84,7 +83,7 @@ public abstract class MyScreen implements Screen {
     }
 
     public void centerCameraAt(InGameObject object) {
-        Rectangle objectRect = object.getSpriteRect();
+        Rectangle objectRect = object.getObjectRect();
         float x = objectRect.getX(), y = objectRect.getY();
         float width = objectRect.getWidth(), height = objectRect.getHeight();
 

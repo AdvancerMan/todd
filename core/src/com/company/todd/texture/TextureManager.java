@@ -7,11 +7,9 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
-
 import com.company.todd.launcher.ToddEthottGame;
 
 import java.io.File;
-import java.util.Iterator;
 
 public class TextureManager implements Disposable {
     private ArrayMap<String, Texture> textures;
@@ -21,8 +19,7 @@ public class TextureManager implements Disposable {
         Texture texture;
         try {
             texture = new Texture(ToddEthottGame.TEXTURES_FOLDER + File.separator + fileName);
-        }
-        catch (GdxRuntimeException e) {
+        } catch (GdxRuntimeException e) {
             e.printStackTrace();
             texture = new Texture(10, 10, Pixmap.Format.RGB565);
         }
@@ -41,8 +38,7 @@ public class TextureManager implements Disposable {
         if (usages == null || usages <= 0) {
             textures.put(fileName, loadTexture(fileName));
             usagesMap.put(fileName, 1);
-        }
-        else {
+        } else {
             usagesMap.put(fileName, usages + 1);
         }
 

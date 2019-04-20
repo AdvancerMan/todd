@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
 import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.static_objs.Platform;
 import com.company.todd.game.objs.static_objs.StaticObject;
@@ -69,11 +68,11 @@ public class LevelEditorProcess extends GameProcess {
             screen.fromScreenToWorldCoord(touchPos);
 
             if (platformNow == null) {
-                platformNow = new Platform(game, platformTypes.getPlatformType("grassPlatform"),
+                platformNow = new Platform(game, this, platformTypes.getPlatformType("grassPlatform"),
                         touchPos.x, touchPos.y, 0, 0);
                 addObject(platformNow);
                 addJustCreatedObjectsToProcess();
-                platformNow.init(this);
+                platformNow.setGameProcess(this);
                 firstTouchPos = touchPos;
             } else {
                 platformNow.setSize(Math.abs(firstTouchPos.x - touchPos.x), Math.abs(firstTouchPos.y - touchPos.y));
@@ -166,7 +165,7 @@ public class LevelEditorProcess extends GameProcess {
     @Override
     public void dispose() {
         for (StaticObject object : staticObjects) {
-            System.out.println(object.getSpriteRect());
+            System.out.println(object.getObjectRect());
         }
 
         super.dispose();

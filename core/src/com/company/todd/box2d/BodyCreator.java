@@ -8,9 +8,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.company.todd.game.process.GameProcess;
-import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
+
+import static com.company.todd.game.process.GameProcess.toMeters;
 
 public class BodyCreator {
     protected static BodyDef bodyDef = new BodyDef();
@@ -19,7 +19,7 @@ public class BodyCreator {
     public static Body createBody(World world, BodyDef.BodyType type, Vector2 position,
                                   boolean fixedRotation, float angle, boolean isBullet) {
         bodyDef.type = type;
-        bodyDef.position.set(position.scl(GameProcess.metersPerPix, GameProcess.metersPerPix));
+        bodyDef.position.set(toMeters(position));
         bodyDef.fixedRotation = fixedRotation;
         bodyDef.angle = angle / FloatCmp.degsInRad;
         bodyDef.bullet = isBullet;
@@ -51,8 +51,8 @@ public class BodyCreator {
     public static void addBox(Body body, float width, float height, Vector2 center,
                               float density, float friction, float restitution, float angle) {
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width * GameProcess.metersPerPix, height * GameProcess.metersPerPix,
-                center.scl(GameProcess.metersPerPix), angle / FloatCmp.degsInRad);  // TODO addPolygon() - smooth box
+        shape.setAsBox(toMeters(width), toMeters(height),
+                toMeters(center), angle / FloatCmp.degsInRad);  // TODO addPolygon() - smooth box
 
         createFixture(body, shape, density, friction, restitution);
         shape.dispose();
@@ -75,7 +75,7 @@ public class BodyCreator {
         PolygonShape shape = new PolygonShape();
 
         for (int i = 0; i < vertices.length; i++) {
-            vertices[i] *= GameProcess.metersPerPix;
+            vertices[i] = toMeters(vertices[i]);
         }
         shape.set(vertices);
 
@@ -89,8 +89,8 @@ public class BodyCreator {
 
     public static void addCircle(Body body, Vector2 center, float radius, float density, float friction, float restitution) {
         CircleShape shape = new CircleShape();
-        shape.setPosition(center.scl(GameProcess.metersPerPix));
-        shape.setRadius(radius * GameProcess.metersPerPix);
+        shape.setPosition(toMeters(center));
+        shape.setRadius(toMeters(radius));
 
         createFixture(body, shape, density, friction, restitution);
         shape.dispose();

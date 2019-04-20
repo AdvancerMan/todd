@@ -6,7 +6,7 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class StaticObject extends InGameObject {  // TODO StaticObject
-    public StaticObject(ToddEthottGame game, float x, float y, float width, float height) {
-        super(game, BodyDef.BodyType.StaticBody, x, y, width, height);
+    public StaticObject(ToddEthottGame game, GameProcess gameProcess, float x, float y, float width, float height) {
+        super(game, gameProcess, BodyDef.BodyType.StaticBody, x, y, width, height);
     }
 }

@@ -7,9 +7,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.company.todd.font.FontHandler;
 import com.company.todd.debug.DebugScreen;
+import com.company.todd.font.FontHandler;
 import com.company.todd.screen.MainMenuScreen;
 import com.company.todd.screen.ScreenManager;
 import com.company.todd.texture.TextureManager;
@@ -42,8 +41,7 @@ public class ToddEthottGame implements ApplicationListener {
         Screen firstScreen;
         if (DEBUG) {
             firstScreen = new DebugScreen(this);
-        }
-        else {
+        } else {
             firstScreen = new MainMenuScreen(this);
         }
 

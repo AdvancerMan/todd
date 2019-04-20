@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-
 import com.company.todd.launcher.ToddEthottGame;
-import com.company.todd.texture.TextureRegionInfo;
 
 public abstract class Button implements Disposable {
     protected ToddEthottGame game;
@@ -53,8 +51,7 @@ public abstract class Button implements Disposable {
         if (clicked) {
             spriteClicked.draw(batch);
             clicked = false;
-        }
-        else {
+        } else {
             spriteNotClicked.draw(batch);
         }
     }

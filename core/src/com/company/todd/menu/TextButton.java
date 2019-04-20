@@ -2,8 +2,8 @@ package com.company.todd.menu;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
-import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.font.FontHandler;
+import com.company.todd.launcher.ToddEthottGame;
 
 public class TextButton extends Button {
     private String text;
@@ -49,8 +49,7 @@ public class TextButton extends Button {
             game.buttonsFont.draw(batch, text, textX, textY,
                     spriteNotClicked.getWidth() - 4,
                     Align.center, true);
-        }
-        else {
+        } else {
             game.buttonsFont.draw(batch, text, textX, textY);
         }
     }
