@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.debug.DebugTimer;
-import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
@@ -17,9 +16,9 @@ public class Platform extends StaticObject {
     protected Type type;
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
 
-    public Platform(ToddEthottGame game, GameProcess gameProcess, Type type,
+    public Platform(ToddEthottGame game, Type type,
                     float x, float y, float width, float height) {
-        super(game, gameProcess, x, y, width, height);
+        super(game, x, y, width, height);
         this.type = type;
         type.init();
 
@@ -105,6 +104,7 @@ public class Platform extends StaticObject {
 
     @Override
     public void dispose() {
+        super.dispose();
         type.dispose();
         if (tmpTexture != null) {  // TODO move tmpTexture to TextureManager
             tmpTexture.dispose();

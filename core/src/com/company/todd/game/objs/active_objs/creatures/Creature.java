@@ -3,7 +3,6 @@ package com.company.todd.game.objs.active_objs.creatures;
 import com.badlogic.gdx.math.Rectangle;
 import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
-import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
@@ -22,10 +21,10 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     // TODO health, energy
     // TODO hit(float damage);
 
-    public Creature(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+    public Creature(ToddEthottGame game, TextureRegionInfo regionInfo,
                     float jumpPower, float walkingSpeed, float runningSpeed,
                     float x, float y, float width, float height) {
-        super(game, gameProcess, regionInfo, walkingSpeed, runningSpeed, x, y, width, height);
+        super(game, regionInfo, walkingSpeed, runningSpeed, x, y, width, height);
         this.jumpPower = jumpPower;
 
         this.isOnGround = false;
@@ -63,20 +62,20 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public void shoot() {  // TODO shoot()
-        Rectangle spriteRect = getObjectRect();  // TODO good place for bullet spawn
+        Rectangle objectRect = getObjectRect();  // TODO good place for bullet spawn
         float x, y;
-        y = spriteRect.y + spriteRect.height / 2;  // TODO - bulletType.height / 2
-        x = spriteRect.x;
+        y = objectRect.y + objectRect.height / 2;  // TODO - bulletType.height / 2
+        x = objectRect.x;
 
         if (toRight) {
-            x += spriteRect.width + 1;
+            x += objectRect.width + 1;
         } else {
             // TODO x -= bulletType.width + 1
         }
 
         gameProcess.addObject(
                 new Bullet(
-                        game, gameProcess,
+                        game,
                         game.regionInfos.getRegionInfo("grassPlatformDown"),
                         x, y, 100, 20, toRight
                 )

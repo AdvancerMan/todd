@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.company.todd.game.objs.InGameObject;
-import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
@@ -17,10 +16,10 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     protected TextureRegionInfo regionInfo;  // TODO delete this PLEASE
 
-    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+    public ActiveObject(ToddEthottGame game, TextureRegionInfo regionInfo,
                         float walkingSpeed, float runningSpeed,
                         float x, float y, float width, float height) {
-        super(game, gameProcess, BodyDef.BodyType.DynamicBody, x, y, width, height);
+        super(game, BodyDef.BodyType.DynamicBody, x, y, width, height);
         this.regionInfo = regionInfo;
         this.sprite.setRegion(regionInfo.getTextureRegion());
 
@@ -31,10 +30,10 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
         toRight = true;
     }
 
-    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, TextureRegionInfo regionInfo,
+    public ActiveObject(ToddEthottGame game, TextureRegionInfo regionInfo,
                         float speed,
                         float x, float y, float width, float height) {
-        this(game, gameProcess, regionInfo, speed, speed, x, y, width, height);
+        this(game, regionInfo, speed, speed, x, y, width, height);
     }
 
     public void changeDirection(boolean toRight) {
@@ -86,6 +85,7 @@ public abstract class ActiveObject extends InGameObject { // TODO animation
 
     @Override
     public void dispose() {
+        super.dispose();
         regionInfo.dispose();
     }
 }

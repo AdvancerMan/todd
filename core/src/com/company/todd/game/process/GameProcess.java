@@ -41,7 +41,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         inputHandler = new InGameInputHandler();
 
         // TODO player in GameProcess
-        player = new Player(game, null, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
+        player = new Player(game, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
 
         creatures = new Array<Creature>();
         dangerousObjects = new Array<DangerousObject>();
@@ -97,8 +97,8 @@ public class GameProcess implements Process {  // TODO GameProcess
         addJustCreatedObjectsToProcess();
         handleInput();
 
-        updateObjectsFrom(creatures, delta);
         updateObjectsFrom(dangerousObjects, delta);
+        updateObjectsFrom(creatures, delta);
         updateObjectsFrom(staticObjects, delta);
 
         // TODO for (delta * 60 times) world.step(1f / 60, ..., ...) (does it optimize the game?)
@@ -142,6 +142,7 @@ public class GameProcess implements Process {  // TODO GameProcess
     protected void disposeObjectsFrom(Array<? extends InGameObject> objects) {
         for (InGameObject object : objects) {
             if (!object.isKilled()) {
+                object.kill();
                 object.dispose();
             }
         }
@@ -149,15 +150,15 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void dispose() {
-        world.dispose();
-
         disposeObjectsFrom(creatures);
         disposeObjectsFrom(dangerousObjects);
         disposeObjectsFrom(staticObjects);
         disposeObjectsFrom(justCreatedObjects);
+
+        world.dispose();
     }
 
-    public static final float metersPerPix = 1f / 30;
+    private static final float metersPerPix = 1f / 30;
 
     public static float toPix(float value) {
         return value / metersPerPix;

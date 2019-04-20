@@ -27,7 +27,7 @@ public class DebugScreen extends MyScreen {
                 {10, 3, 500, 1}
         };
         for (int i = 0; i < pls.length; i++) {
-            level.addObject(new Platform(game, gameProcess,
+            level.addObject(new Platform(game,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }

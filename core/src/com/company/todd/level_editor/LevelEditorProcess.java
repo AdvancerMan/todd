@@ -68,7 +68,7 @@ public class LevelEditorProcess extends GameProcess {
             screen.fromScreenToWorldCoord(touchPos);
 
             if (platformNow == null) {
-                platformNow = new Platform(game, this, platformTypes.getPlatformType("grassPlatform"),
+                platformNow = new Platform(game, platformTypes.getPlatformType("grassPlatform"),
                         touchPos.x, touchPos.y, 0, 0);
                 addObject(platformNow);
                 addJustCreatedObjectsToProcess();

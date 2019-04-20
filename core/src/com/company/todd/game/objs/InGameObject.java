@@ -26,10 +26,10 @@ public abstract class InGameObject implements Disposable {
     private BodyDef.BodyType bodyType;
     private boolean alive;
 
-    public InGameObject(ToddEthottGame game, GameProcess gameProcess, BodyDef.BodyType bodyType,
+    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType,
                         float x, float y, float width, float height) {
         this.game = game;
-        this.gameProcess = gameProcess;
+        this.gameProcess = null;
 
         sprite = new Sprite();
         sprite.setBounds(x, y, width, height);  // TODO set bounds for sprite
@@ -37,9 +37,6 @@ public abstract class InGameObject implements Disposable {
         body = null;
         size = new Vector2(width, height);
         this.bodyType = bodyType;
-        if (gameProcess != null) {
-            createMyBodyAtCorner(x, y);
-        }
 
         alive = true;
     }
@@ -66,8 +63,6 @@ public abstract class InGameObject implements Disposable {
             sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
         }
 
-        System.out.println(this);
-        System.out.println(sprite.getBoundingRectangle());
         if (sprite.getBoundingRectangle().overlaps(cameraRectangle)) {
             sprite.draw(batch);
         }
