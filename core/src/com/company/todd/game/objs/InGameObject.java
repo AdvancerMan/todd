@@ -66,6 +66,8 @@ public abstract class InGameObject implements Disposable {
             sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
         }
 
+        System.out.println(this);
+        System.out.println(sprite.getBoundingRectangle());
         if (sprite.getBoundingRectangle().overlaps(cameraRectangle)) {
             sprite.draw(batch);
         }

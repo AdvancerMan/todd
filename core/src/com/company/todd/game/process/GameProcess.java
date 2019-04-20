@@ -41,7 +41,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         inputHandler = new InGameInputHandler();
 
         // TODO player in GameProcess
-        player = new Player(game, this, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
+        player = new Player(game, null, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
 
         creatures = new Array<Creature>();
         dangerousObjects = new Array<DangerousObject>();
@@ -164,7 +164,7 @@ public class GameProcess implements Process {  // TODO GameProcess
     }
 
     public static Vector2 toPix(Vector2 vector) {
-        return vector.scl(1 / metersPerPix);
+        return vector.scl(1f / metersPerPix);
     }
 
     public static Rectangle toPix(Rectangle rect) {

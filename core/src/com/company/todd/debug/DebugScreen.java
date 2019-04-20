@@ -22,6 +22,7 @@ public class DebugScreen extends MyScreen {
         float[][] pls = {  // x, y, width, height
                 {100, 100, 100, 100},
                 {200, 25, 500, 100},
+                {700, 125, 500, 100},
                 {123, 321, 123, 317},
                 {10, 3, 500, 1}
         };

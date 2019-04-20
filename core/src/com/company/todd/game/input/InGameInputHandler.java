@@ -1,11 +1,11 @@
 package com.company.todd.game.input;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ArrayMap;
-
 import com.company.todd.launcher.ToddEthottGame;
 
 public class InGameInputHandler implements InputProcessor {
@@ -66,23 +66,23 @@ public class InGameInputHandler implements InputProcessor {
     }
 
     public boolean isGoingRight() {
-        return inputRectangles.get("right").isActive();
+        return inputRectangles.get("right").isActive() || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
 
     public boolean isGoingLeft() {
-        return inputRectangles.get("left").isActive();
+        return inputRectangles.get("left").isActive() || Gdx.input.isKeyPressed(Input.Keys.LEFT);
     }
 
     public boolean isJumping() {
-        return inputRectangles.get("jump").isActive();
+        return inputRectangles.get("jump").isActive() || Gdx.input.isKeyPressed(Input.Keys.UP);
     }
 
     public boolean isShooting() {
-        return inputRectangles.get("shoot").isActive();
+        return inputRectangles.get("shoot").isActive() || Gdx.input.isKeyPressed(Input.Keys.X);
     }
 
     public boolean isPaused() {
-        return inputRectangles.get("pause").isActive();
+        return inputRectangles.get("pause").isActive() || Gdx.input.isKeyPressed(Input.Keys.ESCAPE);
     }
 
     private void activate(int x, int y) {
