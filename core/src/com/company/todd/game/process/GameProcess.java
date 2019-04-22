@@ -94,12 +94,13 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void update(float delta) {
-        addJustCreatedObjectsToProcess();
         handleInput();
 
         updateObjectsFrom(dangerousObjects, delta);
         updateObjectsFrom(creatures, delta);
         updateObjectsFrom(staticObjects, delta);
+
+        addJustCreatedObjectsToProcess();
 
         // TODO for (delta * 60 times) world.step(1f / 60, ..., ...) (does it optimize the game?)
         world.step(delta, 10, 10);  // TODO optimize iterations for world.step()

@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.process.GameProcess;
@@ -23,9 +22,13 @@ public class MyContactListener implements ContactListener {  // TODO ContactList
         InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
         if (objectA instanceof DangerousObject) {
-            ((DangerousObject) objectA).hit(objectB);
+            if (!((DangerousObject) objectA).hit(objectB)) {
+                contact.setEnabled(false);
+            }
         } else if (objectB instanceof DangerousObject) {
-            ((DangerousObject) objectB).hit(objectA);
+            if (!(((DangerousObject) objectB).hit(objectA))) {
+                contact.setEnabled(false);
+            }
         }
     }
 

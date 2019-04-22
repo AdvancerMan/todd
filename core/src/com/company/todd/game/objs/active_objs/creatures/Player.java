@@ -19,10 +19,12 @@ public class Player extends Creature {
     private void handleInput() {
         if (inputHandler.isGoingRight()) {
             run(true);
+            changeDirection(true);
         }
 
         if (inputHandler.isGoingLeft()) {
             run(false);
+            changeDirection(false);
         }
 
         if (inputHandler.isShooting()) {

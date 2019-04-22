@@ -26,6 +26,9 @@ public abstract class InGameObject implements Disposable {
     private BodyDef.BodyType bodyType;
     private boolean alive;
 
+    public static int lastId = 0;
+    private int id;
+
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType,
                         float x, float y, float width, float height) {
         this.game = game;
@@ -39,6 +42,10 @@ public abstract class InGameObject implements Disposable {
         this.bodyType = bodyType;
 
         alive = true;
+
+        lastId += 1;
+        id = lastId;
+        System.out.println(id + " " + lastId);
     }
 
     protected void createMyBodyAtCorner(float x, float y) {
@@ -118,5 +125,17 @@ public abstract class InGameObject implements Disposable {
         if (body != null) {
             gameProcess.getWorld().destroyBody(body);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof InGameObject)) return false;
+        if (o == this) return true;
+        return hashCode() == o.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

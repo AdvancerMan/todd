@@ -1,6 +1,7 @@
 package com.company.todd.game.objs.active_objs.creatures;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.launcher.ToddEthottGame;
@@ -18,7 +19,10 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     protected float maxHealthLevel;
     protected float health;
 
-    // TODO health, energy
+    private long lastMomentOfShoot;
+    protected long coolDown;
+
+    // TODO health, energy, cooldown
     // TODO hit(float damage);
 
     public Creature(ToddEthottGame game, TextureRegionInfo regionInfo,
@@ -34,6 +38,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         maxEnergyLevel = 100;
         health = maxHealthLevel;
         energy = maxEnergyLevel;
+
+        coolDown = 1000000000;
     }
 
     public void jump() { // TODO energy consuming: jump()
@@ -62,20 +68,24 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public void shoot() {  // TODO shoot()
+        if (TimeUtils.nanoTime() - lastMomentOfShoot <= coolDown) return;
+        lastMomentOfShoot = TimeUtils.nanoTime();
+
         Rectangle objectRect = getObjectRect();  // TODO good place for bullet spawn
         float x, y;
         y = objectRect.y + objectRect.height / 2;  // TODO - bulletType.height / 2
         x = objectRect.x;
 
         if (toRight) {
-            x += objectRect.width + 1;
+            x += objectRect.width - 20;
+            y -= 20;
         } else {
             // TODO x -= bulletType.width + 1
         }
 
         gameProcess.addObject(
                 new Bullet(
-                        game,
+                        game, this,
                         game.regionInfos.getRegionInfo("grassPlatformDown"),
                         x, y, 100, 20, toRight
                 )
