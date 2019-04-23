@@ -22,7 +22,7 @@ public abstract class InGameObject implements Disposable {
     protected Sprite sprite;
 
     protected Body body;
-    private Vector2 size;
+    private Rectangle objectRect;
     private BodyDef.BodyType bodyType;
     private boolean alive;
 
@@ -38,33 +38,41 @@ public abstract class InGameObject implements Disposable {
         sprite.setBounds(x, y, width, height);  // TODO set bounds for sprite
 
         body = null;
-        size = new Vector2(width, height);
+        objectRect = new Rectangle(x, y, width, height);
         this.bodyType = bodyType;
 
         alive = true;
 
         lastId += 1;
         id = lastId;
-        System.out.println(id + " " + lastId);
     }
 
-    protected void createMyBodyAtCorner(float x, float y) {
-        createMyBodyAtCenter(x + size.x / 2, y + size.y / 2);
-    }
+    protected void createMyBody() {
+        destroyMyBody();
 
-    protected void createMyBodyAtCenter(float x, float y) {
-        float width = size.x, height = size.y;
+        float width = objectRect.width, height = objectRect.height;
+        float x = objectRect.x + width / 2, y = objectRect.y + height / 2;
 
         body = createBody(gameProcess.getWorld(), bodyType, new Vector2(x, y));
         addBox(body, width / 2, height / 2);  // TODO size / 2 ?
         body.setUserData(this);
     }
 
+    protected void destroyMyBody() {
+        if (body != null) {
+            if (gameProcess != null) {
+                gameProcess.getWorld().destroyBody(body);
+            }
+            body = null;
+        }
+    }
+
     public abstract void update(float delta);
 
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        Vector2 tmpVec = toPix(body.getPosition().cpy());
-        sprite.setCenter(tmpVec.x, tmpVec.y);
+        Vector2 pos = toPix(body.getPosition().cpy());
+        sprite.setCenter(pos.x, pos.y);
+
         if (!body.isFixedRotation()) {
             sprite.setOriginCenter();
             sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
@@ -75,33 +83,38 @@ public abstract class InGameObject implements Disposable {
         }
     }
 
-    public void setBodyActive(boolean bodyActive) {
-        body.setActive(bodyActive);
-    }
-
     public void setGameProcess(GameProcess gameProcess) {
+        destroyMyBody();
         this.gameProcess = gameProcess;
-        createMyBodyAtCorner(sprite.getX(), sprite.getY());  // TODO position
+        createMyBody();
     }
 
     public void setPosition(float x, float y) {
-        gameProcess.getWorld().destroyBody(body);
-        createMyBodyAtCorner(x, y);
+        objectRect.setPosition(x, y);
+
+        if (body != null) {
+            createMyBody();
+        }
     }
 
     public void setSize(float width, float height) {
-        size.set(width, height);
-        Vector2 lastPos = body.getPosition();
-        gameProcess.getWorld().destroyBody(body);
-        createMyBodyAtCenter(toPix(lastPos.x), toPix(lastPos.y));
+        objectRect.setSize(width, height);
         sprite.setSize(width, height);  // TODO sprite.setSize()
+
+        if (body != null) {
+            Vector2 pos = toPix(body.getPosition().cpy());
+            objectRect.setCenter(pos);
+            createMyBody();
+        }
     }
 
     public Rectangle getObjectRect() {  // TODO with rotation
-        Vector2 pos = toPix(body.getPosition().cpy());
-        pos.x -= size.x / 2;
-        pos.y -= size.y / 2;
-        return new Rectangle(pos.x, pos.y, size.x, size.y);
+        if (body != null) {
+            Vector2 pos = toPix(body.getPosition().cpy());
+            objectRect.setCenter(pos);
+        }
+
+        return new Rectangle(objectRect);
     }
 
     public void kill() {
@@ -122,9 +135,7 @@ public abstract class InGameObject implements Disposable {
             System.out.println("wtf destroying");  // TODO log destroying if alive
         }
 
-        if (body != null) {
-            gameProcess.getWorld().destroyBody(body);
-        }
+        destroyMyBody();
     }
 
     @Override

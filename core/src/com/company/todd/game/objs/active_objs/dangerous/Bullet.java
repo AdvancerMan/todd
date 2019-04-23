@@ -14,8 +14,8 @@ public class Bullet extends DangerousObject {  // TODO Bullet
     }
 
     @Override
-    protected void createMyBodyAtCenter(float x, float y) {
-        super.createMyBodyAtCenter(x, y);
+    protected void createMyBody() {
+        super.createMyBody();
         body.setBullet(true);
     }
 

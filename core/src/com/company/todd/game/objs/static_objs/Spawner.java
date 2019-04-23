@@ -14,7 +14,7 @@ public class Spawner extends StaticObject {  // TODO Spawner
     }
 
     @Override
-    protected void createMyBodyAtCenter(float x, float y) {
+    protected void createMyBody() {
         body = null;
     }
 
