@@ -10,7 +10,7 @@ import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
-import com.company.todd.game.objs.active_objs.creatures.Player;
+import com.company.todd.game.objs.active_objs.creatures.friendly.Player;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;

@@ -1,6 +1,7 @@
-package com.company.todd.game.objs.active_objs.creatures;
+package com.company.todd.game.objs.active_objs.creatures.friendly;
 
 import com.company.todd.game.input.InGameInputHandler;
+import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 

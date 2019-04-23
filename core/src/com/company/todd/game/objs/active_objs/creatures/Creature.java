@@ -39,7 +39,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         health = maxHealthLevel;
         energy = maxEnergyLevel;
 
-        coolDown = 1000000000;
+        coolDown = 100000000;
     }
 
     public void jump() { // TODO energy consuming: jump()
@@ -77,8 +77,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         x = objectRect.x;
 
         if (toRight) {
-            x += objectRect.width - 20;
-            y -= 20;
+            x += objectRect.width;
         } else {
             // TODO x -= bulletType.width + 1
         }

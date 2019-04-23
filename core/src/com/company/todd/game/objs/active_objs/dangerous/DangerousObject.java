@@ -8,7 +8,7 @@ import com.company.todd.texture.TextureRegionInfo;
 public abstract class DangerousObject extends ActiveObject {  // TODO DangerousObject
     protected float damage;
     protected InGameObject owner;
-    private SafetyType ownerSafe;
+    protected boolean ownerSafe;
 
     public DangerousObject(ToddEthottGame game, InGameObject owner, TextureRegionInfo regionInfo,
                            float speed, float damage,
@@ -16,24 +16,22 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         super(game, regionInfo, speed, x, y, width, height);
         this.damage = damage;
         this.owner = owner;
-        ownerSafe = SafetyType.SAFE;
+        this.ownerSafe = true;
     }
 
-    @Override
-    public void update(float delta) {
-        super.update(delta);
+    public boolean isOwner(InGameObject object) {
+        return object.equals(owner);
+    }
 
-        if (ownerSafe.equals(SafetyType.SAFE)) {
-            ownerSafe = SafetyType.UPDATING;
-        } else if (ownerSafe.equals(SafetyType.UPDATING)) {
-            ownerSafe = SafetyType.DANGEROUS;
+    public void endContactWith(InGameObject object) {
+        if (object.equals(owner)) {
+            ownerSafe = false;
         }
     }
 
-    public boolean hit(InGameObject object) {
-        if (owner.equals(object) && !ownerSafe.equals(SafetyType.DANGEROUS)) {
-            ownerSafe = SafetyType.SAFE;
-            return false;
+    public void hit(InGameObject object) {
+        if (owner.equals(object) && ownerSafe) {
+            return;
         }
 
         if (object instanceof ActiveObject) {
@@ -41,10 +39,5 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         }
 
         kill();
-        return true;
-    }
-
-    private enum SafetyType {
-        SAFE, UPDATING, DANGEROUS
     }
 }

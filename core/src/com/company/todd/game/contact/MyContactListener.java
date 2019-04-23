@@ -21,29 +21,66 @@ public class MyContactListener implements ContactListener {  // TODO ContactList
         InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
         InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
+        if (objectB instanceof DangerousObject) {
+            InGameObject tmp = objectA;
+            objectA = objectB;
+            objectB = tmp;
+        }
+
         if (objectA instanceof DangerousObject) {
-            if (!((DangerousObject) objectA).hit(objectB)) {
-                contact.setEnabled(false);
-            }
-        } else if (objectB instanceof DangerousObject) {
-            if (!(((DangerousObject) objectB).hit(objectA))) {
+            ((DangerousObject) objectA).hit(objectB);
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+        InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
+        InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
+
+        if (objectB instanceof DangerousObject) {
+            InGameObject tmp = objectA;
+            objectA = objectB;
+            objectB = tmp;
+        }
+
+        if (objectA instanceof DangerousObject) {
+            ((DangerousObject) objectA).endContactWith(objectB);
+        }
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+        InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
+        InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
+
+        if (objectB instanceof DangerousObject) {
+            InGameObject tmp = objectA;
+            objectA = objectB;
+            objectB = tmp;
+        }
+
+        if (objectA instanceof DangerousObject) {
+            if (((DangerousObject) objectA).isOwner(objectB)) {
                 contact.setEnabled(false);
             }
         }
     }
 
     @Override
-    public void endContact(Contact contact) {
-
-    }
-
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
-
-    @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
+        InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
+        InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
+        if (objectB instanceof DangerousObject) {
+            InGameObject tmp = objectA;
+            objectA = objectB;
+            objectB = tmp;
+        }
+
+        if (objectA instanceof DangerousObject) {
+            if (((DangerousObject) objectA).isOwner(objectB)) {
+                contact.setEnabled(false);
+            }
+        }
     }
 }
