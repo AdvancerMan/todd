@@ -24,7 +24,12 @@ public class DebugScreen extends MyScreen {
                 {200, 25, 500, 100},
                 {700, 125, 500, 100},
                 {123, 321, 123, 317},
-                {10, 3, 500, 1}
+                {10, 3, 500, 1},
+                {10, 3, 500, 1},
+                {-10, -10, 2000, 10},
+                {-10, -10, 10, 1000},
+                {1990, -10, 10, 1000},
+                {-10, 990, 2000, 10},
         };
         for (int i = 0; i < pls.length; i++) {
             level.addObject(new Platform(game,
@@ -34,11 +39,6 @@ public class DebugScreen extends MyScreen {
 
 
         gameProcess = new GameProcess(game, this, level);
-
-/*
-        gameProcess.addObject(new Bullet(game, gameProcess, game.regionInfos.getRegionInfo("buttonNotClicked"), 123, true));
-        gameProcess.addObject(new Bullet(game, gameProcess, game.regionInfos.getRegionInfo("buttonNotClicked"), 123, false));
-*/
     }
 
     @Override
