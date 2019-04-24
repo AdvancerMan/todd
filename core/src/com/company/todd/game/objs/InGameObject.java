@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
@@ -116,6 +119,11 @@ public abstract class InGameObject implements Disposable {
 
         return new Rectangle(objectRect);
     }
+
+    public void beginContact(Contact contact, InGameObject object) {}
+    public void endContact(Contact contact, InGameObject object) {}
+    public void contactPreSolve(Contact contact, Manifold oldManifold, InGameObject object) {}
+    public void contactPostSolve(Contact contact, ContactImpulse impulse, InGameObject object) {}
 
     public void kill() {
         alive = false;

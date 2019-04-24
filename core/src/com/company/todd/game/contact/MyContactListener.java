@@ -5,10 +5,9 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.company.todd.game.objs.InGameObject;
-import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.process.GameProcess;
 
-public class MyContactListener implements ContactListener {  // TODO ContactListener
+public class MyContactListener implements ContactListener {
     protected GameProcess gameProcess;
 
     public MyContactListener(GameProcess gameProcess) {
@@ -17,19 +16,12 @@ public class MyContactListener implements ContactListener {  // TODO ContactList
     }
 
     @Override
-    public void beginContact(Contact contact) {  // TODO check DangerousObject
+    public void beginContact(Contact contact) {
         InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
         InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
-        if (objectB instanceof DangerousObject) {
-            InGameObject tmp = objectA;
-            objectA = objectB;
-            objectB = tmp;
-        }
-
-        if (objectA instanceof DangerousObject) {
-            ((DangerousObject) objectA).hit(objectB);
-        }
+        objectA.beginContact(contact, objectB);
+        objectB.beginContact(contact, objectA);
     }
 
     @Override
@@ -37,15 +29,8 @@ public class MyContactListener implements ContactListener {  // TODO ContactList
         InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
         InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
-        if (objectB instanceof DangerousObject) {
-            InGameObject tmp = objectA;
-            objectA = objectB;
-            objectB = tmp;
-        }
-
-        if (objectA instanceof DangerousObject) {
-            ((DangerousObject) objectA).endContactWith(objectB);
-        }
+        objectA.endContact(contact, objectB);
+        objectB.endContact(contact, objectA);
     }
 
     @Override
@@ -53,17 +38,8 @@ public class MyContactListener implements ContactListener {  // TODO ContactList
         InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
         InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
-        if (objectB instanceof DangerousObject) {
-            InGameObject tmp = objectA;
-            objectA = objectB;
-            objectB = tmp;
-        }
-
-        if (objectA instanceof DangerousObject) {
-            if (((DangerousObject) objectA).isOwner(objectB)) {
-                contact.setEnabled(false);
-            }
-        }
+        objectA.contactPreSolve(contact, oldManifold, objectB);
+        objectB.contactPreSolve(contact, oldManifold, objectA);
     }
 
     @Override
@@ -71,16 +47,7 @@ public class MyContactListener implements ContactListener {  // TODO ContactList
         InGameObject objectA = (InGameObject) contact.getFixtureA().getBody().getUserData();
         InGameObject objectB = (InGameObject) contact.getFixtureB().getBody().getUserData();
 
-        if (objectB instanceof DangerousObject) {
-            InGameObject tmp = objectA;
-            objectA = objectB;
-            objectB = tmp;
-        }
-
-        if (objectA instanceof DangerousObject) {
-            if (((DangerousObject) objectA).isOwner(objectB)) {
-                contact.setEnabled(false);
-            }
-        }
+        objectA.contactPostSolve(contact, impulse, objectB);
+        objectB.contactPostSolve(contact, impulse, objectA);
     }
 }
