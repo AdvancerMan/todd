@@ -57,10 +57,16 @@ public class MyAnimation implements Disposable {
         animations.get(animName).setPlayMode(playMode);
     }
 
-    public void setPlayingAnimationName(String playingAnimationName) {
-        timeFromStart = 0;
-        startedNow = true;
-        this.playingAnimationName = playingAnimationName;
+    public void setPlayingAnimationName(String playingAnimationName, boolean changeEquals) {
+        if (!playingAnimationName.equals(this.playingAnimationName) || changeEquals) {
+            timeFromStart = 0;
+            startedNow = true;
+            this.playingAnimationName = playingAnimationName;
+
+            if (!animations.containsKey(playingAnimationName)) {
+                this.playingAnimationName = "stay";
+            }
+        }
     }
 
     @Override
