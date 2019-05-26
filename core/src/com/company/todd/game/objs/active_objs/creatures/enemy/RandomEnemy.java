@@ -1,6 +1,7 @@
 package com.company.todd.game.objs.active_objs.creatures.enemy;
 
 import com.badlogic.gdx.utils.TimeUtils;
+import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
@@ -12,16 +13,17 @@ public class RandomEnemy extends Creature {
     private final long actionDelay;
     private final Random rnd;
 
-    public RandomEnemy(ToddEthottGame game, TextureRegionInfo regionInfo, float jumpPower, float walkingSpeed, float runningSpeed, float x, float y, float width, float height) {
-        super(game, regionInfo, jumpPower, walkingSpeed, runningSpeed, x, y, width, height);
+    public RandomEnemy(ToddEthottGame game, MyAnimation animation, float x, float y, float width, float height) {
+        super(game, animation, 50, 2, 10, x, y, width, height);
 
         rnd = new Random();
         lastActionMoment = TimeUtils.nanoTime();
         actionDelay = (long)1e8 * (rnd.nextInt(10) + 1);
 
-        jumpPower += 50 * (rnd.nextInt(7));
+        jumpPower += 10 * (rnd.nextInt(6));
         maxHealthLevel += 20 * (rnd.nextInt(10) + 1);
-        walkingSpeed += rnd.nextInt(10);
+        walkingSpeed += rnd.nextInt(5);
+        runningSpeed += rnd.nextInt(10);
         coolDown *= rnd.nextInt(5) + 1;
     }
 

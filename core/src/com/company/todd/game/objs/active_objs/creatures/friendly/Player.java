@@ -1,5 +1,6 @@
 package com.company.todd.game.objs.active_objs.creatures.friendly;
 
+import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.launcher.ToddEthottGame;
@@ -9,9 +10,9 @@ public class Player extends Creature {
     private final InGameInputHandler inputHandler;
 
     public Player(ToddEthottGame game,
-                  TextureRegionInfo regionInfo, InGameInputHandler inputHandler,
+                  MyAnimation animation, InGameInputHandler inputHandler,
                   float x, float y, float width, float height) {
-        super(game, regionInfo, 100, 5f, 15f, x, y, width, height);
+        super(game, animation, 100, 5f, 15f, x, y, width, height);
         // TODO walkingSpeed runningSpeed jumpPower
 
         this.inputHandler = inputHandler;

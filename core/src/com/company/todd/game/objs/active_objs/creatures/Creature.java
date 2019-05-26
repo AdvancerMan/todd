@@ -1,7 +1,11 @@
 package com.company.todd.game.objs.active_objs.creatures;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.launcher.ToddEthottGame;
@@ -25,10 +29,10 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     // TODO health, energy, cooldown
     // TODO hit(float damage);
 
-    public Creature(ToddEthottGame game, TextureRegionInfo regionInfo,
+    public Creature(ToddEthottGame game, MyAnimation animation,
                     float jumpPower, float walkingSpeed, float runningSpeed,
                     float x, float y, float width, float height) {
-        super(game, regionInfo, walkingSpeed, runningSpeed, x, y, width, height);
+        super(game, animation, walkingSpeed, runningSpeed, x, y, width, height);
         this.jumpPower = jumpPower;
 
         this.isOnGround = false;
@@ -44,6 +48,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     public void jump() { // TODO energy consuming: jump()
         if (isOnGround) {  // TODO isOnGround
+            setPlayingAnimationName("jump", true);
             velocity.set(velocity.x, jumpPower);
         }
     }
@@ -71,6 +76,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         if (TimeUtils.nanoTime() - lastMomentOfShoot <= coolDown) return;
         lastMomentOfShoot = TimeUtils.nanoTime();
 
+        setPlayingAnimationName("shoot", true);
+
         Rectangle objectRect = getObjectRect();  // TODO good place for bullet spawn
         float x, y;
         y = objectRect.y + objectRect.height / 2;  // TODO - bulletType.height / 2
@@ -82,10 +89,14 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
             // TODO x -= bulletType.width + 1
         }
 
+        // TODO BulletType!!!
+        ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
+        tmp.put("walk", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
+
         gameProcess.addObject(
                 new Bullet(
                         game, this,
-                        game.regionInfos.getRegionInfo("grassPlatformDown"),
+                        new MyAnimation(0.1f, Animation.PlayMode.LOOP, tmp),
                         x, y, 100, 20, toRight
                 )
         );
