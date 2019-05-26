@@ -27,14 +27,7 @@ public class MyAnimation implements Disposable {
 
         for (String animName : getters.keys) {
             playingAnimationName = animName;
-            this.getters.put(animName, getters.get(animName));
-
-            Array<TextureRegion> regions = new Array<TextureRegion>();
-            for (TextureRegionInfo.TextureRegionGetter getter : getters.get(animName)) {
-                regions.add(getter.getRegion());
-            }
-
-            animations.put(animName, new Animation<TextureRegion>(frameDuration, regions, playMode));
+            addAnimation(animName, getters.get(animName), frameDuration, playMode);
         }
     }
 
@@ -47,6 +40,40 @@ public class MyAnimation implements Disposable {
     public TextureRegion getFrame() {
         startedNow = false;
         return animations.get(playingAnimationName).getKeyFrame(timeFromStart);
+    }
+
+    public void addAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+                             float frameDuration, Animation.PlayMode playMode) {
+        this.getters.put(animName, getters);
+
+        Array<TextureRegion> regions = new Array<TextureRegion>();
+        for (TextureRegionInfo.TextureRegionGetter getter : getters) {
+            regions.add(getter.getRegion());
+        }
+
+        animations.put(animName, new Animation<TextureRegion>(frameDuration, regions, playMode));
+    }
+
+    public void deleteAnimation(String animName) {
+        for (TextureRegionInfo.TextureRegionGetter getter : getters.get(animName)) {
+            getter.dispose();
+        }
+
+        getters.removeKey(animName);
+        animations.removeKey(animName);
+    }
+
+    public void setAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+                             float frameDuration, Animation.PlayMode playMode) {
+        Array<TextureRegion> regions = new Array<TextureRegion>();
+        for (TextureRegionInfo.TextureRegionGetter getter : getters) {
+            regions.add(getter.getRegion());
+        }
+
+        deleteAnimation(animName);
+
+        this.getters.put(animName, getters);
+        animations.put(animName, new Animation<TextureRegion>(frameDuration, regions, playMode));
     }
 
     public void setFrameDuration(String animName, float frameDuration) {
