@@ -16,8 +16,8 @@ public class MyAnimation implements Disposable {
     private boolean startedNow;
 
     public MyAnimation(float frameDuration,
-                       ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> getters,
-                       Animation.PlayMode playMode) {
+                       Animation.PlayMode playMode,
+                       ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> getters) {
         animations = new ArrayMap<String, Animation<TextureRegion>>();
         this.getters = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
 
@@ -31,6 +31,14 @@ public class MyAnimation implements Disposable {
         }
     }
 
+    public MyAnimation(float frameDuration, Animation.PlayMode playMode) {
+        this(frameDuration, playMode, new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>());
+    }
+
+    public MyAnimation(float frameDuration) {
+        this(frameDuration, Animation.PlayMode.LOOP);
+    }
+
     public void update(float delta) {
         if (!startedNow) {
             timeFromStart += delta;
@@ -38,6 +46,10 @@ public class MyAnimation implements Disposable {
     }
 
     public TextureRegion getFrame() {
+        if (!animations.containsKey(playingAnimationName)) {
+            throw new AnimationException("unknown animation name in MyAnimation.getFrame()");
+        }
+
         startedNow = false;
         return animations.get(playingAnimationName).getKeyFrame(timeFromStart);
     }
@@ -55,6 +67,10 @@ public class MyAnimation implements Disposable {
     }
 
     public void deleteAnimation(String animName) {
+        if (!getters.containsKey(animName)) {
+            throw new AnimationException("unknown animation name in MyAnimation.deleteAnimation()");
+        }
+
         for (TextureRegionInfo.TextureRegionGetter getter : getters.get(animName)) {
             getter.dispose();
         }
@@ -77,10 +93,18 @@ public class MyAnimation implements Disposable {
     }
 
     public void setFrameDuration(String animName, float frameDuration) {
+        if (!animations.containsKey(animName)) {
+            throw new AnimationException("unknown animation name in MyAnimation.setFrameDuration()");
+        }
+
         animations.get(animName).setFrameDuration(frameDuration);
     }
 
     public void setPlayMode(String animName, Animation.PlayMode playMode) {
+        if (!animations.containsKey(animName)) {
+            throw new AnimationException("unknown animation name in MyAnimation.setPlayMode()");
+        }
+
         animations.get(animName).setPlayMode(playMode);
     }
 
@@ -102,6 +126,12 @@ public class MyAnimation implements Disposable {
             for (TextureRegionInfo.TextureRegionGetter getter : getters) {
                 getter.dispose();
             }
+        }
+    }
+
+    public class AnimationException extends RuntimeException {
+        public AnimationException(String msg) {
+            super(msg);
         }
     }
 }
