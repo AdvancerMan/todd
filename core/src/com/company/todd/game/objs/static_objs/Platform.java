@@ -3,10 +3,13 @@ package com.company.todd.game.objs.static_objs;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.debug.DebugTimer;
+import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
@@ -15,10 +18,12 @@ import static com.company.todd.util.FloatCmp.less;
 public class Platform extends StaticObject {
     protected Type type;
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
+    protected TextureRegionInfo info;
 
     public Platform(ToddEthottGame game, Type type,
                     float x, float y, float width, float height) {
-        super(game, x, y, width, height);
+        super(game, new MyAnimation(1), x, y, width, height);
+
         this.type = type;
         type.init();
 
@@ -86,15 +91,22 @@ public class Platform extends StaticObject {
             downPixmap.dispose();
         }
 
-        sprite.setTexture(tmpTexture);
-        sprite.setRegionX(0);
-        sprite.setRegionY(0);
-        sprite.setRegionWidth(tmpTexture.getWidth());
-        sprite.setRegionHeight(tmpTexture.getHeight());
+        final String textureName = "Texture for platform with id " + hashCode();
+
+        if (game.textureManager.hasTexture(textureName)) {
+            game.textureManager.deleteTexture(textureName, true);
+        }
+
+        game.textureManager.addTexture(tmpTexture, textureName, 1);
+        TextureRegionInfo info = new TextureRegionInfo(game.textureManager, textureName, 0, 0, tmpTexture.getWidth(), tmpTexture.getHeight());
+
+        setAnimation("stay", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[]{info.getRegionGetter()}), 1, Animation.PlayMode.LOOP);
     }
 
     @Override
-    public void update(float delta) {}
+    public void update(float delta) {
+        super.update(delta);
+    }
 
     @Override
     public void setSize(float width, float height) {

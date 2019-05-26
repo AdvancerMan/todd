@@ -27,13 +27,17 @@ public class TextureManager implements Disposable {
         return texture;
     }
 
-    public void deleteTexture(final String textureName, boolean ignoreExisting) {
+    public boolean hasTexture(final String textureName) {
+        return textures.containsKey(textureName);
+    }
+
+    public void deleteTexture(final String textureName, boolean ignoreUsing) {
         if (!textures.containsKey(textureName)) {
             throw new TextureManagerException("trying to delete texture that doesn't exist");
         }
 
         if (textures.get(textureName) != null) {
-            if (!ignoreExisting) {
+            if (!ignoreUsing) {
                 throw new TextureManagerException("trying to delete texture that is using now");
             } else {
                 textures.get(textureName).dispose();
