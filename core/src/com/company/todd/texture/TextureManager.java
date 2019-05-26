@@ -27,6 +27,28 @@ public class TextureManager implements Disposable {
         return texture;
     }
 
+    public void deleteTexture(final String textureName, boolean ignoreExisting) {
+        if (!textures.containsKey(textureName)) {
+            throw new TextureManagerException("trying to delete texture that doesn't exist");
+        }
+
+        if (textures.get(textureName) != null) {
+            if (!ignoreExisting) {
+                throw new TextureManagerException("trying to delete texture that is using now");
+            } else {
+                textures.get(textureName).dispose();
+            }
+        }
+
+        usagesMap.removeKey(textureName);
+        textures.removeKey(textureName);
+    }
+
+    public void addTexture(Texture texture, final String textureName, int usages) {
+        textures.put(textureName, texture);
+        usagesMap.put(textureName, usages);
+    }
+
     public TextureManager() {
         textures = new ArrayMap<String, Texture>();
         usagesMap = new ArrayMap<String, Integer>();
@@ -77,6 +99,12 @@ public class TextureManager implements Disposable {
                 mapEntry.value.dispose();
                 textures.put(mapEntry.key, null);
             }
+        }
+    }
+
+    class TextureManagerException extends RuntimeException {
+        public TextureManagerException(String msg) {
+            super(msg);
         }
     }
 }
