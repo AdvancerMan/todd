@@ -1,5 +1,6 @@
 package com.company.todd.game.objs;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,10 +10,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.box2d.BodyCreator.addBox;
@@ -90,6 +93,29 @@ public abstract class InGameObject implements Disposable {
             sprite.setRegion(animation.getFrame());
             sprite.draw(batch);
         }
+    }
+
+
+    public void addAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+                             float frameDuration, Animation.PlayMode playMode) {
+        animation.addAnimation(animName, getters, frameDuration, playMode);
+    }
+
+    public void deleteAnimation(String animName) {
+        animation.deleteAnimation(animName);
+    }
+
+    public void setAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+                             float frameDuration, Animation.PlayMode playMode) {
+        animation.setAnimation(animName, getters, frameDuration, playMode);
+    }
+
+    public void setAnimationFrameDuration(String animName, float frameDuration) {
+        animation.setFrameDuration(animName, frameDuration);
+    }
+
+    public void setAnimationPlayMode(String animName, Animation.PlayMode playMode) {
+        animation.setPlayMode(animName, playMode);
     }
 
     public void setPlayingAnimationName(String animationName, boolean changeEquals) {
