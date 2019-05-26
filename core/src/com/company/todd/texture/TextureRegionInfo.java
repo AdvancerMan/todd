@@ -36,6 +36,10 @@ public class TextureRegionInfo implements Disposable {
         return region;
     }
 
+    public TextureRegionGetter getRegionGetter() {
+        return new TextureRegionGetter(this);
+    }
+
     public int getWidth() {
         return regionWidth;
     }
@@ -55,6 +59,53 @@ public class TextureRegionInfo implements Disposable {
         if (usages == 0) {
             manager.disposeTexture(fileName, 1);
             region = null;
+        }
+    }
+
+    public class TextureRegionGetter implements Disposable {
+        private boolean gotRegion;
+        private boolean usedRegion;
+        private TextureRegionInfo regionInfo;
+        private TextureRegion region;
+
+        public TextureRegionGetter(TextureRegionInfo regionInfo) {
+            this.regionInfo = regionInfo;
+            gotRegion = false;
+            usedRegion = false;
+        }
+
+        public TextureRegion getRegion() {
+            if (usedRegion) {
+                throw new RegionGetterException("trying to get used region");
+            }
+
+            if (!gotRegion) {
+                gotRegion = true;
+                region = regionInfo.getTextureRegion();
+            }
+
+            return region;
+        }
+
+        @Override
+        public void dispose() {
+            if (!gotRegion) {
+                throw new RegionGetterException("trying to dispose region that is not got");
+            }
+
+            if (usedRegion) {
+                throw new RegionGetterException("trying to dispose used region");
+            }
+
+            gotRegion = false;
+            usedRegion = true;
+            regionInfo.dispose();
+        }
+
+        public class RegionGetterException extends RuntimeException {
+            public RegionGetterException(String msg) {
+                super(msg);
+            }
         }
     }
 }
