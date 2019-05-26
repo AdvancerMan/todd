@@ -56,6 +56,10 @@ public class MyAnimation implements Disposable {
 
     public void addAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
                              float frameDuration, Animation.PlayMode playMode) {
+        if (animations.containsKey(animName)) {
+            throw new AnimationException("trying to add animation with existing name in MyAnimation.addAnimation()");
+        }
+
         this.getters.put(animName, getters);
 
         Array<TextureRegion> regions = new Array<TextureRegion>();
@@ -81,6 +85,11 @@ public class MyAnimation implements Disposable {
 
     public void setAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
                              float frameDuration, Animation.PlayMode playMode) {
+        if (!animations.containsKey(animName)) {
+            addAnimation(animName, getters, frameDuration, playMode);
+            return;
+        }
+
         Array<TextureRegion> regions = new Array<TextureRegion>();
         for (TextureRegionInfo.TextureRegionGetter getter : getters) {
             regions.add(getter.getRegion());
