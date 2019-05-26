@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Disposable;
+import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
@@ -23,6 +24,7 @@ public abstract class InGameObject implements Disposable {
     protected GameProcess gameProcess;
 
     protected Sprite sprite;
+    private MyAnimation animation;
 
     protected Body body;
     private Rectangle objectRect;
@@ -32,13 +34,14 @@ public abstract class InGameObject implements Disposable {
     public static int lastId = 0;
     private int id;
 
-    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType,
+    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         float x, float y, float width, float height) {
         this.game = game;
         this.gameProcess = null;
 
         sprite = new Sprite();
         sprite.setBounds(x, y, width, height);  // TODO set bounds for sprite
+        this.animation = animation;
 
         body = null;
         objectRect = new Rectangle(x, y, width, height);
@@ -70,7 +73,9 @@ public abstract class InGameObject implements Disposable {
         }
     }
 
-    public abstract void update(float delta);
+    public void update(float delta) {
+        animation.update(delta);
+    }
 
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
         Vector2 pos = toPix(body.getPosition().cpy());
@@ -82,8 +87,13 @@ public abstract class InGameObject implements Disposable {
         }
 
         if (sprite.getBoundingRectangle().overlaps(cameraRectangle)) {
+            sprite.setRegion(animation.getFrame());
             sprite.draw(batch);
         }
+    }
+
+    public void setPlayingAnimationName(String animationName, boolean changeEquals) {
+        animation.setPlayingAnimationName(animationName, changeEquals);
     }
 
     public void setGameProcess(GameProcess gameProcess) {
@@ -144,6 +154,7 @@ public abstract class InGameObject implements Disposable {
         }
 
         destroyMyBody();
+        animation.dispose();
     }
 
     @Override
