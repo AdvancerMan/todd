@@ -11,13 +11,22 @@ public class MyAnimation implements Disposable {
     private ArrayMap<String, Animation<TextureRegion>> animations;
     private ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> getters;
 
+    private String playingAnimationName;
+    private float timeFromStart;
+    private boolean startedNow;
+
     public MyAnimation(float frameDuration,
                        ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> getters,
                        Animation.PlayMode playMode) {
         animations = new ArrayMap<String, Animation<TextureRegion>>();
         this.getters = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
 
+        playingAnimationName = "";
+        timeFromStart = 0;
+        startedNow = true;
+
         for (String animName : getters.keys) {
+            playingAnimationName = animName;
             this.getters.put(animName, getters.get(animName));
 
             Array<TextureRegion> regions = new Array<TextureRegion>();
@@ -29,12 +38,29 @@ public class MyAnimation implements Disposable {
         }
     }
 
+    public void update(float delta) {
+        if (!startedNow) {
+            timeFromStart += delta;
+        }
+    }
+
+    public TextureRegion getFrame() {
+        startedNow = false;
+        return animations.get(playingAnimationName).getKeyFrame(timeFromStart);
+    }
+
     public void setFrameDuration(String animName, float frameDuration) {
         animations.get(animName).setFrameDuration(frameDuration);
     }
 
     public void setPlayMode(String animName, Animation.PlayMode playMode) {
         animations.get(animName).setPlayMode(playMode);
+    }
+
+    public void setPlayingAnimationName(String playingAnimationName) {
+        timeFromStart = 0;
+        startedNow = true;
+        this.playingAnimationName = playingAnimationName;
     }
 
     @Override
