@@ -27,6 +27,7 @@ public abstract class InGameObject implements Disposable {
     protected GameProcess gameProcess;
 
     protected Sprite sprite;
+    private boolean dirToRight;
     private MyAnimation animation;
 
     protected Body body;
@@ -45,6 +46,8 @@ public abstract class InGameObject implements Disposable {
         sprite = new Sprite();
         sprite.setBounds(x, y, width, height);  // TODO set bounds for sprite
         this.animation = animation;
+        setPlayingAnimationName("stay", false);
+        dirToRight = true;
 
         body = null;
         objectRect = new Rectangle(x, y, width, height);
@@ -91,6 +94,10 @@ public abstract class InGameObject implements Disposable {
 
         if (sprite.getBoundingRectangle().overlaps(cameraRectangle)) {
             sprite.setRegion(animation.getFrame());
+            if (!dirToRight) {
+                sprite.rotate90(true);
+                sprite.rotate90(true);
+            }
             sprite.draw(batch);
         }
     }
@@ -120,6 +127,10 @@ public abstract class InGameObject implements Disposable {
 
     public void setPlayingAnimationName(String animationName, boolean changeEquals) {
         animation.setPlayingAnimationName(animationName, changeEquals);
+    }
+
+    public void setDirToRight(boolean dirToRight) {
+        this.dirToRight = dirToRight;
     }
 
     public void setGameProcess(GameProcess gameProcess) {

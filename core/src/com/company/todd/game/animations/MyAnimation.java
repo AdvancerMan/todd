@@ -25,7 +25,7 @@ public class MyAnimation implements Disposable {
         timeFromStart = 0;
         startedNow = true;
 
-        for (String animName : getters.keys) {
+        for (String animName : getters.keys()) {
             playingAnimationName = animName;
             addAnimation(animName, getters.get(animName), frameDuration, playMode);
         }
@@ -131,7 +131,7 @@ public class MyAnimation implements Disposable {
 
     @Override
     public void dispose() {
-        for (Array<TextureRegionInfo.TextureRegionGetter> getters : this.getters.values) {
+        for (Array<TextureRegionInfo.TextureRegionGetter> getters : this.getters.values()) {
             for (TextureRegionInfo.TextureRegionGetter getter : getters) {
                 getter.dispose();
             }

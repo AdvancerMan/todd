@@ -90,7 +90,8 @@ public class TextureRegionInfo implements Disposable {
         @Override
         public void dispose() {
             if (!gotRegion) {
-                throw new RegionGetterException("trying to dispose region that is not got");
+                return;
+                // throw new RegionGetterException("trying to dispose region that is not got");
             }
 
             if (usedRegion) {

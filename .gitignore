@@ -126,3 +126,7 @@ Thumbs.db
 
 ## My classes
 core/src/com/company/todd/RainbowScreen.java
+
+## Lines counter
+/core/src/lines_counter.py
+/core/src/out.txt

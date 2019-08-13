@@ -93,13 +93,13 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
         tmp.put("walk", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
 
-        gameProcess.addObject(
-                new Bullet(
-                        game, this,
-                        new MyAnimation(0.1f, Animation.PlayMode.LOOP, tmp),
-                        x, y, 100, 20, toRight
-                )
+        Bullet bul = new Bullet(
+                game, this,
+                new MyAnimation(0.1f, Animation.PlayMode.LOOP, tmp),
+                x, y, 100, 20, toRight
         );
+        bul.setPlayingAnimationName("walk", true);
+        gameProcess.addObject(bul);
     }
 
     @Override

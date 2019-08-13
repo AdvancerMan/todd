@@ -1,10 +1,13 @@
 package com.company.todd.game.process;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
+import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.contact.MyContactListener;
 import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.game.level.Level;
@@ -15,6 +18,7 @@ import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
+import com.company.todd.texture.TextureRegionInfo;
 
 import java.util.Iterator;
 
@@ -40,8 +44,7 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         inputHandler = new InGameInputHandler();
 
-        // TODO player in GameProcess
-        player = new Player(game, game.regionInfos.getRegionInfo("player"), inputHandler, 500, 500, 50, 100);
+        createPlayer();
 
         creatures = new Array<Creature>();
         dangerousObjects = new Array<DangerousObject>();
@@ -50,6 +53,37 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         justCreatedObjects.add(player);
         setLevel(level);
+    }
+
+    private void createPlayer() { // TODO player in GameProcess
+        // TODO player anim
+        ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> animMap = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
+        Array<TextureRegionInfo.TextureRegionGetter> tmpArray = new Array<TextureRegionInfo.TextureRegionGetter>();
+        tmpArray.add(game.regionInfos.getRegionGetter("player1"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player2"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player3"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player4"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player5"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player6"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player7"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player8"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player9"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player10"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player11"));
+        tmpArray.add(game.regionInfos.getRegionGetter("player12"));
+
+        animMap.put("stay", tmpArray);
+        animMap.put("walk", tmpArray);
+        animMap.put("run", tmpArray);
+        animMap.put("shoot", tmpArray);
+        animMap.put("jump", tmpArray);
+        // TODO player anim
+
+        MyAnimation anim = new MyAnimation(0.1f, Animation.PlayMode.LOOP, animMap);
+
+        player = new Player(game,
+                anim,
+                inputHandler, 500, 500, 50, 100);
     }
 
     public void setLevel(Level level) {  // TODO GameProcess.setLevel()

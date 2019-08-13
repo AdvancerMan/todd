@@ -23,7 +23,7 @@ public abstract class ActiveObject extends InGameObject {
                         float x, float y, float width, float height) {
         super(game, BodyDef.BodyType.DynamicBody, animation, x, y, width, height);
 
-        animation.setPlayingAnimationName("stay", false);
+        setPlayingAnimationName("stay", false);
 
         this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
@@ -44,8 +44,7 @@ public abstract class ActiveObject extends InGameObject {
         }
 
         this.toRight = toRight;
-        sprite.rotate90(true);
-        sprite.rotate90(true);
+        setDirToRight(toRight);
     }
 
     public void walk(boolean toRight) {
