@@ -95,8 +95,7 @@ public abstract class InGameObject implements Disposable {
         if (sprite.getBoundingRectangle().overlaps(cameraRectangle)) {
             sprite.setRegion(animation.getFrame());
             if (!dirToRight) {
-                sprite.rotate90(true);
-                sprite.rotate90(true);
+                sprite.flip(true, false);
             }
             sprite.draw(batch);
         }
