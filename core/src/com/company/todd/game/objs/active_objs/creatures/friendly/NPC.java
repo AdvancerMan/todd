@@ -7,8 +7,8 @@ import com.company.todd.texture.TextureRegionInfo;
 
 public class NPC extends Creature {  // TODO NPC
     public NPC(ToddEthottGame game, MyAnimation animation,
-               float jumpPower, float walkingSpeed, float runningSpeed,
+               float jumpPower, float runningSpeed,
                float x, float y, float width, float height) {
-        super(game, animation, jumpPower, walkingSpeed, runningSpeed, x, y, width, height);
+        super(game, animation, jumpPower, runningSpeed, x, y, width, height);
     }
 }

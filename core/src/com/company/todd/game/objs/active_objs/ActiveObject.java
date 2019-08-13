@@ -14,28 +14,20 @@ import com.company.todd.texture.TextureRegionInfo;
 public abstract class ActiveObject extends InGameObject {
     protected boolean toRight;
 
-    protected float walkingSpeed;
     protected float runningSpeed;
     protected Vector2 velocity;
 
     public ActiveObject(ToddEthottGame game, MyAnimation animation,
-                        float walkingSpeed, float runningSpeed,
+                        float runningSpeed,
                         float x, float y, float width, float height) {
         super(game, BodyDef.BodyType.DynamicBody, animation, x, y, width, height);
 
         setPlayingAnimationName("stay", false);
 
-        this.walkingSpeed = walkingSpeed;
         this.runningSpeed = runningSpeed;
         this.velocity = new Vector2();
 
         toRight = true;
-    }
-
-    public ActiveObject(ToddEthottGame game, MyAnimation animation,
-                        float speed,
-                        float x, float y, float width, float height) {
-        this(game, animation, speed, speed, x, y, width, height);
     }
 
     public void changeDirection(boolean toRight) {
@@ -47,16 +39,7 @@ public abstract class ActiveObject extends InGameObject {
         setDirToRight(toRight);
     }
 
-    public void walk(boolean toRight) {
-        if (toRight) {
-            velocity.set(walkingSpeed, velocity.y);
-        } else {
-            velocity.set(-walkingSpeed, velocity.y);
-        }
-        setPlayingAnimationName("walk", false);
-    }
-
-    public void run(boolean toRight) { // TODO energy consuming: run()
+    public void run(boolean toRight) {
         if (toRight) {
             velocity.set(runningSpeed, velocity.y);
         } else {

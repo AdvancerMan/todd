@@ -12,7 +12,7 @@ public class Player extends Creature {
     public Player(ToddEthottGame game,
                   MyAnimation animation, InGameInputHandler inputHandler,
                   float x, float y, float width, float height) {
-        super(game, animation, 100, 5f, 15f, x, y, width, height);
+        super(game, animation, 100, 15f, x, y, width, height);
         // TODO walkingSpeed runningSpeed jumpPower
 
         this.inputHandler = inputHandler;

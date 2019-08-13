@@ -14,7 +14,7 @@ public class RandomEnemy extends Creature {
     private final Random rnd;
 
     public RandomEnemy(ToddEthottGame game, MyAnimation animation, float x, float y, float width, float height) {
-        super(game, animation, 50, 2, 10, x, y, width, height);
+        super(game, animation, 50, 10, x, y, width, height);
 
         rnd = new Random();
         lastActionMoment = TimeUtils.nanoTime();
@@ -22,7 +22,6 @@ public class RandomEnemy extends Creature {
 
         jumpPower += 10 * (rnd.nextInt(6));
         maxHealthLevel += 20 * (rnd.nextInt(10) + 1);
-        walkingSpeed += rnd.nextInt(5);
         runningSpeed += rnd.nextInt(10);
         coolDown *= rnd.nextInt(5) + 1;
     }
@@ -47,11 +46,11 @@ public class RandomEnemy extends Creature {
                 shoot();
                 break;
             case 1:
-                walk(true);
+                run(true);
                 changeDirection(true);
                 break;
             case 2:
-                walk(false);
+                run(false);
                 changeDirection(false);
                 break;
             case 3:

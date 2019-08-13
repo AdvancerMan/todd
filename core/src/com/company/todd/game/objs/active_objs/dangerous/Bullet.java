@@ -22,7 +22,7 @@ public class Bullet extends DangerousObject {  // TODO Bullet
 
     @Override
     public void update(float delta) {
-        walk(toRight);
+        run(toRight);
         super.update(delta);
     }
 
