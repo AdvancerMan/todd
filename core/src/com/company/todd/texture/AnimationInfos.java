@@ -22,7 +22,7 @@ public class AnimationInfos {
     }
 
     private void addPlayer() {
-        AnimationInfo player = new AnimationInfo(0.1f, Animation.PlayMode.LOOP);
+        AnimationInfo player = new AnimationInfo();
 
         player.addAnimationName("run");
         for (int x = 0; x < 240; x += 20) {
@@ -31,12 +31,11 @@ public class AnimationInfos {
         }
 
         player.addAnimationName("stay");  // TODO stay player anim
-        for (int x = 0; x < 240; x += 20) {
-            player.addFrame("stay",
-                    new TextureRegionInfo(mng, "GG2.png", x, 0, 20, 51));
-        }
+        player.addFrame("stay",
+                new TextureRegionInfo(mng, "GG2.png", 0, 0, 20, 51));
 
         player.addAnimationName("jump");  // TODO jump player anim
+        player.setPlayMode("jump", Animation.PlayMode.NORMAL);
         for (int x = 0; x < 240; x += 20) {
             player.addFrame("jump",
                     new TextureRegionInfo(mng, "GG2.png", x, 0, 20, 51));

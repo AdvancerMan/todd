@@ -15,8 +15,8 @@ public class MyAnimation implements Disposable {
     private float timeFromStart;
     private boolean startedNow;
 
-    public MyAnimation(float frameDuration,
-                       Animation.PlayMode playMode,
+    public MyAnimation(ArrayMap<String, Float> frameDurations,
+                       ArrayMap<String, Animation.PlayMode> playModes,
                        ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> getters) {
         animations = new ArrayMap<String, Animation<TextureRegion>>();
         this.getters = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
@@ -27,16 +27,14 @@ public class MyAnimation implements Disposable {
 
         for (String animName : getters.keys()) {
             playingAnimationName = animName;
-            addAnimation(animName, getters.get(animName), frameDuration, playMode);
+            addAnimation(animName, getters.get(animName), frameDurations.get(animName), playModes.get(animName));
         }
     }
 
-    public MyAnimation(float frameDuration, Animation.PlayMode playMode) {
-        this(frameDuration, playMode, new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>());
-    }
-
-    public MyAnimation(float frameDuration) {
-        this(frameDuration, Animation.PlayMode.LOOP);
+    public MyAnimation() {
+        this(new ArrayMap<String, Float>(),
+                new ArrayMap<String, Animation.PlayMode>(),
+                new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>());
     }
 
     public void update(float delta) {

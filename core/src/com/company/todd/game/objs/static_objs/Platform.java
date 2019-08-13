@@ -22,7 +22,7 @@ public class Platform extends StaticObject {
 
     public Platform(ToddEthottGame game, Type type,
                     float x, float y, float width, float height) {
-        super(game, new MyAnimation(1), x, y, width, height);
+        super(game, new MyAnimation(), x, y, width, height);
 
         this.type = type;
         type.init();

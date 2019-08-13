@@ -1,5 +1,6 @@
 package com.company.todd.game.objs.active_objs.creatures;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -26,6 +27,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     private long lastMomentOfShoot;
     protected long coolDown;
 
+    private boolean changedAnim;
+
     // TODO health, energy, cooldown
     // TODO hit(float damage);
 
@@ -44,6 +47,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         energy = maxEnergyLevel;
 
         coolDown = 100000000;
+
+        changedAnim = false;
     }
 
     public void jump() { // TODO energy consuming: jump()
@@ -59,6 +64,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     public void update(float delta) {
         super.update(delta);
 
+
         float nowYVel = body.getLinearVelocity().y;
         if (FloatCmp.equals(nowYVel, 0) && FloatCmp.lessOrEquals(prevYVel, 0)) {
             isOnGround = true;
@@ -66,6 +72,11 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
             isOnGround = false;
         }
         prevYVel = nowYVel;
+
+        if (!changedAnim) {
+            setPlayingAnimationName("stay", false);
+        }
+        changedAnim = false;
     }
 
     public void setOnGround(boolean onGround) {
@@ -91,15 +102,29 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
         // TODO BulletType!!!
         ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
-        tmp.put("walk", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
+        tmp.put("run", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
+
+        ArrayMap<String, Float> tmpp = new ArrayMap<String, Float>();
+        tmpp.put("run", 0.1f);
+
+        ArrayMap<String, Animation.PlayMode> tmppp = new ArrayMap<String, Animation.PlayMode>();
+        tmppp.put("run", Animation.PlayMode.LOOP);
 
         Bullet bul = new Bullet(
                 game, this,
-                new MyAnimation(0.1f, Animation.PlayMode.LOOP, tmp),
+                new MyAnimation(tmpp, tmppp, tmp),
                 x, y, 100, 20, toRight
         );
         bul.setPlayingAnimationName("walk", true);
         gameProcess.addObject(bul);
+    }
+
+    @Override
+    public void setPlayingAnimationName(String animationName, boolean changeEquals) {
+        if (isOnGround || animationName.equals("shoot")) {
+            super.setPlayingAnimationName(animationName, changeEquals);
+        }
+        changedAnim = true;
     }
 
     @Override
