@@ -19,6 +19,22 @@ public class AnimationInfo {
         this.regionInfos = regionInfos;
     }
 
+    public AnimationInfo(float frameDuration, Animation.PlayMode playMode) {
+        this(frameDuration, playMode, new ArrayMap<String, Array<TextureRegionInfo>>());
+    }
+
+    public void addAnimationName(String name) {
+        regionInfos.put(name, new Array<TextureRegionInfo>());
+    }
+
+    public void addFrames(String animationName, Array<TextureRegionInfo> frameInfos) {
+        regionInfos.get(animationName).addAll(frameInfos);
+    }
+
+    public void addFrame(String animationName, TextureRegionInfo frameInfo) {
+        regionInfos.get(animationName).add(frameInfo);
+    }
+
     public MyAnimation getAnimation() {
         ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> allGetters =
                 new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
@@ -27,8 +43,8 @@ public class AnimationInfo {
             Array<TextureRegionInfo.TextureRegionGetter> getters =
                     new Array<TextureRegionInfo.TextureRegionGetter>();
 
-            for (TextureRegionInfo.TextureRegionGetter getter : (Array<TextureRegionInfo.TextureRegionGetter>) entry.value) {
-                getters.add(getter);
+            for (TextureRegionInfo info : (Array<TextureRegionInfo>) entry.value) {
+                getters.add(info.getRegionGetter());
             }
 
             allGetters.put((String) entry.key, getters);
