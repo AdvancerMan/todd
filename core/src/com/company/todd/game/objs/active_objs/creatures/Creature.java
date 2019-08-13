@@ -103,12 +103,15 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         // TODO BulletType!!!
         ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
         tmp.put("run", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
+        tmp.put("stay", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
 
         ArrayMap<String, Float> tmpp = new ArrayMap<String, Float>();
         tmpp.put("run", 0.1f);
+        tmpp.put("stay", 0.1f);
 
         ArrayMap<String, Animation.PlayMode> tmppp = new ArrayMap<String, Animation.PlayMode>();
         tmppp.put("run", Animation.PlayMode.LOOP);
+        tmppp.put("stay", Animation.PlayMode.LOOP);
 
         Bullet bul = new Bullet(
                 game, this,

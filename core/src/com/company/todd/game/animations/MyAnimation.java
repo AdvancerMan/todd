@@ -45,7 +45,7 @@ public class MyAnimation implements Disposable {
 
     public TextureRegion getFrame() {
         if (!animations.containsKey(playingAnimationName)) {
-            throw new AnimationException("unknown animation name in MyAnimation.getFrame()");
+            throw new AnimationException("unknown animation name (" + playingAnimationName + ") in MyAnimation.getFrame()");
         }
 
         startedNow = false;
