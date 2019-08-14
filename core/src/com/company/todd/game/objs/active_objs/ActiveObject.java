@@ -10,6 +10,7 @@ import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
+import com.company.todd.util.FloatCmp;
 
 public abstract class ActiveObject extends InGameObject {
     protected boolean toRight;
@@ -57,7 +58,7 @@ public abstract class ActiveObject extends InGameObject {
 
     protected void updatePosition(float delta) {
         for (Fixture fixture : body.getFixtureList()) {
-            if (velocity.x == 0) {
+            if (FloatCmp.equals(velocity.x, 0)) {
                 fixture.setFriction(1000);
             } else {
                 fixture.setFriction(0);

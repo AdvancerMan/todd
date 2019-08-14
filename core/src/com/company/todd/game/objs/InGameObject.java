@@ -31,7 +31,7 @@ public abstract class InGameObject implements Disposable {
     protected final ToddEthottGame game;
     protected GameProcess gameProcess;
 
-    private Sprite sprite;
+    private Sprite sprite;  // TODO arms sprite
     private boolean dirToRight;
     private MyAnimation animation;
 
