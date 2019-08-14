@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
@@ -82,12 +83,12 @@ public abstract class MyScreen implements Screen {
         translateCamera(x - camera.position.x, y - camera.position.y);
     }
 
-    public void centerCameraAt(InGameObject object) {
-        Rectangle objectRect = object.getSpriteRect();
-        float x = objectRect.getX(), y = objectRect.getY();
-        float width = objectRect.getWidth(), height = objectRect.getHeight();
+    public void centerCameraAt(Vector2 vector) {
+        centerCameraAt(vector.x, vector.y);
+    }
 
-        centerCameraAt(x + width / 2, y + height / 2);
+    public void centerCameraAt(InGameObject object) {
+        centerCameraAt(object.getBodyPosition());
     }
 
     public void setCameraViewportSize(float width, float height) {
