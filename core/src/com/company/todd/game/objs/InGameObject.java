@@ -44,18 +44,18 @@ public abstract class InGameObject implements Disposable {
     private int id;
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        float x, float y, float width, float height) {
+                        Rectangle spriteRect, Rectangle bodyRect) {
         this.game = game;
         this.gameProcess = null;
 
         sprite = new Sprite();
-        sprite.setBounds(x, y, width, height);  // TODO set bounds for sprite
+        sprite.setBounds(spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
         this.animation = animation;
         setPlayingAnimationName("stay", false);
         dirToRight = true;
 
         body = null;
-        bodySize = new Rectangle(x, y, width, height);
+        bodySize = new Rectangle(bodyRect);
         this.bodyType = bodyType;
 
         alive = true;
@@ -64,8 +64,27 @@ public abstract class InGameObject implements Disposable {
         id = lastId;
     }
 
-    protected void createMyBody() {
+    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
+                        float spriteX, float spriteY, float spriteWidth, float spriteHeight,
+                        float bodyX, float bodyY, float bodyWidth, float bodyHeight) {
+        this(game, bodyType, animation,
+                new Rectangle(spriteX, spriteY, spriteWidth, spriteHeight),
+                new Rectangle(bodyX, bodyY, bodyWidth, bodyHeight));
+    }
+
+    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
+                        float x, float y, float width, float height) {
+        this(game, bodyType, animation, new Rectangle(x, y, width, height), new Rectangle(x, y, width, height));
+    }
+
+    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
+                        Rectangle objectRect) {
+        this(game, bodyType, animation, objectRect, objectRect);
+    }
+
+    protected void createMyBody(Rectangle bodySize) {
         destroyMyBody();
+        this.bodySize = bodySize;
 
         float width = bodySize.width, height = bodySize.height;
         float x = bodySize.x + width / 2, y = bodySize.y + height / 2;
@@ -73,6 +92,10 @@ public abstract class InGameObject implements Disposable {
         body = createBody(gameProcess.getWorld(), bodyType, new Vector2(x, y));
         addBox(body, width / 2, height / 2);  // TODO size / 2 ?
         body.setUserData(this);
+    }
+
+    protected void createMyBody() {
+        createMyBody(bodySize);
     }
 
     protected void destroyMyBody() {
