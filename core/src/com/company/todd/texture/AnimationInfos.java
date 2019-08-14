@@ -25,6 +25,7 @@ public class AnimationInfos {
         AnimationInfo player = new AnimationInfo();
 
         player.addAnimationName("run");
+        player.setDuration("run", 0.04f);
         for (int x = 0; x < 20 * 14; x += 20) {
             player.addFrame("run",
                     new TextureRegionInfo(mng, "Run.png", x, 0, 20, 52));

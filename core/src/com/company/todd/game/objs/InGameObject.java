@@ -7,9 +7,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.game.animations.MyAnimation;
@@ -26,12 +31,12 @@ public abstract class InGameObject implements Disposable {
     protected final ToddEthottGame game;
     protected GameProcess gameProcess;
 
-    protected Sprite sprite;
+    private Sprite sprite;
     private boolean dirToRight;
     private MyAnimation animation;
 
     protected Body body;
-    private Rectangle objectRect;
+    private Rectangle bodySize;
     private BodyDef.BodyType bodyType;
     private boolean alive;
 
@@ -50,7 +55,7 @@ public abstract class InGameObject implements Disposable {
         dirToRight = true;
 
         body = null;
-        objectRect = new Rectangle(x, y, width, height);
+        bodySize = new Rectangle(x, y, width, height);
         this.bodyType = bodyType;
 
         alive = true;
@@ -62,8 +67,8 @@ public abstract class InGameObject implements Disposable {
     protected void createMyBody() {
         destroyMyBody();
 
-        float width = objectRect.width, height = objectRect.height;
-        float x = objectRect.x + width / 2, y = objectRect.y + height / 2;
+        float width = bodySize.width, height = bodySize.height;
+        float x = bodySize.x + width / 2, y = bodySize.y + height / 2;
 
         body = createBody(gameProcess.getWorld(), bodyType, new Vector2(x, y));
         addBox(body, width / 2, height / 2);  // TODO size / 2 ?
@@ -84,7 +89,7 @@ public abstract class InGameObject implements Disposable {
     }
 
     public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        Vector2 pos = toPix(body.getPosition().cpy());
+        Vector2 pos = getBodyPosition();
         sprite.setCenter(pos.x, pos.y);
 
         if (!body.isFixedRotation()) {
@@ -92,7 +97,7 @@ public abstract class InGameObject implements Disposable {
             sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
         }
 
-        if (sprite.getBoundingRectangle().overlaps(cameraRectangle)) {
+        if (getSpriteRect().overlaps(cameraRectangle)) {
             sprite.setRegion(animation.getFrame());
             if (!dirToRight) {
                 sprite.flip(true, false);
@@ -138,32 +143,97 @@ public abstract class InGameObject implements Disposable {
         createMyBody();
     }
 
-    public void setPosition(float x, float y) {
-        objectRect.setPosition(x, y);
+    public void setPosition(float x, float y) {  // FIXME weird logic
+        bodySize.setPosition(x, y);
 
         if (body != null) {
             createMyBody();
         }
     }
 
-    public void setSize(float width, float height) {
-        objectRect.setSize(width, height);
+    public void setSize(float width, float height) {  // FIXME weird logic
+        bodySize.setSize(width, height);
         sprite.setSize(width, height);  // TODO sprite.setSize()
 
         if (body != null) {
-            Vector2 pos = toPix(body.getPosition().cpy());
-            objectRect.setCenter(pos);
+            Vector2 pos = getBodyPosition();
+            bodySize.setCenter(pos);
             createMyBody();
         }
     }
 
-    public Rectangle getObjectRect() {  // TODO with rotation
-        if (body != null) {
-            Vector2 pos = toPix(body.getPosition().cpy());
-            objectRect.setCenter(pos);
+    private void updateCorners(Vector2 lCorner, Vector2 rCorner, Vector2 vertex) {
+        lCorner.x = Math.min(lCorner.x, vertex.x);
+        lCorner.y = Math.min(lCorner.y, vertex.y);
+        rCorner.x = Math.max(rCorner.x, vertex.x);
+        rCorner.y = Math.max(rCorner.y, vertex.y);
+    }
+
+    private void updateCorners(Vector2 lCorner, Vector2 rCorner, Rectangle rect) {
+        lCorner.x = Math.min(lCorner.x, rect.x);
+        lCorner.y = Math.min(lCorner.y, rect.y);
+        rCorner.x = Math.max(rCorner.x, rect.x + rect.width);
+        rCorner.y = Math.max(rCorner.y, rect.y + rect.height);
+    }
+
+    public Rectangle getBodyRect() {
+        Vector2 lCorner = new Vector2(getBodyPosition());
+        Vector2 rCorner = new Vector2(getBodyPosition());
+
+        Array<Fixture> fixtures = body.getFixtureList();
+        for (Fixture fixture : fixtures) {
+            Vector2 vertex = new Vector2();
+
+            switch (fixture.getType()) {
+                case Edge:
+                    EdgeShape edgeShape = (EdgeShape) fixture.getShape();
+
+                    edgeShape.getVertex1(vertex);
+                    updateCorners(lCorner, rCorner, vertex);
+                    edgeShape.getVertex2(vertex);
+                    updateCorners(lCorner, rCorner, vertex);
+                    break;
+
+                case Circle:
+                    CircleShape circleShape = (CircleShape) fixture.getShape();
+
+                    Rectangle shapeRect = new Rectangle();
+                    shapeRect.setCenter(circleShape.getPosition().add(circleShape.getRadius(), circleShape.getRadius()));
+                    shapeRect.setSize(2 * circleShape.getRadius()); // TODO test it
+                    updateCorners(lCorner, rCorner, shapeRect);
+                    break;
+
+                case Polygon:
+                    PolygonShape polygonShape = (PolygonShape) fixture.getShape();
+
+                    for (int i = 0; i < polygonShape.getVertexCount(); i++) {
+                        polygonShape.getVertex(i, vertex);
+                        updateCorners(lCorner, rCorner, vertex);
+                    }
+                    break;
+
+                case Chain:
+                    ChainShape chainShape = (ChainShape) fixture.getShape();
+
+                    for (int i = 0; i < chainShape.getVertexCount(); i++) {
+                       chainShape.getVertex(i, vertex);
+                       updateCorners(lCorner, rCorner, vertex);
+                    }
+                    break;
+            }
         }
 
-        return new Rectangle(objectRect);
+        lCorner.add(getBodyPosition());
+        rCorner.add(getBodyPosition());
+        return new Rectangle(lCorner.x, lCorner.y, rCorner.x - lCorner.x, rCorner.y - lCorner.y);
+    }
+
+    public Rectangle getSpriteRect() {
+        return sprite.getBoundingRectangle();
+    }
+
+    public Vector2 getBodyPosition() {
+        return toPix(body.getPosition().cpy());
     }
 
     public void beginContact(Contact contact, InGameObject object) {}

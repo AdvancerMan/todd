@@ -83,7 +83,7 @@ public abstract class MyScreen implements Screen {
     }
 
     public void centerCameraAt(InGameObject object) {
-        Rectangle objectRect = object.getObjectRect();
+        Rectangle objectRect = object.getSpriteRect();
         float x = objectRect.getX(), y = objectRect.getY();
         float width = objectRect.getWidth(), height = objectRect.getHeight();
 

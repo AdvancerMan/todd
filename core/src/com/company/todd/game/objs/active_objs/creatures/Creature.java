@@ -89,7 +89,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
         setPlayingAnimationName("shoot", true);
 
-        Rectangle objectRect = getObjectRect();  // TODO good place for bullet spawn
+        Rectangle objectRect = getBodyRect();  // TODO good place for bullet spawn
         float x, y;
         y = objectRect.y + objectRect.height / 2;  // TODO - bulletType.height / 2
         x = objectRect.x;

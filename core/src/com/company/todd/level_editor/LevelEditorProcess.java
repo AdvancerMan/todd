@@ -165,7 +165,7 @@ public class LevelEditorProcess extends GameProcess {
     @Override
     public void dispose() {
         for (StaticObject object : staticObjects) {
-            System.out.println(object.getObjectRect());
+            System.out.println(object.getBodyRect());
         }
 
         super.dispose();
