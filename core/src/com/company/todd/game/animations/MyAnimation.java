@@ -8,83 +8,81 @@ import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.texture.TextureRegionInfo;
 
 public class MyAnimation implements Disposable {
-    private ArrayMap<String, Animation<TextureRegion>> animations;
-    private ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> getters;
+    private ArrayMap<AnimationType, Animation<TextureRegion>> animations;
+    private ArrayMap<AnimationType, Array<TextureRegionInfo.TextureRegionGetter>> getters;
 
-    private String playingAnimationName;
+    private AnimationType playingAnimationType;
     private float timeFromStart;
     private boolean startedNow;
 
-    public MyAnimation(ArrayMap<String, Float> frameDurations,
-                       ArrayMap<String, Animation.PlayMode> playModes,
-                       ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> getters) {
-        animations = new ArrayMap<String, Animation<TextureRegion>>();
-        this.getters = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
+    public MyAnimation(ArrayMap<AnimationType, Float> frameDurations,
+                       ArrayMap<AnimationType, Animation.PlayMode> playModes,
+                       ArrayMap<AnimationType, Array<TextureRegionInfo.TextureRegionGetter>> getters) {
+        animations = new ArrayMap<AnimationType, Animation<TextureRegion>>();
+        this.getters = new ArrayMap<AnimationType, Array<TextureRegionInfo.TextureRegionGetter>>();
 
-        playingAnimationName = "";
+        playingAnimationType = AnimationType.STAY;
         timeFromStart = 0;
         startedNow = true;
 
-        for (String animName : getters.keys()) {
-            playingAnimationName = animName;
-            addAnimation(animName, getters.get(animName), frameDurations.get(animName), playModes.get(animName));
+        for (AnimationType animType : getters.keys()) {
+            addAnimation(animType, getters.get(animType), frameDurations.get(animType), playModes.get(animType));
         }
     }
 
     public MyAnimation() {
-        this(new ArrayMap<String, Float>(),
-                new ArrayMap<String, Animation.PlayMode>(),
-                new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>());
+        this(new ArrayMap<AnimationType, Float>(),
+                new ArrayMap<AnimationType, Animation.PlayMode>(),
+                new ArrayMap<AnimationType, Array<TextureRegionInfo.TextureRegionGetter>>());
     }
 
     public void update(float delta) {
         if (!startedNow) {
             timeFromStart += delta;
         }
+        startedNow = false;
     }
 
     public TextureRegion getFrame() {
-        if (!animations.containsKey(playingAnimationName)) {
-            throw new AnimationException("unknown animation name (" + playingAnimationName + ") in MyAnimation.getFrame()");
+        if (!animations.containsKey(playingAnimationType)) {
+            throw new AnimationException("no frames of " + playingAnimationType + " type");
         }
-
-        startedNow = false;
-        return animations.get(playingAnimationName).getKeyFrame(timeFromStart);
+        return animations.get(playingAnimationType).getKeyFrame(timeFromStart);
     }
 
-    public void addAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+    public void addAnimation(AnimationType animType, Array<TextureRegionInfo.TextureRegionGetter> getters,
                              float frameDuration, Animation.PlayMode playMode) {
-        if (animations.containsKey(animName)) {
-            throw new AnimationException("trying to add animation with existing name in MyAnimation.addAnimation()");
+        if (animations.containsKey(animType)) {
+            throw new AnimationException("trying to add animation with already used type in MyAnimation.addAnimation()");
         }
 
-        this.getters.put(animName, getters);
+        this.getters.put(animType, getters);
 
         Array<TextureRegion> regions = new Array<TextureRegion>();
         for (TextureRegionInfo.TextureRegionGetter getter : getters) {
             regions.add(getter.getRegion());
         }
 
-        animations.put(animName, new Animation<TextureRegion>(frameDuration, regions, playMode));
+        animations.put(animType, new Animation<TextureRegion>(frameDuration, regions, playMode));
     }
 
-    public void deleteAnimation(String animName) {
-        if (!getters.containsKey(animName)) {
-            throw new AnimationException("unknown animation name in MyAnimation.deleteAnimation()");
+    public void deleteAnimation(AnimationType animType) {
+        if (!getters.containsKey(animType)) {
+            throw new AnimationException("no frames of " + animType + " type");
         }
 
-        for (TextureRegionInfo.TextureRegionGetter getter : getters.get(animName)) {
+        for (TextureRegionInfo.TextureRegionGetter getter : getters.get(animType)) {
             getter.dispose();
         }
 
-        getters.removeKey(animName);
-        animations.removeKey(animName);
+        getters.removeKey(animType);
+        animations.removeKey(animType);
     }
 
-    public void setAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+    public void setAnimation(AnimationType animType, Array<TextureRegionInfo.TextureRegionGetter> getters,
                              float frameDuration, Animation.PlayMode playMode) {
-        if (!animations.containsKey(animName)) {
-            addAnimation(animName, getters, frameDuration, playMode);
+        if (!animations.containsKey(animType)) {
+            addAnimation(animType, getters, frameDuration, playMode);
             return;
         }
 
@@ -93,36 +91,37 @@ public class MyAnimation implements Disposable {
             regions.add(getter.getRegion());
         }
 
-        deleteAnimation(animName);
+        deleteAnimation(animType);
 
-        this.getters.put(animName, getters);
-        animations.put(animName, new Animation<TextureRegion>(frameDuration, regions, playMode));
+        this.getters.put(animType, getters);
+        animations.put(animType, new Animation<TextureRegion>(frameDuration, regions, playMode));
     }
 
-    public void setFrameDuration(String animName, float frameDuration) {
-        if (!animations.containsKey(animName)) {
-            throw new AnimationException("unknown animation name in MyAnimation.setFrameDuration()");
+    public void setFrameDuration(AnimationType animType, float frameDuration) {
+        if (!animations.containsKey(animType)) {
+            throw new AnimationException("no frames of " + animType + " type");
         }
 
-        animations.get(animName).setFrameDuration(frameDuration);
+        animations.get(animType).setFrameDuration(frameDuration);
     }
 
-    public void setPlayMode(String animName, Animation.PlayMode playMode) {
-        if (!animations.containsKey(animName)) {
-            throw new AnimationException("unknown animation name in MyAnimation.setPlayMode()");
+    public void setPlayMode(AnimationType animType, Animation.PlayMode playMode) {
+        if (!animations.containsKey(animType)) {
+            throw new AnimationException("no frames of " + animType + " type");
         }
 
-        animations.get(animName).setPlayMode(playMode);
+        animations.get(animType).setPlayMode(playMode);
     }
 
-    public void setPlayingAnimationName(String playingAnimationName, boolean changeEquals) {  // TODO priorities of animations
-        if (!playingAnimationName.equals(this.playingAnimationName) || changeEquals) {
+    public void setPlayingAnimationName(AnimationType playingAnimationType, boolean changeEquals) {  // TODO priorities of animations
+        if (!playingAnimationType.equals(this.playingAnimationType) || changeEquals) {
             timeFromStart = 0;
             startedNow = true;
-            this.playingAnimationName = playingAnimationName;
+            this.playingAnimationType = playingAnimationType;
 
-            if (!animations.containsKey(playingAnimationName)) {
-                this.playingAnimationName = "stay";
+            if (!animations.containsKey(playingAnimationType)) {
+                this.playingAnimationType = AnimationType.STAY;
+                System.err.println("no frames of " + playingAnimationType + " type");
             }
         }
     }
@@ -136,8 +135,12 @@ public class MyAnimation implements Disposable {
         }
     }
 
+    public enum AnimationType {
+        STAY, RUN, FALL, JUMP, SHOOT
+    }
+
     public class AnimationException extends RuntimeException {
-        public AnimationException(String msg) {
+        private AnimationException(String msg) {
             super(msg);
         }
     }

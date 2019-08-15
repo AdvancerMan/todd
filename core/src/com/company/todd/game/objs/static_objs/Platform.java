@@ -101,8 +101,8 @@ public class Platform extends StaticObject {
 
         game.textureManager.addTexture(tmpTexture, textureName, 1);
         TextureRegionInfo info = new TextureRegionInfo(game.textureManager, textureName, 0, 0, tmpTexture.getWidth(), tmpTexture.getHeight());
-
-        setAnimation("stay", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[]{info.getRegionGetter()}), 1, Animation.PlayMode.LOOP);
+        // FIXME make it beautifuller
+        setAnimation(MyAnimation.AnimationType.STAY, new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[]{info.getRegionGetter()}), 1, Animation.PlayMode.LOOP);
     }
 
     @Override

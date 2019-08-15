@@ -24,27 +24,27 @@ public class AnimationInfos {
     private void addPlayer() {
         AnimationInfo player = new AnimationInfo();
 
-        player.addAnimationName("run");
-        player.setDuration("run", 0.04f);
+        player.addAnimationName(MyAnimation.AnimationType.RUN);
+        player.setDuration(MyAnimation.AnimationType.RUN, 0.04f);
         for (int x = 0; x < 20 * 14; x += 20) {
-            player.addFrame("run",
+            player.addFrame(MyAnimation.AnimationType.RUN,
                     new TextureRegionInfo(mng, "Run.png", x, 0, 20, 52));
         }
 
-        player.addAnimationName("stay");  // TODO stay player anim
-        player.addFrame("stay",
+        player.addAnimationName(MyAnimation.AnimationType.STAY);  // TODO stay player anim
+        player.addFrame(MyAnimation.AnimationType.STAY,
                 new TextureRegionInfo(mng, "Static.png", 0, 0, 20, 52));
 
-        player.addAnimationName("jump");  // TODO jump player anim
-        player.setPlayMode("jump", Animation.PlayMode.NORMAL);
+        player.addAnimationName(MyAnimation.AnimationType.JUMP);  // TODO jump player anim
+        player.setPlayMode(MyAnimation.AnimationType.JUMP, Animation.PlayMode.NORMAL);
         for (int x = 0; x < 20 * 5; x += 20) {
-            player.addFrame("jump",
+            player.addFrame(MyAnimation.AnimationType.JUMP,
                     new TextureRegionInfo(mng, "Jump.png", x, 0, 20, 52));
         }
 
-        player.addAnimationName("shoot");  // TODO shoot player anim
+        player.addAnimationName(MyAnimation.AnimationType.SHOOT);  // TODO shoot player anim
         for (int x = 0; x < 240; x += 20) {
-            player.addFrame("shoot",
+            player.addFrame(MyAnimation.AnimationType.SHOOT,
                     new TextureRegionInfo(mng, "GG2.png", x, 0, 20, 51));
         }
 

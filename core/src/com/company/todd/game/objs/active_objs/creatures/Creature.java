@@ -13,6 +13,8 @@ import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
 
+import javax.print.attribute.standard.RequestingUserName;
+
 import static com.company.todd.util.FloatCmp.lessOrEquals;
 
 public abstract class Creature extends ActiveObject {  // TODO Creature
@@ -53,7 +55,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     public void jump() { // TODO energy consuming: jump()
         if (isOnGround) {  // TODO isOnGround
-            setPlayingAnimationName("jump", true);
+            setPlayingAnimationName(MyAnimation.AnimationType.JUMP, true);
             velocity.set(velocity.x, jumpPower);
         }
     }
@@ -64,7 +66,6 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     public void update(float delta) {
         super.update(delta);
 
-
         float nowYVel = body.getLinearVelocity().y;
         if (FloatCmp.equals(nowYVel, 0) && FloatCmp.lessOrEquals(prevYVel, 0)) {
             isOnGround = true;
@@ -74,7 +75,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         prevYVel = nowYVel;
 
         if (!changedAnim) {
-            setPlayingAnimationName("stay", false);
+            setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         }
         changedAnim = false;
     }
@@ -87,7 +88,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         if (TimeUtils.nanoTime() - lastMomentOfShoot <= coolDown) return;
         lastMomentOfShoot = TimeUtils.nanoTime();
 
-        setPlayingAnimationName("shoot", true);
+        setPlayingAnimationName(MyAnimation.AnimationType.SHOOT, true);
 
         Rectangle objectRect = getBodyRect();  // TODO good place for bullet spawn
         float x, y;
@@ -101,31 +102,32 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         }
 
         // TODO BulletType!!!
-        ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<String, Array<TextureRegionInfo.TextureRegionGetter>>();
-        tmp.put("run", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
-        tmp.put("stay", new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
+        ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>>();
+        tmp.put(MyAnimation.AnimationType.RUN, new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
+        tmp.put(MyAnimation.AnimationType.STAY, new Array<TextureRegionInfo.TextureRegionGetter>(new TextureRegionInfo.TextureRegionGetter[] {game.regionInfos.getRegionInfo("grassPlatformDown").getRegionGetter()}));
 
-        ArrayMap<String, Float> tmpp = new ArrayMap<String, Float>();
-        tmpp.put("run", 0.1f);
-        tmpp.put("stay", 0.1f);
+        ArrayMap<MyAnimation.AnimationType, Float> tmpp = new ArrayMap<MyAnimation.AnimationType, Float>();
+        tmpp.put(MyAnimation.AnimationType.RUN, 0.1f);
+        tmpp.put(MyAnimation.AnimationType.STAY, 0.1f);
 
-        ArrayMap<String, Animation.PlayMode> tmppp = new ArrayMap<String, Animation.PlayMode>();
-        tmppp.put("run", Animation.PlayMode.LOOP);
-        tmppp.put("stay", Animation.PlayMode.LOOP);
+        ArrayMap<MyAnimation.AnimationType, Animation.PlayMode> tmppp = new ArrayMap<MyAnimation.AnimationType, Animation.PlayMode>();
+        tmppp.put(MyAnimation.AnimationType.RUN, Animation.PlayMode.LOOP);
+        tmppp.put(MyAnimation.AnimationType.STAY, Animation.PlayMode.LOOP);
 
         Bullet bul = new Bullet(
                 game, this,
                 new MyAnimation(tmpp, tmppp, tmp),
                 x, y, 100, 20, toRight
         );
-        bul.setPlayingAnimationName("walk", true);
+        bul.setPlayingAnimationName(MyAnimation.AnimationType.RUN, true);
         gameProcess.addObject(bul);
     }
 
     @Override
-    public void setPlayingAnimationName(String animationName, boolean changeEquals) {
-        if (isOnGround || animationName.equals("shoot")) {
-            super.setPlayingAnimationName(animationName, changeEquals);
+    public void setPlayingAnimationName(MyAnimation.AnimationType animType, boolean changeEquals) {
+        if (isOnGround || animType.equals(MyAnimation.AnimationType.SHOOT) ||
+                !isOnGround && animType.equals(MyAnimation.AnimationType.FALL)) {
+            super.setPlayingAnimationName(animType, changeEquals);
         }
         changedAnim = true;
     }

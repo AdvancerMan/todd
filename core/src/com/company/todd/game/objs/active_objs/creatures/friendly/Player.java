@@ -43,5 +43,8 @@ public class Player extends Creature {
         handleInput();
 
         super.update(delta);
+
+        System.out.println(getBodyRect());
+        System.out.println(getSpriteRect());
     }
 }

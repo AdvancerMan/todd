@@ -31,7 +31,7 @@ public abstract class InGameObject implements Disposable {
     protected final ToddEthottGame game;
     protected GameProcess gameProcess;
 
-    private Sprite sprite;  // TODO arms sprite
+    private Sprite sprite;
     private boolean dirToRight;
     private MyAnimation animation;
 
@@ -51,7 +51,7 @@ public abstract class InGameObject implements Disposable {
         sprite = new Sprite();
         sprite.setBounds(spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
         this.animation = animation;
-        setPlayingAnimationName("stay", false);
+        setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         dirToRight = true;
 
         body = null;
@@ -130,30 +130,32 @@ public abstract class InGameObject implements Disposable {
     }
 
 
-    public void addAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+    public void addAnimation(MyAnimation.AnimationType animType,
+                             Array<TextureRegionInfo.TextureRegionGetter> getters,
                              float frameDuration, Animation.PlayMode playMode) {
-        animation.addAnimation(animName, getters, frameDuration, playMode);
+        animation.addAnimation(animType, getters, frameDuration, playMode);
     }
 
-    public void deleteAnimation(String animName) {
-        animation.deleteAnimation(animName);
+    public void deleteAnimation(MyAnimation.AnimationType animType) {
+        animation.deleteAnimation(animType);
     }
 
-    public void setAnimation(String animName, Array<TextureRegionInfo.TextureRegionGetter> getters,
+    public void setAnimation(MyAnimation.AnimationType animType,
+                             Array<TextureRegionInfo.TextureRegionGetter> getters,
                              float frameDuration, Animation.PlayMode playMode) {
-        animation.setAnimation(animName, getters, frameDuration, playMode);
+        animation.setAnimation(animType, getters, frameDuration, playMode);
     }
 
-    public void setAnimationFrameDuration(String animName, float frameDuration) {
-        animation.setFrameDuration(animName, frameDuration);
+    public void setAnimationFrameDuration(MyAnimation.AnimationType animType, float frameDuration) {
+        animation.setFrameDuration(animType, frameDuration);
     }
 
-    public void setAnimationPlayMode(String animName, Animation.PlayMode playMode) {
-        animation.setPlayMode(animName, playMode);
+    public void setAnimationPlayMode(MyAnimation.AnimationType animType, Animation.PlayMode playMode) {
+        animation.setPlayMode(animType, playMode);
     }
 
-    public void setPlayingAnimationName(String animationName, boolean changeEquals) {
-        animation.setPlayingAnimationName(animationName, changeEquals);
+    public void setPlayingAnimationName(MyAnimation.AnimationType animType, boolean changeEquals) {
+        animation.setPlayingAnimationName(animType, changeEquals);
     }
 
     public void setDirToRight(boolean dirToRight) {

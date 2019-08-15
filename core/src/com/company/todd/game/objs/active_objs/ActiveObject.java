@@ -23,7 +23,7 @@ public abstract class ActiveObject extends InGameObject {
                         float x, float y, float width, float height) {
         super(game, BodyDef.BodyType.DynamicBody, animation, x, y, width, height);
 
-        setPlayingAnimationName("stay", false);
+        setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
 
         this.runningSpeed = runningSpeed;
         this.velocity = new Vector2();
@@ -46,7 +46,7 @@ public abstract class ActiveObject extends InGameObject {
         } else {
             velocity.set(-runningSpeed, velocity.y);
         }
-        setPlayingAnimationName("run", false);
+        setPlayingAnimationName(MyAnimation.AnimationType.RUN, false);
     }
 
     @Override
