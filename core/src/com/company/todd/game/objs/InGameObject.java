@@ -202,8 +202,8 @@ public abstract class InGameObject implements Disposable {
     }
 
     public Rectangle getBodyRect() {
-        Vector2 lCorner = new Vector2(getBodyPosition());
-        Vector2 rCorner = new Vector2(getBodyPosition());
+        Vector2 lCorner = new Vector2();
+        Vector2 rCorner = new Vector2();
 
         Array<Fixture> fixtures = body.getFixtureList();
         for (Fixture fixture : fixtures) {
@@ -248,8 +248,12 @@ public abstract class InGameObject implements Disposable {
             }
         }
 
+        toPix(lCorner);
+        toPix(rCorner);
+
         lCorner.add(getBodyPosition());
         rCorner.add(getBodyPosition());
+
         return new Rectangle(lCorner.x, lCorner.y, rCorner.x - lCorner.x, rCorner.y - lCorner.y);
     }
 
