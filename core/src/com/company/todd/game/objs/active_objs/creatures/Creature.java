@@ -55,7 +55,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public void jump() { // TODO energy consuming: jump()
-        if (isOnGround) {  // TODO isOnGround
+        if (isOnGround) {
             setPlayingAnimationName(MyAnimation.AnimationType.JUMP, true);
             velocity.set(velocity.x, jumpPower);
         }
@@ -69,7 +69,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
         float nowYVel = body.getLinearVelocity().y;
         if (FloatCmp.equals(nowYVel, 0) && FloatCmp.lessOrEquals(prevYVel, 0)) {
-            isOnGround = true;
+            isOnGround = true;  // TODO isOnGround in collisions
         } else {
             isOnGround = false;
         }
@@ -131,7 +131,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     @Override
     public void setPlayingAnimationName(MyAnimation.AnimationType animType, boolean changeEquals) {
         if (isOnGround || animType.equals(MyAnimation.AnimationType.SHOOT) ||
-                !isOnGround && animType.equals(MyAnimation.AnimationType.FALL)) {
+                animType.equals(MyAnimation.AnimationType.FALL)) {
             super.setPlayingAnimationName(animType, changeEquals);
         }
         changedAnim = true;

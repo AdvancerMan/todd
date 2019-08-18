@@ -15,6 +15,7 @@ public class AnimationInfos {
         this.mng = mng;
 
         addPlayer();
+        addPlayerHands();
     }
 
     public MyAnimation getAnimation(String name) {
@@ -44,7 +45,7 @@ public class AnimationInfos {
         }
 
         player.addAnimationName(MyAnimation.AnimationType.SHOOT);
-        for (int x = 0; x < 240; x += 20) {
+        for (int x = 0; x < 20 * 5; x += 20) {
             player.addFrame(MyAnimation.AnimationType.SHOOT,
                     new TextureRegionInfo(mng, "GG2.png", x, 0, 20, 51));
         }
@@ -57,5 +58,21 @@ public class AnimationInfos {
         }
 
         animationInfos.put("player", player);
+    }
+
+    private void addPlayerHands() {
+        AnimationInfo hands = new AnimationInfo();
+
+        hands.addAnimationName(MyAnimation.AnimationType.SHOOT);
+        for (int x = 0; x < 20 * 12; x += 20) {
+            hands.addFrame(MyAnimation.AnimationType.SHOOT,
+                    new TextureRegionInfo(mng, "Run.png", x, 0, 20, 53));
+        }
+
+        hands.addAnimationName(MyAnimation.AnimationType.STAY);
+        hands.addFrame(MyAnimation.AnimationType.STAY,
+                new TextureRegionInfo(mng, "Static.png", 0, 0, 20, 52));
+
+        animationInfos.put("playerHands", hands);
     }
 }

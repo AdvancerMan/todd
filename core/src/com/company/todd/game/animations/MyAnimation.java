@@ -113,7 +113,7 @@ public class MyAnimation implements Disposable {
         animations.get(animType).setPlayMode(playMode);
     }
 
-    public void setPlayingAnimationName(AnimationType playingAnimationType, boolean changeEquals) {  // TODO priorities of animations
+    public void setPlayingAnimationType(AnimationType playingAnimationType, boolean changeEquals) {  // TODO priorities of animations
         if (!playingAnimationType.equals(this.playingAnimationType) || changeEquals) {
             timeFromStart = 0;
             startedNow = true;

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -121,9 +120,9 @@ public abstract class InGameObject implements Disposable {
             sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
         }
 
-        if (getSpriteRect().overlaps(cameraRectangle)) {
+        if (getSpriteBoundingRect().overlaps(cameraRectangle)) {
             sprite.setRegion(animation.getFrame());
-            if (!dirToRight) {
+            if (!isDirectedToRight()) {
                 sprite.flip(true, false);
             }
             sprite.draw(batch);
@@ -156,7 +155,7 @@ public abstract class InGameObject implements Disposable {
     }
 
     public void setPlayingAnimationName(MyAnimation.AnimationType animType, boolean changeEquals) {
-        animation.setPlayingAnimationName(animType, changeEquals);
+        animation.setPlayingAnimationType(animType, changeEquals);
     }
 
     public void setDirToRight(boolean dirToRight) {
@@ -258,12 +257,23 @@ public abstract class InGameObject implements Disposable {
         return new Rectangle(lCorner.x, lCorner.y, rCorner.x - lCorner.x, rCorner.y - lCorner.y);
     }
 
-    public Rectangle getSpriteRect() {
+    public Rectangle getSpriteBoundingRect() {
         return sprite.getBoundingRectangle();
     }
 
     public Vector2 getBodyPosition() {
         return toPix(body.getPosition().cpy());
+    }
+
+    public Vector2 getSpritePosition() {
+        return new Vector2(sprite.getX(), sprite.getY());
+    }
+    public Vector2 getSpriteSize() {
+        return new Vector2(sprite.getWidth(), sprite.getHeight());
+    }
+
+    protected boolean isDirectedToRight() {
+        return dirToRight;
     }
 
     public void beginContact(Contact contact, InGameObject object) {}

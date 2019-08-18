@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
@@ -53,8 +54,8 @@ public class Platform extends StaticObject {
             downPixmap = tmpData2.consumePixmap();
         }
 
-        Rectangle rect = getSpriteRect();
-        int width = (int)rect.getWidth(), height = (int)rect.getHeight();
+        Vector2 size = getSpriteSize();
+        int width = (int)size.x, height = (int)size.y;
         Pixmap finalPixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 
         DebugTimer timer = new DebugTimer("platform - updateTexture() - drawing on Pixmap");

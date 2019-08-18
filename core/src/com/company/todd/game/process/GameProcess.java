@@ -58,6 +58,8 @@ public class GameProcess implements Process {  // TODO GameProcess
     private void createPlayer() { // TODO player in GameProcess
         player = new Player(game,
                 game.animationInfos.getAnimation("player"),
+                game.animationInfos.getAnimation("playerHands"),
+                new Rectangle(50, 40, 20, 20),
                 inputHandler, 500, 500, 50, 100);
     }
 
