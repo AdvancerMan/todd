@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -44,12 +45,12 @@ public abstract class InGameObject implements Disposable {
     private int id;
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        Rectangle spriteRect, Rectangle bodyRect) {
+                        Vector2 spriteSize, Rectangle bodyRect) {
         this.game = game;
         this.gameProcess = null;
 
         sprite = new Sprite();
-        sprite.setBounds(spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
+        sprite.setSize(spriteSize.x, spriteSize.y);
         this.animation = animation;
         setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         dirToRight = true;
@@ -65,21 +66,21 @@ public abstract class InGameObject implements Disposable {
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        float spriteX, float spriteY, float spriteWidth, float spriteHeight,
+                        float spriteWidth, float spriteHeight,
                         float bodyX, float bodyY, float bodyWidth, float bodyHeight) {
         this(game, bodyType, animation,
-                new Rectangle(spriteX, spriteY, spriteWidth, spriteHeight),
+                new Vector2(spriteWidth, spriteHeight),
                 new Rectangle(bodyX, bodyY, bodyWidth, bodyHeight));
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         float x, float y, float width, float height) {
-        this(game, bodyType, animation, new Rectangle(x, y, width, height), new Rectangle(x, y, width, height));
+        this(game, bodyType, animation, new Vector2(width, height), new Rectangle(x, y, width, height));
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         Rectangle objectRect) {
-        this(game, bodyType, animation, objectRect, objectRect);
+        this(game, bodyType, animation, new Vector2(objectRect.width, objectRect.height), objectRect);
     }
 
     protected void createMyBody(Rectangle bodySize) {

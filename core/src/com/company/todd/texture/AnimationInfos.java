@@ -26,25 +26,33 @@ public class AnimationInfos {
 
         player.addAnimationName(MyAnimation.AnimationType.RUN);
         player.setDuration(MyAnimation.AnimationType.RUN, 0.04f);
-        for (int x = 0; x < 20 * 14; x += 20) {
+        for (int x = 0; x < 20 * 12; x += 20) {
             player.addFrame(MyAnimation.AnimationType.RUN,
                     new TextureRegionInfo(mng, "Run.png", x, 0, 20, 52));
         }
 
-        player.addAnimationName(MyAnimation.AnimationType.STAY);  // TODO stay player anim
+        player.addAnimationName(MyAnimation.AnimationType.STAY);
         player.addFrame(MyAnimation.AnimationType.STAY,
                 new TextureRegionInfo(mng, "Static.png", 0, 0, 20, 52));
 
-        player.addAnimationName(MyAnimation.AnimationType.JUMP);  // TODO jump player anim
+        player.addAnimationName(MyAnimation.AnimationType.JUMP);
         player.setPlayMode(MyAnimation.AnimationType.JUMP, Animation.PlayMode.NORMAL);
+        player.setDuration(MyAnimation.AnimationType.JUMP, 0.2f);
         for (int x = 0; x < 20 * 5; x += 20) {
             player.addFrame(MyAnimation.AnimationType.JUMP,
                     new TextureRegionInfo(mng, "Jump.png", x, 0, 20, 52));
         }
 
-        player.addAnimationName(MyAnimation.AnimationType.SHOOT);  // TODO shoot player anim
+        player.addAnimationName(MyAnimation.AnimationType.SHOOT);
         for (int x = 0; x < 240; x += 20) {
             player.addFrame(MyAnimation.AnimationType.SHOOT,
+                    new TextureRegionInfo(mng, "GG2.png", x, 0, 20, 51));
+        }
+
+        player.addAnimationName(MyAnimation.AnimationType.FALL);
+        player.setPlayMode(MyAnimation.AnimationType.FALL, Animation.PlayMode.NORMAL);
+        for (int x = 0; x < 20 * 5; x += 20) {
+            player.addFrame(MyAnimation.AnimationType.FALL,
                     new TextureRegionInfo(mng, "GG2.png", x, 0, 20, 51));
         }
 

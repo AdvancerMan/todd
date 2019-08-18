@@ -15,6 +15,7 @@ import com.company.todd.util.FloatCmp;
 
 import javax.print.attribute.standard.RequestingUserName;
 
+import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.lessOrEquals;
 
 public abstract class Creature extends ActiveObject {  // TODO Creature
@@ -77,6 +78,10 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         if (!changedAnim) {
             setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         }
+        if (less(nowYVel, 0)) {
+            setPlayingAnimationName(MyAnimation.AnimationType.FALL, false);
+        }
+
         changedAnim = false;
     }
 
