@@ -76,11 +76,15 @@ public abstract class CreatureWithHands extends Creature {
             super.setPlayingAnimationName(animType, changeEquals);
         }
     }
-private float lastMomentOfShoot = 0;
+
+    private float lastMomentOfShoot = 0;  // TODO cool cooldown
+
     @Override
     public void shoot() {  // TODO shoot
         if (TimeUtils.nanoTime() - lastMomentOfShoot <= coolDown) return;
         lastMomentOfShoot = TimeUtils.nanoTime();
+
+        setPlayingAnimationName(MyAnimation.AnimationType.SHOOT, true);
 
         Vector2 bulPos = new Vector2();
         if (isDirectedToRight()) {
@@ -90,8 +94,6 @@ private float lastMomentOfShoot = 0;
                     handsPosition.y);
         }
         bulPos.add(getSpritePosition());  // TODO with rotation
-
-        setPlayingAnimationName(MyAnimation.AnimationType.SHOOT, true);
 
         // TODO BulletType!!!
         ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>>();
