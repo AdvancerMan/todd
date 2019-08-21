@@ -81,6 +81,13 @@ public abstract class InGameObject implements Disposable {
                 new BodyInfo(new Vector2(x, y), new Vector2(width, height)));
     }
 
+    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
+                        float spriteWidth, float spriteHeight,
+                        float x, float y, float bodyRadius) {
+        this(game, bodyType, animation, new Vector2(spriteWidth, spriteHeight),
+                new BodyInfo(new Vector2(x, y), bodyRadius));
+    }
+
     private void createMyCircleBody(Vector2 pos, float radius) {
         destroyMyBody();
 
