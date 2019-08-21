@@ -43,6 +43,10 @@ public class BodyInfo {
         this.pos = pos;
     }
 
+    public void setCenter(Vector2 center) {
+        setPosition(new Vector2(center).add(-size.x / 2, -size.y / 2));
+    }
+
     public void setSize(Vector2 size) {
         this.size = size;
     }
