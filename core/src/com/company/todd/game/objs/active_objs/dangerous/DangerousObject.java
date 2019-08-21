@@ -37,7 +37,7 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         }
 
         if (object instanceof ActiveObject) {
-            ((ActiveObject)object).damage(damage);
+            ((ActiveObject)object).takeDamage(damage);
         }
 
         if (killer == null) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
@@ -20,15 +21,21 @@ public abstract class ActiveObject extends InGameObject {
 
     public ActiveObject(ToddEthottGame game, MyAnimation animation,
                         float runningSpeed,
-                        float x, float y, float width, float height) {
-        super(game, BodyDef.BodyType.DynamicBody, animation, x, y, width, height);
-
-        setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
+                        Vector2 spriteSize, BodyInfo bodyInfo) {
+        super(game, BodyDef.BodyType.DynamicBody, animation, spriteSize, bodyInfo);
 
         this.runningSpeed = runningSpeed;
         this.velocity = new Vector2();
 
         toRight = true;
+
+    }
+
+    public ActiveObject(ToddEthottGame game, MyAnimation animation,
+                        float runningSpeed,
+                        float x, float y, float width, float height) {
+        this(game, animation, runningSpeed, new Vector2(width, height),
+                new BodyInfo(new Vector2(x, y), new Vector2(width, height)));
     }
 
     public void changeDirection(boolean toRight) {
@@ -70,7 +77,7 @@ public abstract class ActiveObject extends InGameObject {
         velocity.set(0, 0);
     }
 
-    public abstract void damage(float amount);
+    public abstract void takeDamage(float amount);
 
     @Override
     public void dispose() {

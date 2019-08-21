@@ -138,7 +138,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     @Override
-    public void damage(float amount) {
+    public void takeDamage(float amount) {
         health -= amount;
         if (lessOrEquals(health, 0)) {
             kill();

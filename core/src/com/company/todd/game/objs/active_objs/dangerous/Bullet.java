@@ -27,7 +27,7 @@ public class Bullet extends DangerousObject {  // TODO Bullet
     }
 
     @Override
-    public void damage(float amount) {
+    public void takeDamage(float amount) {
         kill();
     }
 }  // TODO BulletType

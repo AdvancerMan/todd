@@ -77,8 +77,7 @@ public abstract class InGameObject implements Disposable {
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         float x, float y, float width, float height) {
-        this(game, bodyType, animation, new Vector2(width, height),
-                new BodyInfo(new Vector2(x, y), new Vector2(width, height)));
+        this(game, bodyType, animation, width, height, x, y, width, height);
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
