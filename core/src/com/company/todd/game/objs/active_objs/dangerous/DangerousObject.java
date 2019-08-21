@@ -25,8 +25,14 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         this.ownerSafe = true;
     }
 
+    @Override
+    protected void createMyBody() {
+        super.createMyBody();
+        body.setBullet(true);
+    }
+
     public void hit(InGameObject object) {  // TODO some special effects without body
-        if (owner.equals(object) && ownerSafe) {  // TODO fire when hits
+        if (owner != null && owner.equals(object) && ownerSafe) {  // TODO fire when hits
             return;
         }
 
@@ -59,15 +65,6 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
     @Override
     public void contactPreSolve(Contact contact, Manifold oldManifold, InGameObject object) {
         super.contactPreSolve(contact, oldManifold, object);
-
-        if (isKilled() && !object.equals(killer) || object.equals(owner) && ownerSafe) {
-            contact.setEnabled(false);
-        }
-    }
-
-    @Override
-    public void contactPostSolve(Contact contact, ContactImpulse impulse, InGameObject object) {
-        super.contactPostSolve(contact, impulse, object);
 
         if (isKilled() && !object.equals(killer) || object.equals(owner) && ownerSafe) {
             contact.setEnabled(false);

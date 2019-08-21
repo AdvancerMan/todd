@@ -15,8 +15,10 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
@@ -24,6 +26,7 @@ import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.box2d.BodyCreator.addBox;
+import static com.company.todd.box2d.BodyCreator.addCircle;
 import static com.company.todd.box2d.BodyCreator.createBody;
 import static com.company.todd.game.process.GameProcess.toPix;
 
@@ -36,7 +39,7 @@ public abstract class InGameObject implements Disposable {
     private MyAnimation animation;
 
     protected Body body;
-    private Rectangle bodySize;
+    protected BodyInfo bodyInfo;
     private BodyDef.BodyType bodyType;
     private boolean alive;
 
@@ -44,7 +47,7 @@ public abstract class InGameObject implements Disposable {
     private int id;
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        Vector2 spriteSize, Rectangle bodyRect) {
+                        Vector2 spriteSize, BodyInfo bodyInfo) {
         this.game = game;
         this.gameProcess = null;
 
@@ -55,7 +58,7 @@ public abstract class InGameObject implements Disposable {
         dirToRight = true;
 
         body = null;
-        bodySize = new Rectangle(bodyRect);
+        this.bodyInfo = bodyInfo;
         this.bodyType = bodyType;
 
         alive = true;
@@ -69,25 +72,28 @@ public abstract class InGameObject implements Disposable {
                         float bodyX, float bodyY, float bodyWidth, float bodyHeight) {
         this(game, bodyType, animation,
                 new Vector2(spriteWidth, spriteHeight),
-                new Rectangle(bodyX, bodyY, bodyWidth, bodyHeight));
+                new BodyInfo(new Vector2(bodyX, bodyY), new Vector2(bodyWidth, bodyHeight)));
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         float x, float y, float width, float height) {
-        this(game, bodyType, animation, new Vector2(width, height), new Rectangle(x, y, width, height));
+        this(game, bodyType, animation, new Vector2(width, height),
+                new BodyInfo(new Vector2(x, y), new Vector2(width, height)));
     }
 
-    public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        Rectangle objectRect) {
-        this(game, bodyType, animation, new Vector2(objectRect.width, objectRect.height), objectRect);
-    }
-
-    protected void createMyBody(Rectangle bodySize) {
+    private void createMyCircleBody(Vector2 pos, float radius) {
         destroyMyBody();
-        this.bodySize = bodySize;
 
-        float width = bodySize.width, height = bodySize.height;
-        float x = bodySize.x + width / 2, y = bodySize.y + height / 2;
+        body = createBody(gameProcess.getWorld(), bodyType, pos);
+        addCircle(body, pos, radius);
+        body.setUserData(this);
+    }
+
+    private void createMyRectangleBody(Vector2 pos, Vector2 size) {
+        destroyMyBody();
+
+        float width = size.x, height = size.y;
+        float x = pos.x + width / 2, y = pos.y + height / 2;
 
         body = createBody(gameProcess.getWorld(), bodyType, new Vector2(x, y));
         addBox(body, width / 2, height / 2);  // TODO size / 2 ?
@@ -95,7 +101,11 @@ public abstract class InGameObject implements Disposable {
     }
 
     protected void createMyBody() {
-        createMyBody(bodySize);
+        if (bodyInfo.getType().equals(Shape.Type.Circle)) {
+            createMyCircleBody(bodyInfo.getPosition(), bodyInfo.getRadius());
+        } else if (bodyInfo.getType().equals(Shape.Type.Polygon)) {
+            createMyRectangleBody(bodyInfo.getPosition(), bodyInfo.getSize());
+        }
     }
 
     protected void destroyMyBody() {
@@ -168,8 +178,9 @@ public abstract class InGameObject implements Disposable {
         createMyBody();
     }
 
+    // TODO setCenterPosition()
     public void setPosition(float x, float y) {  // FIXME weird logic
-        bodySize.setPosition(x, y);
+        bodyInfo.setPosition(new Vector2(x, y));
 
         if (body != null) {
             createMyBody();
@@ -177,12 +188,12 @@ public abstract class InGameObject implements Disposable {
     }
 
     public void setSize(float width, float height) {  // FIXME weird logic
-        bodySize.setSize(width, height);
+        bodyInfo.setSize(new Vector2(width, height));
         sprite.setSize(width, height);  // TODO sprite.setSize()
 
         if (body != null) {
             Vector2 pos = getBodyPosition();
-            bodySize.setCenter(pos);
+            bodyInfo.setCenter(pos);
             createMyBody();
         }
     }
