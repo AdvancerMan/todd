@@ -16,6 +16,7 @@ public class AnimationInfos {
 
         addPlayer();
         addPlayerHands();
+        addExplosion();
     }
 
     public MyAnimation getAnimation(String name) {
@@ -74,5 +75,18 @@ public class AnimationInfos {
                 new TextureRegionInfo(mng, "Static.png", 0, 0, 20, 52));
 
         animationInfos.put("playerHands", hands);
+    }
+
+    private void addExplosion() {
+        AnimationInfo explosion = new AnimationInfo();
+
+        explosion.addAnimationName(MyAnimation.AnimationType.STAY);
+        explosion.setPlayMode(MyAnimation.AnimationType.STAY, Animation.PlayMode.NORMAL);
+        for (int i = 1; i < 5; i += 1) {
+            explosion.addFrame(MyAnimation.AnimationType.STAY,
+                    new TextureRegionInfo(mng, "blow" + i + ".1.png", 0, 0, 50, 50));
+        }
+
+        animationInfos.put("explosion", explosion);
     }
 }

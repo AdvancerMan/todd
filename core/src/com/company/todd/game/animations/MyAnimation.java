@@ -110,7 +110,7 @@ public class MyAnimation implements Disposable {
             throw new AnimationException("no frames of " + animType + " type");
         }
 
-        Animation<TextureRegion> animation = animations.get(animType);
+        Animation<?> animation = animations.get(animType);  // TODO why ? type
         animation.setFrameDuration(animationDuration / animation.getKeyFrames().length);
     }
 
