@@ -166,6 +166,10 @@ public abstract class InGameObject implements Disposable {
         animation.setFrameDuration(animType, frameDuration);
     }
 
+    public void setAnimationDuration(MyAnimation.AnimationType animType, float duration) {
+        animation.setAnimationDuration(animType, duration);
+    }
+
     public void setAnimationPlayMode(MyAnimation.AnimationType animType, Animation.PlayMode playMode) {
         animation.setPlayMode(animType, playMode);
     }

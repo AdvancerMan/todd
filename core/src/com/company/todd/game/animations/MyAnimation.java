@@ -105,6 +105,15 @@ public class MyAnimation implements Disposable {
         animations.get(animType).setFrameDuration(frameDuration);
     }
 
+    public void setAnimationDuration(AnimationType animType, float animationDuration) {
+        if (!animations.containsKey(animType)) {
+            throw new AnimationException("no frames of " + animType + " type");
+        }
+
+        Animation<TextureRegion> animation = animations.get(animType);
+        animation.setFrameDuration(animationDuration / animation.getKeyFrames().length);
+    }
+
     public void setPlayMode(AnimationType animType, Animation.PlayMode playMode) {
         if (!animations.containsKey(animType)) {
             throw new AnimationException("no frames of " + animType + " type");
