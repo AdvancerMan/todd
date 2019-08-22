@@ -28,11 +28,19 @@ public class BodyInfo {
         this.type = Shape.Type.Polygon;
     }
 
+    public BodyInfo(float x, float y, float width, float height) {
+        this(new Vector2(x, y), new Vector2(width, height));
+    }
+
     public BodyInfo(Vector2 pos, float radius) {
         this.pos = pos;
         this.size = new Vector2();
         this.radius = radius;
         this.type = Shape.Type.Circle;
+    }
+
+    public BodyInfo(float x, float y, float radius) {
+        this(new Vector2(x, y), radius);
     }
 
     public void setType(Shape.Type type) {

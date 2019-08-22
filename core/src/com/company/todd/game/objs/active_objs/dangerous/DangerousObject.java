@@ -1,8 +1,10 @@
 package com.company.todd.game.objs.active_objs.dangerous;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
@@ -17,12 +19,18 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
 
     public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
                            float speed, float damage,
-                           float x, float y, float width, float height) {
-        super(game, animation, speed, x, y, width, height);
+                           Vector2 spriteSize, BodyInfo bodyInfo) {
+        super(game, animation, speed, spriteSize, bodyInfo);
         this.damage = damage;
         this.owner = owner;
         this.killer = null;
         this.ownerSafe = true;
+    }
+
+    public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+                           float speed, float damage,
+                           float x, float y, float width, float height) {
+        this(game, owner, animation, speed, damage, new Vector2(width, height), new BodyInfo(x, y, width, height));
     }
 
     @Override

@@ -35,7 +35,7 @@ public abstract class ActiveObject extends InGameObject {
                         float runningSpeed,
                         float x, float y, float width, float height) {
         this(game, animation, runningSpeed, new Vector2(width, height),
-                new BodyInfo(new Vector2(x, y), new Vector2(width, height)));
+                new BodyInfo(x, y, width, height));
     }
 
     public void changeDirection(boolean toRight) {

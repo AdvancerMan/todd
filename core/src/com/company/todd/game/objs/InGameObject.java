@@ -72,7 +72,7 @@ public abstract class InGameObject implements Disposable {
                         float bodyX, float bodyY, float bodyWidth, float bodyHeight) {
         this(game, bodyType, animation,
                 new Vector2(spriteWidth, spriteHeight),
-                new BodyInfo(new Vector2(bodyX, bodyY), new Vector2(bodyWidth, bodyHeight)));
+                new BodyInfo(bodyX, bodyY, bodyWidth, bodyHeight));
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
@@ -84,7 +84,7 @@ public abstract class InGameObject implements Disposable {
                         float spriteWidth, float spriteHeight,
                         float x, float y, float bodyRadius) {
         this(game, bodyType, animation, new Vector2(spriteWidth, spriteHeight),
-                new BodyInfo(new Vector2(x, y), bodyRadius));
+                new BodyInfo(x, y, bodyRadius));
     }
 
     private void createMyCircleBody(Vector2 pos, float radius) {
