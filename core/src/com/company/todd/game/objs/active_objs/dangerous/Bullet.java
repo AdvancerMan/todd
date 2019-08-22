@@ -15,12 +15,6 @@ public class Bullet extends DangerousObject {  // TODO Bullet
     }
 
     @Override
-    protected void createMyBody() {
-        super.createMyBody();
-        body.setBullet(true);
-    }
-
-    @Override
     public void update(float delta) {
         run(toRight);
         super.update(delta);

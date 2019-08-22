@@ -43,7 +43,7 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         if (killer == null) {
             killer = object;
         }
-        kill();
+        takeDamage(0);
     }
 
     @Override
@@ -62,11 +62,15 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         }
     }
 
+    protected boolean isContactDisabled(InGameObject object) {
+        return isKilled() && !object.equals(killer) || object.equals(owner) && ownerSafe;
+    }
+
     @Override
     public void contactPreSolve(Contact contact, Manifold oldManifold, InGameObject object) {
         super.contactPreSolve(contact, oldManifold, object);
 
-        if (isKilled() && !object.equals(killer) || object.equals(owner) && ownerSafe) {
+        if (isContactDisabled(object)) {
             contact.setEnabled(false);
         }
     }
