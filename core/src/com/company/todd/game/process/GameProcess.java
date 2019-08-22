@@ -15,6 +15,7 @@ import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.game.objs.active_objs.creatures.friendly.Player;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
+import com.company.todd.game.objs.active_objs.dangerous.objects.AirBomb;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
@@ -95,6 +96,18 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
+    protected void checkLifeIn(Array<? extends InGameObject> objects) {
+        Iterator<? extends InGameObject> iterator = objects.iterator();
+        while (iterator.hasNext()) {
+            InGameObject object = iterator.next();
+
+            if (object.isKilled()) {
+                object.dispose();
+                iterator.remove();
+            }
+        }
+    }
+
     protected void updateObjectsFrom(Array<? extends InGameObject> objects, float delta) {
         for (InGameObject object : objects) {
             if (!object.isKilled()) {
@@ -106,6 +119,10 @@ public class GameProcess implements Process {  // TODO GameProcess
     @Override
     public void update(float delta) {
         handleInput();
+
+        checkLifeIn(dangerousObjects);
+        checkLifeIn(creatures);
+        checkLifeIn(staticObjects);
 
         updateObjectsFrom(dangerousObjects, delta);
         updateObjectsFrom(creatures, delta);
@@ -124,15 +141,8 @@ public class GameProcess implements Process {  // TODO GameProcess
     }
 
     protected void drawObjectsFrom(Array<? extends InGameObject> objects, SpriteBatch batch, Rectangle cameraRect) {
-        Iterator<? extends InGameObject> iterator = objects.iterator();
-        while (iterator.hasNext()) {
-            InGameObject object = iterator.next();
-
+        for (InGameObject object : objects) {
             object.draw(batch, cameraRect);
-            if (object.isKilled()) {
-                object.dispose();
-                iterator.remove();
-            }
         }
     }
 
