@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
+import com.company.todd.game.objs.active_objs.dangerous.objects.HomingMissile;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
@@ -188,6 +189,12 @@ public abstract class InGameObject implements Disposable {
         createMyBody();
     }
 
+    public void setVelocity(Vector2 v) {
+        Vector2 vel = new Vector2(v);
+        vel.sub(body.getLinearVelocity());
+        body.applyLinearImpulse(vel.scl(body.getMass()), body.getWorldCenter(), true);
+    }
+
     // TODO setCenterPosition()
     public void setPosition(float x, float y) {  // FIXME weird logic
         bodyInfo.setPosition(new Vector2(x, y));
@@ -289,6 +296,7 @@ public abstract class InGameObject implements Disposable {
     public Vector2 getSpritePosition() {
         return new Vector2(sprite.getX(), sprite.getY());
     }
+
     public Vector2 getSpriteSize() {
         return new Vector2(sprite.getWidth(), sprite.getHeight());
     }
