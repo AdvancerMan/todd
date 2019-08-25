@@ -21,6 +21,11 @@ public class LevelEditorProcess extends GameProcess {
     protected Vector2 firstTouchPos;
     protected Platform.Types platformTypes;
 
+    private Vector2 lastTouchPos;
+    private boolean scaleUpFlag, scaleDownFlag;
+    private MoveType moveType;
+
+
     public LevelEditorProcess(ToddEthottGame game, MyScreen screen) {
         super(game, screen, new Level(game));
         addJustCreatedObjectsToProcess();
@@ -48,27 +53,34 @@ public class LevelEditorProcess extends GameProcess {
         firstTouchPos = new Vector2();
 
         platformTypes = new Platform.Types(game);
+
+        lastTouchPos = new Vector2();
+        scaleDownFlag = false;
+        scaleUpFlag = false;
+        moveType = MoveType.NOT_MOVING;
     }
 
-    private boolean scaleUpFlag = false, scaleDownFlag = false;
-    private byte moveFlag = 0;
     public void update(float delta) {
-        if (scaleUpFlag || scaleDownFlag) {
-            updateButtons(delta, new Vector2());
-        } else if (Gdx.input.isTouched()) {
-            Vector2 touchPos = screen.getTouchPos();
+        Vector2 touchPos = screen.getTouchPos();
 
-            if (moveFlag > 0 || Gdx.input.justTouched() && intrWithButtons(touchPos)) {
-                updateButtons(delta, touchPos);
-                return;
-            }
+        updateButtonsFlags(touchPos);
 
-            screen.fromScreenToWorldCoord(touchPos);
+        if (scaleUpFlag || scaleDownFlag || moveType == MoveType.MOVING) {
+            updateButtons(delta, touchPos);
+        } else if (moveType == MoveType.NOT_MOVING) {
+            updatePlatformPlacing(delta, touchPos);
+        }
+    }
 
+    private void updatePlatformPlacing(float delta, Vector2 touchPos_) {
+        Vector2 touchPos = new Vector2(touchPos_);
+        screen.fromScreenToWorldCoord(touchPos);
+
+        if (Gdx.input.isTouched()) {
             if (platformNow == null) {
                 platformNow = new Platform(game, platformTypes.getPlatformType("grassPlatform"),
-
                         touchPos.x, touchPos.y, 0, 0);
+
                 addObject(platformNow);
                 addJustCreatedObjectsToProcess();
                 platformNow.setGameProcess(this);
@@ -76,64 +88,87 @@ public class LevelEditorProcess extends GameProcess {
             } else {
                 platformNow.setSize(Math.abs(firstTouchPos.x - touchPos.x), Math.abs(firstTouchPos.y - touchPos.y));
 
-                if (firstTouchPos.x >= touchPos.x &&  firstTouchPos.y <= touchPos.y) {
+                if (firstTouchPos.x >= touchPos.x && firstTouchPos.y <= touchPos.y) {
                     platformNow.setPosition(touchPos.x, firstTouchPos.y);
-                } else if (firstTouchPos.x <= touchPos.x &&  firstTouchPos.y >= touchPos.y) {
+                } else if (firstTouchPos.x <= touchPos.x && firstTouchPos.y >= touchPos.y) {
                     platformNow.setPosition(firstTouchPos.x, touchPos.y);
-                } else if (firstTouchPos.x >= touchPos.x &&  firstTouchPos.y >= touchPos.y) {
+                } else if (firstTouchPos.x >= touchPos.x && firstTouchPos.y >= touchPos.y) {
                     platformNow.setPosition(touchPos.x, touchPos.y);
                 } else {
                     platformNow.setPosition(firstTouchPos.x, firstTouchPos.y);
                 }
             }
         } else {
-            if (platformNow != null) {
-                platformNow = null;
-            }
+            platformNow = null;
         }
     }
 
-    private Vector2 moveTouchPos = new Vector2();
     private void updateButtons(float delta, Vector2 touchPos) {
-        if (moveFlag > 0) {
-            if (moveFlag > 1 && Gdx.input.justTouched() && moveRect.contains(touchPos)) {
-                moveFlag = 0;
-                return;
-            } else if (Gdx.input.justTouched()) {
-                moveTouchPos.set(touchPos);
-            } else if (Gdx.input.isTouched()) {
-                screen.translateCamera(moveTouchPos.x - touchPos.x, moveTouchPos.y - touchPos.y);
-                moveTouchPos.set(touchPos);
-            }
-            moveFlag = 2;
-        } else if (scaleDownFlag) {
-            if (Gdx.input.isTouched()) {
-                screen.changeCameraViewportSize(-60 * delta, -60 * delta);
+        if (moveType.equals(MoveType.MOVING) && Gdx.input.isTouched()) {
+            if (Gdx.input.justTouched()) {
+                lastTouchPos.set(touchPos);
             } else {
-                scaleDownFlag = false;
+                float kx = screen.getCameraViewportWidth() / Gdx.graphics.getWidth();
+                float ky = screen.getCameraViewportHeight() / Gdx.graphics.getHeight();
+
+                screen.translateCamera(kx * (lastTouchPos.x - touchPos.x), ky * (lastTouchPos.y - touchPos.y));
+                lastTouchPos.set(touchPos);
             }
-        } else if (scaleUpFlag) {
-            if (Gdx.input.isTouched()) {
-                screen.changeCameraViewportSize(60 * delta, 60 * delta);
-            } else {
-                scaleUpFlag = false;
-            }
+
+            return;
+        }
+
+        if (scaleDownFlag && Gdx.input.isTouched()) {
+            screen.changeCameraViewportSize(-60 * delta, -60 * delta);
+        }
+
+        if (scaleUpFlag && Gdx.input.isTouched()) {
+            screen.changeCameraViewportSize(60 * delta, 60 * delta);
         }
     }
 
-    private boolean intrWithButtons(Vector2 touchPos) {
-
+    private void checkTouchedButtons(Vector2 touchPos) {
         if (moveRect.contains(touchPos)) {
-            moveFlag = 1;
-        } else if (scaleUpRect.contains(touchPos)) {
-            scaleUpFlag = true;
-        } else if (scaleDownRect.contains(touchPos)) {
-            scaleDownFlag = true;
-        } else {
-            return false;
+            if (moveType.equals(MoveType.MOVING)) {
+                moveType = MoveType.MOVING_PRESSED;
+            } else if (moveType.equals(MoveType.NOT_MOVING)) {
+                moveType = MoveType.NOT_MOVING_PRESSED;
+            }
         }
 
-        return true;
+        if (scaleUpRect.contains(touchPos)) {
+            scaleUpFlag = true;
+        }
+
+        if (scaleDownRect.contains(touchPos)) {
+            scaleDownFlag = true;
+        }
+    }
+
+    private void checkNotTouchedButtons(Vector2 touchPos) {
+        if (!moveRect.contains(touchPos)) {
+            if (moveType.equals(MoveType.MOVING_PRESSED)) {
+                moveType = MoveType.NOT_MOVING;
+            } else if (moveType.equals(MoveType.NOT_MOVING_PRESSED)) {
+                moveType = MoveType.MOVING;
+            }
+        }
+
+        if (!scaleUpRect.contains(touchPos)) {
+            scaleUpFlag = false;
+        }
+
+        if (!scaleDownRect.contains(touchPos)) {
+            scaleDownFlag = false;
+        }
+    }
+
+    private void updateButtonsFlags(Vector2 touchPos) {
+        if (Gdx.input.justTouched()) {
+            checkTouchedButtons(touchPos);
+        } else if (!Gdx.input.isTouched()) {
+            checkNotTouchedButtons(touchPos);
+        }
     }
 
     @Override
@@ -170,5 +205,9 @@ public class LevelEditorProcess extends GameProcess {
         move.dispose();
         scaleDown.dispose();
         scaleUp.dispose();
+    }
+
+    private enum MoveType {
+        NOT_MOVING, NOT_MOVING_PRESSED, MOVING, MOVING_PRESSED
     }
 }
