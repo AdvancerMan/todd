@@ -13,6 +13,7 @@ import static com.company.todd.util.FloatCmp.less;
 public class HomingMissile extends DangerousObject {
     private float explosionTime;
     private InGameObject target;
+    private Vector2 lastTargetPos;
 
     public HomingMissile(ToddEthottGame game, InGameObject owner, MyAnimation animation,
                          InGameObject target,
@@ -21,6 +22,7 @@ public class HomingMissile extends DangerousObject {
         super(game, owner, animation, speed, damage, x, y, width, height);
         this.explosionTime = explosionTime;
         this.target = target;
+        lastTargetPos = new Vector2();
     }
 
     @Override
@@ -32,12 +34,11 @@ public class HomingMissile extends DangerousObject {
 
     @Override
     protected void updatePosition(float delta) {
-        if (target.isKilled()) {
-            return;
-        }
+        Vector2 targetPos = lastTargetPos;
+        if (!target.isKilled()) targetPos = target.getBodyPosition();
+        lastTargetPos = new Vector2(targetPos);
 
         // setting acceleration for missile
-        Vector2 targetPos = target.getBodyPosition();
         Vector2 thisPos = getBodyPosition();
         Vector2 accel = new Vector2(targetPos);
         accel.sub(thisPos).nor().scl(runningSpeed);
