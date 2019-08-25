@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.static_objs.Platform;
 import com.company.todd.game.objs.static_objs.StaticObject;
@@ -19,7 +18,7 @@ public class LevelEditorProcess extends GameProcess {
     protected Texture move, scaleUp, scaleDown;
     protected Rectangle moveRect, scaleUpRect, scaleDownRect;
     protected Platform platformNow;
-    protected Vector3 firstTouchPos;
+    protected Vector2 firstTouchPos;
     protected Platform.Types platformTypes;
 
     public LevelEditorProcess(ToddEthottGame game, MyScreen screen) {
@@ -46,7 +45,7 @@ public class LevelEditorProcess extends GameProcess {
         pixmap.dispose();
 
         platformNow = null;
-        firstTouchPos = new Vector3();
+        firstTouchPos = new Vector2();
 
         platformTypes = new Platform.Types(game);
     }
@@ -55,9 +54,9 @@ public class LevelEditorProcess extends GameProcess {
     private byte moveFlag = 0;
     public void update(float delta) {
         if (scaleUpFlag || scaleDownFlag) {
-            updateButtons(delta, new Vector3());
+            updateButtons(delta, new Vector2());
         } else if (Gdx.input.isTouched()) {
-            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
             screen.toScreenCoord(touchPos);
 
             if (moveFlag > 0 || Gdx.input.justTouched() && intrWithButtons(touchPos)) {
@@ -69,6 +68,7 @@ public class LevelEditorProcess extends GameProcess {
 
             if (platformNow == null) {
                 platformNow = new Platform(game, platformTypes.getPlatformType("grassPlatform"),
+
                         touchPos.x, touchPos.y, 0, 0);
                 addObject(platformNow);
                 addJustCreatedObjectsToProcess();
@@ -95,16 +95,16 @@ public class LevelEditorProcess extends GameProcess {
     }
 
     private Vector2 moveTouchPos = new Vector2();
-    private void updateButtons(float delta, Vector3 touchPos) {
+    private void updateButtons(float delta, Vector2 touchPos) {
         if (moveFlag > 0) {
-            if (moveFlag > 1 && Gdx.input.justTouched() && moveRect.contains(touchPos.x, touchPos.y)) {
+            if (moveFlag > 1 && Gdx.input.justTouched() && moveRect.contains(touchPos)) {
                 moveFlag = 0;
                 return;
             } else if (Gdx.input.justTouched()) {
-                moveTouchPos.set(touchPos.x, touchPos.y);
+                moveTouchPos.set(touchPos);
             } else if (Gdx.input.isTouched()) {
                 screen.translateCamera(moveTouchPos.x - touchPos.x, moveTouchPos.y - touchPos.y);
-                moveTouchPos.set(touchPos.x, touchPos.y);
+                moveTouchPos.set(touchPos);
             }
             moveFlag = 2;
         } else if (scaleDownFlag) {
@@ -122,14 +122,13 @@ public class LevelEditorProcess extends GameProcess {
         }
     }
 
-    private boolean intrWithButtons(Vector3 touchPos) {
-        Vector2 touchPos2 = new Vector2(touchPos.x, touchPos.y);
+    private boolean intrWithButtons(Vector2 touchPos) {
 
-        if (moveRect.contains(touchPos2)) {
+        if (moveRect.contains(touchPos)) {
             moveFlag = 1;
-        } else if (scaleUpRect.contains(touchPos2)) {
+        } else if (scaleUpRect.contains(touchPos)) {
             scaleUpFlag = true;
-        } else if (scaleDownRect.contains(touchPos2)) {
+        } else if (scaleDownRect.contains(touchPos)) {
             scaleDownFlag = true;
         } else {
             return false;
@@ -142,21 +141,21 @@ public class LevelEditorProcess extends GameProcess {
     public void draw(SpriteBatch batch) {
         super.draw(batch);
 
-        Vector3 tmpVec = new Vector3();
+        Vector2 tmpVec = new Vector2();
         float widthK = screen.getCameraViewportWidth() / (float)Gdx.graphics.getWidth();
         float heightK = screen.getCameraViewportHeight() / (float)Gdx.graphics.getHeight();
 
-        tmpVec.set(moveRect.x, moveRect.y, 0);
+        tmpVec.set(moveRect.x, moveRect.y);
         tmpVec = screen.fromScreenToWorldCoord(tmpVec);
         batch.draw(move, tmpVec.x, tmpVec.y,
                 moveRect.width * widthK, moveRect.height * heightK);
 
-        tmpVec.set(scaleUpRect.x, scaleUpRect.y, 0);
+        tmpVec.set(scaleUpRect.x, scaleUpRect.y);
         tmpVec = screen.fromScreenToWorldCoord(tmpVec);
         batch.draw(scaleUp, tmpVec.x, tmpVec.y,
                 scaleUpRect.width * widthK, scaleUpRect.height * heightK);
 
-        tmpVec.set(scaleDownRect.x, scaleDownRect.y, 0);
+        tmpVec.set(scaleDownRect.x, scaleDownRect.y);
         tmpVec = screen.fromScreenToWorldCoord(tmpVec);
         batch.draw(scaleDown, tmpVec.x, tmpVec.y,
                 scaleDownRect.width * widthK, scaleDownRect.height * heightK);

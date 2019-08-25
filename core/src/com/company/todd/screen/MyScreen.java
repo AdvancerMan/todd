@@ -13,7 +13,7 @@ import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class MyScreen implements Screen {
     protected ToddEthottGame game;
-    protected Vector3 touchPos;
+    protected Vector2 touchPos;
 
     private OrthographicCamera camera;
 
@@ -23,28 +23,28 @@ public abstract class MyScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
 
-        touchPos = new Vector3();
+        touchPos = new Vector2();
     }
 
     protected void update(float delta) {
-        touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        touchPos.set(Gdx.input.getX(), Gdx.input.getY());
         toScreenCoord(touchPos);
     }
 
-    public Vector3 toScreenCoord(Vector3 vector) {
+    public Vector2 toScreenCoord(Vector2 vector) {
         float x = vector.x, y = vector.y;
         y = Gdx.graphics.getHeight() - y - 1;
-        return vector.set(x, y, vector.z);
+        return vector.set(x, y);
     }
 
-    public Vector3 fromScreenToWorldCoord(Vector3 vector) {
+    public Vector2 fromScreenToWorldCoord(Vector2 vector) {
         float widthK = camera.viewportWidth / Gdx.graphics.getWidth();
         float heightK = camera.viewportHeight / Gdx.graphics.getHeight();
 
-        vector.set(vector.x * widthK, vector.y * heightK, vector.z);
+        vector.set(vector.x * widthK, vector.y * heightK);
 
         vector.add(camera.position.x - camera.viewportWidth / 2,
-                camera.position.y - camera.viewportHeight / 2, 0);
+                camera.position.y - camera.viewportHeight / 2);
         return vector;
     }
 
