@@ -56,8 +56,7 @@ public class LevelEditorProcess extends GameProcess {
         if (scaleUpFlag || scaleDownFlag) {
             updateButtons(delta, new Vector2());
         } else if (Gdx.input.isTouched()) {
-            Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            screen.toScreenCoord(touchPos);
+            Vector2 touchPos = screen.getTouchPos();
 
             if (moveFlag > 0 || Gdx.input.justTouched() && intrWithButtons(touchPos)) {
                 updateButtons(delta, touchPos);
@@ -109,13 +108,13 @@ public class LevelEditorProcess extends GameProcess {
             moveFlag = 2;
         } else if (scaleDownFlag) {
             if (Gdx.input.isTouched()) {
-                screen.changeCameraViewportSize(-1, -1);
+                screen.changeCameraViewportSize(-60 * delta, -60 * delta);
             } else {
                 scaleDownFlag = false;
             }
         } else if (scaleUpFlag) {
             if (Gdx.input.isTouched()) {
-                screen.changeCameraViewportSize(1, 1);
+                screen.changeCameraViewportSize(60 * delta, 60 * delta);
             } else {
                 scaleUpFlag = false;
             }

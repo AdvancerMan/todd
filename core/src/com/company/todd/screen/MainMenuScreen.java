@@ -2,6 +2,7 @@ package com.company.todd.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import com.company.todd.launcher.ToddEthottGame;
@@ -45,6 +46,7 @@ public class MainMenuScreen extends MyScreen {
     protected void update(float delta) {
         super.update(delta);
 
+        Vector2 touchPos = getTouchPos();
         buttonsMenu.update(delta, touchPos.x, touchPos.y);
     }
 

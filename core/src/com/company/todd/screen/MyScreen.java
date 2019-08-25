@@ -13,7 +13,7 @@ import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class MyScreen implements Screen {
     protected ToddEthottGame game;
-    protected Vector2 touchPos;
+    private Vector2 touchPos;
 
     private OrthographicCamera camera;
 
@@ -27,6 +27,10 @@ public abstract class MyScreen implements Screen {
     }
 
     protected void update(float delta) {
+        updateTouchPos();
+    }
+
+    public void updateTouchPos() {
         touchPos.set(Gdx.input.getX(), Gdx.input.getY());
         toScreenCoord(touchPos);
     }
@@ -46,6 +50,10 @@ public abstract class MyScreen implements Screen {
         vector.add(camera.position.x - camera.viewportWidth / 2,
                 camera.position.y - camera.viewportHeight / 2);
         return vector;
+    }
+
+    public Vector2 getTouchPos() {
+        return new Vector2(touchPos);
     }
 
     public float getCameraViewportHeight() {
