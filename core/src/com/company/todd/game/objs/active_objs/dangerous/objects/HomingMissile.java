@@ -32,16 +32,22 @@ public class HomingMissile extends DangerousObject {
 
     @Override
     protected void updatePosition(float delta) {
+        if (target.isKilled()) {
+            return;
+        }
+
+        // setting acceleration for missile
         Vector2 targetPos = target.getBodyPosition();
         Vector2 thisPos = getBodyPosition();
-        Vector2 impulse = new Vector2(targetPos);
-        impulse.sub(thisPos).nor().scl(runningSpeed);
+        Vector2 accel = new Vector2(targetPos);
+        accel.sub(thisPos).nor().scl(runningSpeed);
 
-        setVelocity(impulse);
+        body.applyForceToCenter(accel.scl(body.getMass() * 2), true);
 
+        // turning the body to the speed vector's direction
         Vector2 bodyAngle = new Vector2(1, 0);
         bodyAngle.rotateRad(body.getAngle());
-        float angle = bodyAngle.angleRad(impulse);
+        float angle = bodyAngle.angleRad(body.getLinearVelocity());
 
         body.applyTorque((angle * 10 - body.getAngularVelocity()) * body.getMass(), true);  // TODO angular vel
     }
