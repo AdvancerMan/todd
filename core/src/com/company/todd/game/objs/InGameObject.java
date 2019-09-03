@@ -39,7 +39,7 @@ public abstract class InGameObject implements Disposable {
     private boolean dirToRight;
     private MyAnimation animation;
 
-    protected Body body;
+    protected Body body;  // TODO make body private
     protected BodyInfo bodyInfo;
     private BodyDef.BodyType bodyType;
     private boolean alive;
@@ -148,7 +148,6 @@ public abstract class InGameObject implements Disposable {
         }
     }
 
-
     public void addAnimation(MyAnimation.AnimationType animType,
                              Array<TextureRegionInfo.TextureRegionGetter> getters,
                              float frameDuration, Animation.PlayMode playMode) {
@@ -191,10 +190,23 @@ public abstract class InGameObject implements Disposable {
         createMyBody();
     }
 
+    public void applyLinearImpulseToBodyCenter(Vector2 impulse) {
+        body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
+    }
+
     public void setVelocity(Vector2 v) {
-        Vector2 vel = new Vector2(v);
-        vel.sub(body.getLinearVelocity());
-        body.applyLinearImpulse(vel.scl(body.getMass()), body.getWorldCenter(), true);
+        Vector2 vel = new Vector2(v).sub(body.getLinearVelocity());
+        applyLinearImpulseToBodyCenter(vel.scl(body.getMass()));
+    }
+
+    public void setYVelocity(float yVel) {
+        Vector2 vel = new Vector2(0, yVel - body.getLinearVelocity().y);
+        applyLinearImpulseToBodyCenter(vel.scl(body.getMass()));
+    }
+
+    public void setXVelocity(float xVel) {
+        Vector2 vel = new Vector2(xVel - body.getLinearVelocity().x, 0);
+        applyLinearImpulseToBodyCenter(vel.scl(body.getMass()));
     }
 
     // TODO setCenterPosition()
