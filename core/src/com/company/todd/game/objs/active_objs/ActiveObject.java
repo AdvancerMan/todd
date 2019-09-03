@@ -22,7 +22,7 @@ public abstract class ActiveObject extends InGameObject {
     public ActiveObject(ToddEthottGame game, MyAnimation animation,
                         float runningSpeed,
                         Vector2 spriteSize, BodyInfo bodyInfo) {
-        super(game, BodyDef.BodyType.DynamicBody, animation, spriteSize, bodyInfo);
+        super(game, BodyDef.BodyType.DynamicBody, animation, bodyInfo, spriteSize);
 
         this.runningSpeed = runningSpeed;
         this.velocity = new Vector2();

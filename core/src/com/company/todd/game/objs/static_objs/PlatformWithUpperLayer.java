@@ -22,7 +22,7 @@ public class PlatformWithUpperLayer extends StaticObject {
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
     protected TextureRegionInfo info;
 
-    public PlatformWithUpperLayer(ToddEthottGame game, Type type,
+    public PlatformWithUpperLayer(ToddEthottGame game, Type type,  // TODO constructor with spriteSize and bodySize
                                   float x, float y, float width, float height) {
         super(game, new MyAnimation(), x, y, width, height);
 

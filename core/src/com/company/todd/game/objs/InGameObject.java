@@ -48,7 +48,7 @@ public abstract class InGameObject implements Disposable {
     private int id;
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        Vector2 spriteSize, BodyInfo bodyInfo) {
+                        BodyInfo bodyInfo, Vector2 spriteSize) {
         this.game = game;
         this.gameProcess = null;
 
@@ -69,23 +69,25 @@ public abstract class InGameObject implements Disposable {
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        float spriteWidth, float spriteHeight,
-                        float bodyX, float bodyY, float bodyWidth, float bodyHeight) {
+                        float x, float y,
+                        float bodyWidth, float bodyHeight,
+                        float spriteWidth, float spriteHeight) {
         this(game, bodyType, animation,
-                new Vector2(spriteWidth, spriteHeight),
-                new BodyInfo(bodyX, bodyY, bodyWidth, bodyHeight));
+                new BodyInfo(x, y, bodyWidth, bodyHeight),
+                new Vector2(spriteWidth, spriteHeight));
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         float x, float y, float width, float height) {
-        this(game, bodyType, animation, width, height, x, y, width, height);
+        this(game, bodyType, animation, x, y, width, height, width, height);
     }
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
-                        float spriteWidth, float spriteHeight,
-                        float x, float y, float bodyRadius) {
-        this(game, bodyType, animation, new Vector2(spriteWidth, spriteHeight),
-                new BodyInfo(x, y, bodyRadius));
+                        float x, float y,
+                        float bodyRadius,
+                        float spriteWidth, float spriteHeight) {
+        this(game, bodyType, animation, new BodyInfo(x, y, bodyRadius),
+                new Vector2(spriteWidth, spriteHeight));
     }
 
     private void createMyCircleBody(Vector2 pos, float radius) {
