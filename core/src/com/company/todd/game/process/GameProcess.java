@@ -36,6 +36,8 @@ public class GameProcess implements Process {  // TODO GameProcess
     protected Array<StaticObject> staticObjects;
     protected Array<InGameObject> justCreatedObjects;
 
+    private Level newLevel;
+
     public GameProcess(ToddEthottGame game, MyScreen screen, Level level) {  // TODO level + save
         this.game = game;
         this.screen = screen;
@@ -52,7 +54,6 @@ public class GameProcess implements Process {  // TODO GameProcess
         staticObjects = new Array<StaticObject>();
         justCreatedObjects = new Array<InGameObject>();
 
-        justCreatedObjects.add(player);
         setLevel(level);
     }
 
@@ -64,8 +65,24 @@ public class GameProcess implements Process {  // TODO GameProcess
                 inputHandler, 500, 500, 50, 100);
     }
 
-    public void setLevel(Level level) {  // TODO GameProcess.setLevel()
-        level.unpackTo(justCreatedObjects);
+    public void setLevel(Level level) {
+        this.newLevel = level;
+    }
+
+    protected void setLevel() {
+        disposeObjectsFrom(justCreatedObjects);
+        disposeObjectsFrom(staticObjects);
+        disposeObjectsFrom(dangerousObjects);
+
+        creatures.removeValue(player, false);
+        disposeObjectsFrom(creatures);
+
+        newLevel.unpackTo(justCreatedObjects);
+        justCreatedObjects.add(player);
+        player.setPosition(500, 500);  // TODO start pos of player
+        addJustCreatedObjectsToProcess();
+
+        newLevel = null;
     }
 
     protected void handleInput() {
@@ -118,6 +135,10 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     @Override
     public void update(float delta) {
+        if (newLevel != null) {
+            setLevel();
+        }
+
         handleInput();
 
         checkLifeIn(dangerousObjects);
@@ -165,9 +186,10 @@ public class GameProcess implements Process {  // TODO GameProcess
         for (InGameObject object : objects) {
             if (!object.isKilled()) {
                 object.kill();
-                object.dispose();
             }
+            object.dispose();
         }
+        objects.clear();
     }
 
     @Override
