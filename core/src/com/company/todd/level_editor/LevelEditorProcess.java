@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.company.todd.game.level.Level;
-import com.company.todd.game.objs.static_objs.Platform;
+import com.company.todd.game.objs.static_objs.PlatformWithUpperLayer;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
@@ -17,9 +17,9 @@ import com.company.todd.screen.MyScreen;
 public class LevelEditorProcess extends GameProcess {
     protected Texture move, scaleUp, scaleDown;
     protected Rectangle moveRect, scaleUpRect, scaleDownRect;
-    protected Platform platformNow;
+    protected PlatformWithUpperLayer platformNow;
     protected Vector2 firstTouchPos;
-    protected Platform.Types platformTypes;
+    protected PlatformWithUpperLayer.Types platformTypes;
 
     private Vector2 lastTouchPos;
     private boolean scaleUpFlag, scaleDownFlag;
@@ -52,7 +52,7 @@ public class LevelEditorProcess extends GameProcess {
         platformNow = null;
         firstTouchPos = new Vector2();
 
-        platformTypes = new Platform.Types(game);
+        platformTypes = new PlatformWithUpperLayer.Types(game);
 
         lastTouchPos = new Vector2();
         scaleDownFlag = false;
@@ -78,7 +78,7 @@ public class LevelEditorProcess extends GameProcess {
 
         if (Gdx.input.isTouched()) {
             if (platformNow == null) {
-                platformNow = new Platform(game, platformTypes.getPlatformType("grassPlatform"),
+                platformNow = new PlatformWithUpperLayer(game, platformTypes.getPlatformType("grassPlatform"),
                         touchPos.x, touchPos.y, 0, 0);
 
                 addObject(platformNow);

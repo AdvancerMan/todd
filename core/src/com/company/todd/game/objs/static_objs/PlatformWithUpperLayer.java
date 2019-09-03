@@ -17,13 +17,13 @@ import com.company.todd.texture.TextureRegionInfo;
 
 import static com.company.todd.util.FloatCmp.less;
 
-public class Platform extends StaticObject {
+public class PlatformWithUpperLayer extends StaticObject {
     protected Type type;
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
     protected TextureRegionInfo info;
 
-    public Platform(ToddEthottGame game, Type type,
-                    float x, float y, float width, float height) {
+    public PlatformWithUpperLayer(ToddEthottGame game, Type type,
+                                  float x, float y, float width, float height) {
         super(game, new MyAnimation(), x, y, width, height);
 
         this.type = type;

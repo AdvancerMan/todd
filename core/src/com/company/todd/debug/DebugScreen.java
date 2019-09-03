@@ -3,21 +3,22 @@ package com.company.todd.debug;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.company.todd.game.level.Level;
-import com.company.todd.game.objs.static_objs.Platform;
+import com.company.todd.game.level.levels.arena.MainArenaLevel;
+import com.company.todd.game.objs.static_objs.PlatformWithUpperLayer;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
 
 public class DebugScreen extends MyScreen {
     GameProcess gameProcess;
-    Platform.Types platformTypes;
+    PlatformWithUpperLayer.Types platformTypes;
 
     public DebugScreen(ToddEthottGame game) {
         super(game);
 
-        platformTypes = new Platform.Types(game);
+        platformTypes = new PlatformWithUpperLayer.Types(game);
 
-        Level level = new Level(game);
+        Level level = new MainArenaLevel(game);
 
         float[][] pls = {  // x, y, width, height
                 {100, 100, 100, 100},
@@ -32,7 +33,7 @@ public class DebugScreen extends MyScreen {
                 {-10, 990, 2000, 10},
         };
         for (int i = 0; i < pls.length; i++) {
-            level.addObject(new Platform(game,
+            level.addObject(new PlatformWithUpperLayer(game,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
