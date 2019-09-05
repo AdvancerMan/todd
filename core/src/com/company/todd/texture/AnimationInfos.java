@@ -17,10 +17,15 @@ public class AnimationInfos {
         addPlayer();
         addPlayerHands();
         addExplosion();
+        addTmp();
+    }
+
+    public AnimationInfo getAnimationInfo(String name) {
+        return animationInfos.get(name);
     }
 
     public MyAnimation getAnimation(String name) {
-        return animationInfos.get(name).getAnimation();
+        return getAnimationInfo(name).getAnimation();
     }
 
     private void addPlayer() {
@@ -88,5 +93,15 @@ public class AnimationInfos {
         }
 
         animationInfos.put("explosion", explosion);
+    }
+
+    private void addTmp() {
+        AnimationInfo tmp = new AnimationInfo();
+
+        tmp.addAnimationName(MyAnimation.AnimationType.STAY);
+        tmp.addFrame(MyAnimation.AnimationType.STAY,
+                new TextureRegionInfo(mng, "friend.png", 0, 0, 118, 122));
+
+        animationInfos.put("tmp", tmp);
     }
 }

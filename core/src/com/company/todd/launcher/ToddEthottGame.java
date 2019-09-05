@@ -53,7 +53,7 @@ public class ToddEthottGame implements ApplicationListener {
 
 	@Override
 	public void render () {
-        Gdx.gl.glClearColor(0, 255, 0, 1); // Очищаем экран
+        Gdx.gl.glClearColor(0, 0, 0, 1); // Очищаем экран
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         textureManager.update(Gdx.graphics.getDeltaTime());

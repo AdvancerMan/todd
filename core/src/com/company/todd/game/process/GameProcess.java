@@ -1,13 +1,10 @@
 package com.company.todd.game.process;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
-import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.contact.MyContactListener;
 import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.game.level.Level;
@@ -15,11 +12,9 @@ import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.game.objs.active_objs.creatures.friendly.Player;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
-import com.company.todd.game.objs.active_objs.dangerous.objects.AirBomb;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
-import com.company.todd.texture.TextureRegionInfo;
 
 import java.util.Iterator;
 
@@ -62,7 +57,7 @@ public class GameProcess implements Process {  // TODO GameProcess
                 game.animationInfos.getAnimation("player"),
                 game.animationInfos.getAnimation("playerHands"),
                 new Rectangle(50, 40, 20, 20),
-                inputHandler, 500, 500, 50, 100);
+                inputHandler, 0, 0, 50, 100);
     }
 
     public void setLevel(Level level) {
@@ -79,7 +74,7 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         newLevel.unpackTo(justCreatedObjects);
         justCreatedObjects.add(player);
-        player.setPosition(500, 500);  // TODO start pos of player
+        player.setPosition(0, 0);
         addJustCreatedObjectsToProcess();
 
         newLevel = null;
@@ -202,37 +197,37 @@ public class GameProcess implements Process {  // TODO GameProcess
         world.dispose();
     }
 
-    private static final float metersPerPix = 1f / 30;
+    public static final float METERS_PER_PIX = 1f / 30;
 
     public static float toPix(float value) {
-        return value / metersPerPix;
+        return value / METERS_PER_PIX;
     }
 
     public static Vector2 toPix(Vector2 vector) {
-        return vector.scl(1f / metersPerPix);
+        return vector.scl(1f / METERS_PER_PIX);
     }
 
     public static Rectangle toPix(Rectangle rect) {
-        rect.x /= metersPerPix;
-        rect.y /= metersPerPix;
-        rect.width /= metersPerPix;
-        rect.height /= metersPerPix;
+        rect.x /= METERS_PER_PIX;
+        rect.y /= METERS_PER_PIX;
+        rect.width /= METERS_PER_PIX;
+        rect.height /= METERS_PER_PIX;
         return rect;
     }
 
     public static float toMeters(float value) {
-        return value * metersPerPix;
+        return value * METERS_PER_PIX;
     }
 
     public static Vector2 toMeters(Vector2 vector) {
-        return vector.scl(metersPerPix);
+        return vector.scl(METERS_PER_PIX);
     }
 
     public static Rectangle toMeters(Rectangle rect) {
-        rect.x *= metersPerPix;
-        rect.y *= metersPerPix;
-        rect.width *= metersPerPix;
-        rect.height *= metersPerPix;
+        rect.x *= METERS_PER_PIX;
+        rect.y *= METERS_PER_PIX;
+        rect.width *= METERS_PER_PIX;
+        rect.height *= METERS_PER_PIX;
         return rect;
     }
 

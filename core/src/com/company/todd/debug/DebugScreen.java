@@ -2,8 +2,11 @@ package com.company.todd.debug;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.company.todd.game.level.Level;
 import com.company.todd.game.level.levels.arena.MainArenaLevel;
+import com.company.todd.game.objs.static_objs.HalfCollidedPlatform;
+import com.company.todd.game.objs.static_objs.Jumper;
 import com.company.todd.game.objs.static_objs.PlatformWithUpperLayer;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
@@ -12,9 +15,12 @@ import com.company.todd.screen.MyScreen;
 public class DebugScreen extends MyScreen {
     GameProcess gameProcess;
     PlatformWithUpperLayer.Types platformTypes;
+    Box2DDebugRenderer debugRenderer;
 
     public DebugScreen(ToddEthottGame game) {
         super(game);
+
+        debugRenderer = new Box2DDebugRenderer();
 
         platformTypes = new PlatformWithUpperLayer.Types(game);
 
@@ -38,6 +44,12 @@ public class DebugScreen extends MyScreen {
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
 
+        level.addObject(new HalfCollidedPlatform(game,
+                game.animationInfos.getAnimation("player"),
+                500, 350, 500, 50));
+        level.addObject(new Jumper(game, game.animationInfos.getAnimation("player"),
+                10, 500, 400, 100, 20));
+
 
         gameProcess = new GameProcess(game, this, level);
     }
@@ -54,7 +66,8 @@ public class DebugScreen extends MyScreen {
 
         batch.begin();
 
-        gameProcess.draw(batch);
+        debugRenderer.render(gameProcess.getWorld(),
+                getCameraProjectionMatrix().scl(1 / GameProcess.METERS_PER_PIX));
 
         game.mainFont.draw(batch, (int)(1f / Gdx.graphics.getDeltaTime()) + " fps",
                 getCameraRect().x + 5, getCameraRect().y + getCameraRect().height - 10);

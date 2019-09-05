@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.box2d.BodyInfo;
+import com.company.todd.game.ToddException;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.active_objs.dangerous.objects.HomingMissile;
 import com.company.todd.game.process.GameProcess;
@@ -114,6 +115,8 @@ public abstract class InGameObject implements Disposable {
             createMyCircleBody(bodyInfo.getPosition(), bodyInfo.getRadius());
         } else if (bodyInfo.getType().equals(Shape.Type.Polygon)) {
             createMyRectangleBody(bodyInfo.getPosition(), bodyInfo.getSize());
+        } else {
+            throw new ToddException("bodyInfo is null");
         }
     }
 

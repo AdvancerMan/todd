@@ -12,10 +12,17 @@ public class HalfCollidedPlatform extends StaticObject {
     protected Array<InGameObject> notCollidingObjects;
 
     public HalfCollidedPlatform(ToddEthottGame game, MyAnimation animation,
-                                float x, float y, float width, float height) {
-        super(game, animation, x, y, width, height);
+                                float x, float y,
+                                float bodyWidth, float bodyHeight,
+                                float spriteWidth, float spriteHeight) {
+        super(game, animation, x, y, bodyWidth, bodyHeight, spriteWidth, spriteHeight);
 
         notCollidingObjects = new Array<InGameObject>();
+    }
+
+    public HalfCollidedPlatform(ToddEthottGame game, MyAnimation animation,
+                                float x, float y, float width, float height) {
+        this(game, animation, x, y, width, height, width, height);
     }
 
     @Override

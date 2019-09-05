@@ -8,7 +8,7 @@ import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class StaticObject extends InGameObject {
-    public StaticObject(ToddEthottGame game, MyAnimation animation, Vector2 spriteSize, BodyInfo bodyInfo) {
+    public StaticObject(ToddEthottGame game, MyAnimation animation, BodyInfo bodyInfo, Vector2 spriteSize) {
         super(game, BodyDef.BodyType.StaticBody, animation, bodyInfo, spriteSize);
     }
 
