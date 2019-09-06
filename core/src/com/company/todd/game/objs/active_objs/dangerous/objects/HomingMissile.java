@@ -46,11 +46,8 @@ public class HomingMissile extends DangerousObject {
         body.applyForceToCenter(accel.scl(body.getMass() * 2), true);
 
         // turning the body to the speed vector's direction
-        Vector2 bodyAngle = new Vector2(1, 0);
-        bodyAngle.rotateRad(body.getAngle());
-        float angle = bodyAngle.angleRad(body.getLinearVelocity());
-
-        body.applyTorque((angle * 10 - body.getAngularVelocity()) * body.getMass(), true);  // TODO angular vel
+        float angle = new Vector2(1, 0).angleRad(body.getLinearVelocity());
+        setAngle(angle);
     }
 
     @Override
