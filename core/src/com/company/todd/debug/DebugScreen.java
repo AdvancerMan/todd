@@ -1,6 +1,7 @@
 package com.company.todd.debug;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.company.todd.game.level.Level;
@@ -17,10 +18,13 @@ public class DebugScreen extends MyScreen {
     PlatformWithUpperLayer.Types platformTypes;
     Box2DDebugRenderer debugRenderer;
 
+    boolean pressedPlay;
+
     public DebugScreen(ToddEthottGame game) {
         super(game);
 
-        debugRenderer = new Box2DDebugRenderer();
+        pressedPlay = false;
+        debugRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
 
         platformTypes = new PlatformWithUpperLayer.Types(game);
 
@@ -38,17 +42,17 @@ public class DebugScreen extends MyScreen {
                 {1990, -10, 10, 1000},
                 {-10, 990, 2000, 10},
         };
+
+        /*
         for (int i = 0; i < pls.length; i++) {
             level.addObject(new PlatformWithUpperLayer(game,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
+        */
 
-        level.addObject(new HalfCollidedPlatform(game,
-                game.animationInfos.getAnimation("player"),
-                500, 350, 500, 50));
-        level.addObject(new Jumper(game, game.animationInfos.getAnimation("player"),
-                10, 500, 400, 100, 20));
+        level.addObject(new HalfCollidedPlatform(game, null, 500, 350, 500, 50));
+        level.addObject(new Jumper(game, null,10, 500, 400, 100, 20));
 
 
         gameProcess = new GameProcess(game, this, level);
@@ -56,8 +60,14 @@ public class DebugScreen extends MyScreen {
 
     @Override
     protected void update(float delta) {
-        super.update(delta);
-        gameProcess.update(delta);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            pressedPlay = !pressedPlay;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q) || Gdx.input.isKeyPressed(Input.Keys.W) || pressedPlay) {
+            super.update(delta);
+            gameProcess.update(delta);
+        }
     }
 
     @Override
@@ -67,7 +77,7 @@ public class DebugScreen extends MyScreen {
         batch.begin();
 
         debugRenderer.render(gameProcess.getWorld(),
-                getCameraProjectionMatrix().scl(1 / GameProcess.METERS_PER_PIX));
+                getCameraProjectionMatrix().cpy().scl(1 / GameProcess.METERS_PER_PIX));
 
         game.mainFont.draw(batch, (int)(1f / Gdx.graphics.getDeltaTime()) + " fps",
                 getCameraRect().x + 5, getCameraRect().y + getCameraRect().height - 10);
