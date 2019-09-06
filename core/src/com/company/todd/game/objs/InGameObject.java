@@ -212,12 +212,22 @@ public abstract class InGameObject implements Disposable {
         applyLinearImpulseToBodyCenter(vel.scl(body.getMass()));
     }
 
-    // TODO setCenterPosition()
-    public void setPosition(float x, float y) {  // FIXME weird logic
-        bodyInfo.setPosition(new Vector2(x, y));
-
+    public void setCenterPosition(float x, float y) {
         if (body != null) {
-            createMyBody();
+            body.setTransform(x, y, body.getAngle());
+        }
+    }
+
+    public void setPosition(float x, float y) {
+        if (body != null) {
+            Rectangle bodyRect = getBodyRect();
+            setCenterPosition(x + bodyRect.x / 2, y + bodyRect.y / 2);
+        }
+    }
+
+    public void setAngle(float angle) {
+        if (body != null) {
+            body.setTransform(body.getPosition(), angle);
         }
     }
 
