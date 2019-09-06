@@ -23,7 +23,7 @@ public class DebugScreen extends MyScreen {
     public DebugScreen(ToddEthottGame game) {
         super(game);
 
-        pressedPlay = false;
+        pressedPlay = true;
         debugRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
 
         platformTypes = new PlatformWithUpperLayer.Types(game);
@@ -74,10 +74,10 @@ public class DebugScreen extends MyScreen {
     protected void draw(SpriteBatch batch) {
         super.draw(batch);
 
-        batch.begin();
-
         debugRenderer.render(gameProcess.getWorld(),
                 getCameraProjectionMatrix().cpy().scl(1 / GameProcess.METERS_PER_PIX));
+
+        batch.begin();
 
         game.mainFont.draw(batch, (int)(1f / Gdx.graphics.getDeltaTime()) + " fps",
                 getCameraRect().x + 5, getCameraRect().y + getCameraRect().height - 10);
