@@ -13,8 +13,6 @@ import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
 
-import javax.print.attribute.standard.RequestingUserName;
-
 import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.lessOrEquals;
 
@@ -28,7 +26,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     protected float health;
 
     private long lastMomentOfShoot;
-    protected long coolDown;
+    protected long cooldown;
 
     private boolean changedAnim;
 
@@ -49,7 +47,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         health = maxHealthLevel;
         energy = maxEnergyLevel;
 
-        coolDown = 100000000;
+        cooldown = 100000000;
 
         changedAnim = false;
     }
@@ -90,7 +88,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public void shoot() {  // TODO shoot()
-        if (TimeUtils.nanoTime() - lastMomentOfShoot <= coolDown) return;
+        if (TimeUtils.nanoTime() - lastMomentOfShoot <= cooldown) return;
         lastMomentOfShoot = TimeUtils.nanoTime();
 
         setPlayingAnimationName(MyAnimation.AnimationType.SHOOT, true);

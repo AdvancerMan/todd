@@ -4,7 +4,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.launcher.ToddEthottGame;
-import com.company.todd.texture.TextureRegionInfo;
 
 import java.util.Random;
 
@@ -23,7 +22,7 @@ public class RandomEnemy extends Creature {
         jumpPower += 10 * (rnd.nextInt(6));
         maxHealthLevel += 20 * (rnd.nextInt(10) + 1);
         runningSpeed += rnd.nextInt(10);
-        coolDown *= rnd.nextInt(5) + 1;
+        cooldown *= rnd.nextInt(5) + 1;
     }
 
     private int actionID = -1;

@@ -81,7 +81,7 @@ public abstract class CreatureWithHands extends Creature {
 
     @Override
     public void shoot() {  // TODO shoot
-        if (TimeUtils.nanoTime() - lastMomentOfShoot <= coolDown) return;
+        if (TimeUtils.nanoTime() - lastMomentOfShoot <= cooldown) return;
         lastMomentOfShoot = TimeUtils.nanoTime();
 
         setPlayingAnimationName(MyAnimation.AnimationType.SHOOT, true);
