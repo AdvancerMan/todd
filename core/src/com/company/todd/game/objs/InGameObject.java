@@ -56,6 +56,9 @@ public abstract class InGameObject implements Disposable {
         sprite = new Sprite();
         sprite.setSize(spriteSize.x, spriteSize.y);
         this.animation = animation;
+        if (animation == null) {
+            this.animation = new MyAnimation();
+        }
         setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         dirToRight = true;
 

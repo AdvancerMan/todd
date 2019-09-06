@@ -93,7 +93,8 @@ public abstract class CreatureWithHands extends Creature {
             bulPos.set(-handsSprite.getWidth() - (handsPosition.x - 0),  // TODO - bullet.width
                     handsPosition.y);
         }
-        bulPos.add(getSpritePosition());  // TODO with rotation
+        bulPos.add(getBodyPosition());  // TODO with rotation
+        // TODO proper position for bullets
 
         // TODO BulletType!!!
         ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>> tmp = new ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>>();

@@ -24,7 +24,6 @@ public class Jumper extends HalfCollidedPlatform {
 
         // TODO animation of jumping
         if (object instanceof ActiveObject && !notCollidingObjects.contains(object, false)) {
-            System.out.println("kek");
             object.setYVelocity(power);
         }
     }
