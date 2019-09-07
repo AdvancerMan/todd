@@ -24,7 +24,7 @@ public class DebugScreen extends MyScreen {
         super(game);
 
         pressedPlay = true;
-        debugRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
+        debugRenderer = new Box2DDebugRenderer(true, true, false, true, true, true);
 
         platformTypes = new PlatformWithUpperLayer.Types(game);
 

@@ -25,6 +25,7 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         this.owner = owner;
         this.killer = null;
         this.ownerSafe = true;
+        this.availableToBeGround = false;
     }
 
     public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,

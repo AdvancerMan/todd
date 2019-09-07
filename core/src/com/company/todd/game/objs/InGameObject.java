@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.ToddException;
 import com.company.todd.game.animations.MyAnimation;
-import com.company.todd.game.objs.active_objs.dangerous.objects.HomingMissile;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
@@ -48,6 +47,8 @@ public abstract class InGameObject implements Disposable {
     public static int lastId = 0;
     private int id;
 
+    protected boolean availableToBeGround;
+
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         BodyInfo bodyInfo, Vector2 spriteSize) {
         this.game = game;
@@ -67,6 +68,8 @@ public abstract class InGameObject implements Disposable {
         this.bodyType = bodyType;
 
         alive = true;
+
+        availableToBeGround = true;
 
         lastId += 1;
         id = lastId;
@@ -333,6 +336,10 @@ public abstract class InGameObject implements Disposable {
 
     protected boolean isDirectedToRight() {
         return dirToRight;
+    }
+
+    public boolean isAvailableToBeGround() {
+        return availableToBeGround;
     }
 
     public void beginContact(Contact contact, InGameObject object) {}
