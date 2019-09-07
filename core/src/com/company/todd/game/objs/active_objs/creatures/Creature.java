@@ -1,24 +1,30 @@
 package com.company.todd.game.objs.active_objs.creatures;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.company.todd.game.animations.MyAnimation;
+import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
 
+import static com.company.todd.game.process.GameProcess.toPix;
 import static com.company.todd.util.FloatCmp.less;
 import static com.company.todd.util.FloatCmp.lessOrEquals;
 
 public abstract class Creature extends ActiveObject {  // TODO Creature
     protected float jumpPower;
-    protected boolean isOnGround;
+
+    private static final float JUMP_COOLDOWN = 0.1f;
+    private Array<InGameObject> grounds;
+    private float timeFromLastJump;
 
     protected float maxEnergyLevel;
     protected float energy;
@@ -39,7 +45,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         super(game, animation, runningSpeed, x, y, width, height);
         this.jumpPower = jumpPower;
 
-        this.isOnGround = false;
+        grounds = new Array<InGameObject>();
+        timeFromLastJump = JUMP_COOLDOWN;
 
         // TODO health and energy
         maxHealthLevel = 100;
@@ -53,38 +60,28 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public void jump() { // TODO energy consuming: jump()
-        if (isOnGround) {
+        if (isOnGround()) {
+            timeFromLastJump = 0;
             setPlayingAnimationName(MyAnimation.AnimationType.JUMP, true);
             velocity.set(velocity.x, jumpPower);
         }
     }
 
-    private float prevYVel = 1;
-
     @Override
     public void update(float delta) {
         super.update(delta);
 
-        float nowYVel = body.getLinearVelocity().y;
-        if (FloatCmp.equals(nowYVel, 0) && FloatCmp.lessOrEquals(prevYVel, 0)) {
-            isOnGround = true;  // TODO isOnGround in collisions
-        } else {
-            isOnGround = false;
-        }
-        prevYVel = nowYVel;
+        timeFromLastJump += delta;
 
         if (!changedAnim) {
             setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         }
-        if (less(nowYVel, 0)) {
+
+        if (less(body.getLinearVelocity().y, 0) && !isOnGround()) {
             setPlayingAnimationName(MyAnimation.AnimationType.FALL, false);
         }
 
         changedAnim = false;
-    }
-
-    public void setOnGround(boolean onGround) {
-        isOnGround = onGround;
     }
 
     public void shoot() {  // TODO shoot()
@@ -128,7 +125,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     @Override
     public void setPlayingAnimationName(MyAnimation.AnimationType animType, boolean changeEquals) {
-        if (isOnGround || animType.equals(MyAnimation.AnimationType.SHOOT) ||
+        if (isOnGround() || animType.equals(MyAnimation.AnimationType.SHOOT) ||
                 animType.equals(MyAnimation.AnimationType.FALL)) {
             super.setPlayingAnimationName(animType, changeEquals);
         }
@@ -141,5 +138,52 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         if (lessOrEquals(health, 0)) {
             kill();
         }
+    }
+
+    public boolean isOnGround() {
+        return grounds != null && grounds.size > 0 && timeFromLastJump > JUMP_COOLDOWN;
+    }
+
+    protected boolean checkGround(Vector2[] points, int pointsCount) {
+        switch (pointsCount) {
+            case (0):
+                break;
+            case (2):
+                if (!FloatCmp.equals(points[1].y, -getBodyRect().height / 2, 1)) {
+                    break;
+                }
+            case (1):
+                if (!FloatCmp.equals(points[0].y, -getBodyRect().height / 2, 1)) {
+                    break;
+                }
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void beginContact(Contact contact, InGameObject object) {
+        super.beginContact(contact, object);
+
+        if (object.isAvailableToBeGround()) {
+            Vector2[] points = contact.getWorldManifold().getPoints();
+
+            points = new Vector2[] {
+                    toPix(points[0].cpy()).sub(getBodyPosition()),
+                    toPix(points[1].cpy()).sub(getBodyPosition())
+            };
+
+            if (checkGround(points, contact.getWorldManifold().getNumberOfContactPoints())) {
+                grounds.add(object);
+            }
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact, InGameObject object) {
+        super.endContact(contact, object);
+
+        grounds.removeValue(object, false);
     }
 }
