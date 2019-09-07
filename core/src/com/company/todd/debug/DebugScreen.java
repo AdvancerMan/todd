@@ -13,6 +13,8 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
 
+import static com.company.todd.game.process.GameProcess.toPix;
+
 public class DebugScreen extends MyScreen {
     GameProcess gameProcess;
     PlatformWithUpperLayer.Types platformTypes;
@@ -74,8 +76,7 @@ public class DebugScreen extends MyScreen {
     protected void draw(SpriteBatch batch) {
         super.draw(batch);
 
-        debugRenderer.render(gameProcess.getWorld(),
-                getCameraProjectionMatrix().cpy().scl(1 / GameProcess.METERS_PER_PIX));
+        debugRenderer.render(gameProcess.getWorld(), toPix(getCameraProjectionMatrix().cpy()));
 
         batch.begin();
 

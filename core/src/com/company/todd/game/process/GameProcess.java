@@ -1,6 +1,7 @@
 package com.company.todd.game.process;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -197,7 +198,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         world.dispose();
     }
 
-    public static final float METERS_PER_PIX = 1f / 30;
+    private static final float METERS_PER_PIX = 1f / 30;
 
     public static float toPix(float value) {
         return value / METERS_PER_PIX;
@@ -215,6 +216,10 @@ public class GameProcess implements Process {  // TODO GameProcess
         return rect;
     }
 
+    public static Matrix4 toPix(Matrix4 matrix) {
+        return matrix.scl(1 / METERS_PER_PIX);
+    }
+
     public static float toMeters(float value) {
         return value * METERS_PER_PIX;
     }
@@ -229,6 +234,10 @@ public class GameProcess implements Process {  // TODO GameProcess
         rect.width *= METERS_PER_PIX;
         rect.height *= METERS_PER_PIX;
         return rect;
+    }
+
+    public static Matrix4 toMeters(Matrix4 matrix) {
+        return matrix.scl(METERS_PER_PIX);
     }
 
 }
