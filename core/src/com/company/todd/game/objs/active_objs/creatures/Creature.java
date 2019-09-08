@@ -140,6 +140,14 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         }
     }
 
+    public void addGround(InGameObject ground) {
+        grounds.add(ground);
+    }
+
+    public void removeGround(InGameObject object) {
+        grounds.removeValue(object, false);
+    }
+
     public boolean isOnGround() {
         return grounds != null && grounds.size > 0 && timeFromLastJump > JUMP_COOLDOWN;
     }
@@ -175,7 +183,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
             };
 
             if (checkGround(points, contact.getWorldManifold().getNumberOfContactPoints())) {
-                grounds.add(object);
+                addGround(object);
             }
         }
     }
@@ -184,6 +192,6 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     public void endContact(Contact contact, InGameObject object) {
         super.endContact(contact, object);
 
-        grounds.removeValue(object, false);
+        removeGround(object);  // FIXME removing another ground (let's store fixture wrappers?)
     }
 }
