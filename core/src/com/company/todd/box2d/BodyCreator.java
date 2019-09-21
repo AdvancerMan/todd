@@ -21,7 +21,7 @@ public class BodyCreator {
         bodyDef.type = type;
         bodyDef.position.set(toMeters(position));
         bodyDef.fixedRotation = fixedRotation;
-        bodyDef.angle = angle / FloatCmp.degsInRad;
+        bodyDef.angle = angle / FloatCmp.DEGS_IN_RAD;
         bodyDef.bullet = isBullet;
 
         return world.createBody(bodyDef);
@@ -52,7 +52,7 @@ public class BodyCreator {
                               float density, float friction, float restitution, float angle) {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(toMeters(width), toMeters(height),
-                toMeters(center), angle / FloatCmp.degsInRad);  // TODO addPolygon() - smooth box
+                toMeters(center), angle / FloatCmp.DEGS_IN_RAD);  // TODO addPolygon() - smooth box
 
         createFixture(body, shape, density, friction, restitution);
         shape.dispose();

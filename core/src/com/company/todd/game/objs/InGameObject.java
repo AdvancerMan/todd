@@ -148,7 +148,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
 
         if (!body.isFixedRotation()) {
             sprite.setOriginCenter();
-            sprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
+            sprite.setRotation(body.getAngle() * FloatCmp.DEGS_IN_RAD);
         }
 
         if (getSpriteBoundingRect().overlaps(cameraRectangle)) {

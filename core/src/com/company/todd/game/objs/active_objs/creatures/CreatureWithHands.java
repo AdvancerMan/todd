@@ -53,7 +53,7 @@ public abstract class CreatureWithHands extends Creature {
         if (!body.isFixedRotation()) {
             handsSprite.setOrigin(-handsSprite.getX() + spriteSize.x / 2,
                     -handsSprite.getY() + spriteSize.y / 2);
-            handsSprite.setRotation(body.getAngle() * FloatCmp.degsInRad);
+            handsSprite.setRotation(body.getAngle() * FloatCmp.DEGS_IN_RAD);
         }
 
         handsSprite.translate(spritePos.x, spritePos.y);

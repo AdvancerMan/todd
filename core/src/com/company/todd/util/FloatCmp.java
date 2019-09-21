@@ -2,7 +2,7 @@ package com.company.todd.util;
 
 public class FloatCmp {
     public static final float EPS = 1e-6f;
-    public static final float degsInRad = 57.29578f;
+    public static final float DEGS_IN_RAD = 180f / (float) Math.PI;
 
     public static boolean equals(float a, float b, float eps) {
         return Math.abs(a - b) <= eps;
