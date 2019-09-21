@@ -50,10 +50,10 @@ public abstract class CreatureWithHands extends Creature {
                     handsPosition.y);
         }
 
-        if (!body.isFixedRotation()) {
+        if (!isFixedRotation()) {
             handsSprite.setOrigin(-handsSprite.getX() + spriteSize.x / 2,
                     -handsSprite.getY() + spriteSize.y / 2);
-            handsSprite.setRotation(body.getAngle() * FloatCmp.DEGS_IN_RAD);
+            handsSprite.setRotation(getBodyAngle() * FloatCmp.DEGS_IN_RAD);
         }
 
         handsSprite.translate(spritePos.x, spritePos.y);

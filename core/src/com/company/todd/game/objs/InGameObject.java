@@ -41,7 +41,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     private boolean dirToRight;
     private MyAnimation animation;
 
-    protected Body body;  // TODO make body private
+    private Body body;  // TODO make body private
     protected BodyInfo bodyInfo;
     private BodyDef.BodyType bodyType;
     private boolean alive;
@@ -100,35 +100,44 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     }
 
     private void createMyCircleBody(Vector2 pos, float radius) {
-        destroyMyBody();
-
-        body = createBody(gameProcess.getWorld(), bodyType, pos);
+        Body body = createBody(gameProcess.getWorld(), bodyType, pos);
         addCircle(body, pos, radius);
         body.setUserData(this);
+
+        setBody(body);
     }
 
     private void createMyRectangleBody(Vector2 pos, Vector2 size) {
-        destroyMyBody();
-
         float width = size.x, height = size.y;
         float x = pos.x + width / 2, y = pos.y + height / 2;
 
-        body = createBody(gameProcess.getWorld(), bodyType, new Vector2(x, y));
+        Body body = createBody(gameProcess.getWorld(), bodyType, new Vector2(x, y));
         addBox(body, width / 2, height / 2);  // TODO size / 2 ?
         body.setUserData(this);
+
+        setBody(body);
     }
 
+    /**
+     * you should redefine this method in case
+     * you want to create your own body
+     */
     protected void createMyBody() {
         if (bodyInfo.getType().equals(Shape.Type.Circle)) {
             createMyCircleBody(bodyInfo.getPosition(), bodyInfo.getRadius());
         } else if (bodyInfo.getType().equals(Shape.Type.Polygon)) {
             createMyRectangleBody(bodyInfo.getPosition(), bodyInfo.getSize());
         } else {
-            throw new ToddException("bodyInfo is null");
+            throw new ToddException("bodyInfo has incorrect type");
         }
     }
 
-    protected void destroyMyBody() {
+    protected void setBody(Body body) {
+        destroyMyBody();
+        this.body = body;
+    }
+
+    private void destroyMyBody() {
         if (body != null) {
             if (gameProcess != null) {
                 gameProcess.getWorld().destroyBody(body);
@@ -146,9 +155,9 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         Vector2 pos = getBodyPosition();
         sprite.setCenter(pos.x, pos.y);
 
-        if (!body.isFixedRotation()) {
+        if (!isFixedRotation()) {
             sprite.setOriginCenter();
-            sprite.setRotation(body.getAngle() * FloatCmp.DEGS_IN_RAD);
+            sprite.setRotation(getBodyAngle() * FloatCmp.DEGS_IN_RAD);
         }
 
         if (getSpriteBoundingRect().overlaps(cameraRectangle)) {
@@ -197,7 +206,6 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     }
 
     public void setGameProcess(GameProcess gameProcess) {
-        destroyMyBody();
         this.gameProcess = gameProcess;
         createMyBody();
     }
@@ -214,7 +222,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      * @param point coordinates in pixels
      */
     public void applyForce(Vector2 force, Vector2 point) {
-        body.applyForce(toMeters(force), toMeters(point), true);
+        body.applyForce(toMeters(force.cpy()), toMeters(point.cpy()), true);
     }
 
     /**
@@ -232,7 +240,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      * @param force in kg * pix / s / s
      */
     public void applyForceToCenter(Vector2 force) {
-        body.applyForceToCenter(toMeters(force), true);
+        body.applyForceToCenter(toMeters(force.cpy()), true);
     }
 
     /**
@@ -248,7 +256,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      * @param point in pixels
      */
     public void applyLinearImpulse(Vector2 impulse, Vector2 point) {
-        body.applyLinearImpulse(toMeters(impulse), toMeters(point), true);
+        body.applyLinearImpulse(toMeters(impulse.cpy()), toMeters(point.cpy()), true);
     }
 
     /**
@@ -266,7 +274,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      * @param impulse in kg * pix / s
      */
     public void applyLinearImpulseToCenter(Vector2 impulse) {
-        body.applyLinearImpulse(toMeters(impulse), body.getWorldCenter(), true);
+        body.applyLinearImpulse(toMeters(impulse.cpy()), body.getWorldCenter(), true);
     }
 
     /**
@@ -275,7 +283,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      */
     public void applyLinearImpulseToCenter(float impulseX, float impulseY) {
         body.applyLinearImpulse(toMeters(new Vector2(impulseX, impulseY)),
-                body.getWorldCenter(), true);  // TODO not body.
+                body.getWorldCenter(), true);
     }
 
     /**
@@ -320,8 +328,8 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      * @param v velocity (in pixels / s)
      */
     public void setVelocity(Vector2 v) {
-        Vector2 vel = toMeters(new Vector2(v)).sub(body.getLinearVelocity());
-        applyLinearImpulseToCenter(vel.scl(body.getMass()));
+        Vector2 vel = toMeters(v.cpy()).sub(body.getLinearVelocity());
+        applyLinearImpulseToCenter(vel.scl(getMass()));
     }
 
     /**
@@ -331,7 +339,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         // TODO body.setLinearVelocity(body.getLinearVelocity().x, yVel); ?
 
         Vector2 vel = toMeters(new Vector2(0, yVel - body.getLinearVelocity().y));
-        applyLinearImpulseToCenter(vel.scl(body.getMass()));
+        applyLinearImpulseToCenter(vel.scl(getMass()));
     }
 
     /**
@@ -339,7 +347,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      */
     public void setXVelocity(float xVel) {
         Vector2 vel = toMeters(new Vector2(xVel - body.getLinearVelocity().x, 0));
-        applyLinearImpulseToCenter(vel.scl(body.getMass()));
+        applyLinearImpulseToCenter(vel.scl(getMass()));
     }
 
     /**
@@ -348,7 +356,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      */
     public void setCenterPosition(float x, float y) {
         if (body != null) {
-            body.setTransform(toMeters(x), toMeters(y), body.getAngle());
+            body.setTransform(toMeters(x), toMeters(y), getBodyAngle());
         }
     }
 
@@ -366,7 +374,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     /**
      * @param angle in radians
      */
-    public void setAngle(float angle) {
+    public void setBodyAngle(float angle) {
         if (body != null) {
             body.setTransform(body.getPosition(), angle);
         }
@@ -412,7 +420,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     /**
      * @return angle in radians
      */
-    public float getAngle() {
+    public float getBodyAngle() {
         return body.getAngle();
     }
 
@@ -421,6 +429,10 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      */
     public float getAngularVelocity() {
         return body.getAngularVelocity();
+    }
+
+    public Array<Fixture> getFixtureList() {
+        return body.getFixtureList();
     }
 
     public float getGravityScale() {

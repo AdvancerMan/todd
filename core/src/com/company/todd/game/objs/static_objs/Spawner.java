@@ -16,7 +16,7 @@ public class Spawner extends StaticObject {  // TODO Spawner
 
     @Override
     protected void createMyBody() {
-        destroyMyBody();
+        setBodyActive(false);
     }
 
     public void setSpawningObject(InGameObject object) {

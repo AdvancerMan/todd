@@ -1,6 +1,7 @@
 package com.company.todd.game.level.levels.arena;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.animations.MyAnimation;
@@ -30,9 +31,8 @@ public class MainArenaLevel extends Level {
                 new StaticObject(game, null, 0, 0, 0, 0, 500, 750) {
                     @Override
                     protected void createMyBody() {
-                        destroyMyBody();
-
-                        body = createBody(gameProcess.getWorld(), BodyDef.BodyType.StaticBody, new Vector2(-1125, 290));
+                        Body body = createBody(gameProcess.getWorld(),
+                                BodyDef.BodyType.StaticBody, new Vector2(-1125, 290));
                         addPolygon(body, new float[] {
                                 -225, -300,
                                 225, -300,
@@ -47,14 +47,15 @@ public class MainArenaLevel extends Level {
                                 -225, 150
                         });
                         body.setUserData(this);
+
+                        setBody(body);
                     }
                 },
                 new StaticObject(game, null, 0, 0, 0, 0, 500, 750) {
                     @Override
                     protected void createMyBody() {
-                        destroyMyBody();
-
-                        body = createBody(gameProcess.getWorld(), BodyDef.BodyType.StaticBody, new Vector2(1125, 290));
+                        Body body = createBody(gameProcess.getWorld(),
+                                BodyDef.BodyType.StaticBody, new Vector2(1125, 290));
                         addPolygon(body, new float[] {
                                 225, -300,
                                 -225, -300,
@@ -69,6 +70,8 @@ public class MainArenaLevel extends Level {
                                 225, 150
                         });
                         body.setUserData(this);
+
+                        setBody(body);
                     }
                 }
         });

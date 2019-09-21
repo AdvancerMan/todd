@@ -64,16 +64,15 @@ public abstract class ActiveObject extends InGameObject {
     }
 
     protected void updatePosition(float delta) {
-        for (Fixture fixture : body.getFixtureList()) {
+        for (Fixture fixture : getFixtureList()) {
             if (FloatCmp.equals(velocity.x, 0)) {
-                fixture.setFriction(1000);
+                fixture.setFriction(10);
             } else {
                 fixture.setFriction(0);
             }
         }
 
-        body.applyLinearImpulse(new Vector2(velocity.x - body.getLinearVelocity().x, velocity.y),
-                body.getWorldCenter(), true);  // TODO delta * impulse
+        applyLinearImpulseToCenter(new Vector2(velocity.x - getLinearVelocity().x, velocity.y));  // TODO delta * impulse
         velocity.set(0, 0);
     }
 

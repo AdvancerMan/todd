@@ -27,8 +27,8 @@ public class HomingMissile extends DangerousObject {
     @Override
     protected void createMyBody() {
         super.createMyBody();
-        body.setFixedRotation(false);
-        body.setGravityScale(0);
+        setFixedRotation(false);
+        setGravityScale(0);
     }
 
     @Override
@@ -42,11 +42,11 @@ public class HomingMissile extends DangerousObject {
         Vector2 accel = new Vector2(targetPos);
         accel.sub(thisPos).nor().scl(runningSpeed);
 
-        body.applyForceToCenter(accel.scl(body.getMass() * 2), true);
+        applyForceToCenter(accel);
 
         // turning the body to the speed vector's direction
-        float angle = new Vector2(1, 0).angleRad(body.getLinearVelocity());
-        setAngle(angle);
+        float angle = new Vector2(1, 0).angleRad(getLinearVelocity());
+        setBodyAngle(angle);
     }
 
     @Override

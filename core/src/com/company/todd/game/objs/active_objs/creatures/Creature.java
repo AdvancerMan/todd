@@ -77,7 +77,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
             setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         }
 
-        if (less(body.getLinearVelocity().y, 0) && !isOnGround()) {
+        if (less(getLinearVelocity().y, 0) && !isOnGround()) {
             setPlayingAnimationName(MyAnimation.AnimationType.FALL, false);
         }
 

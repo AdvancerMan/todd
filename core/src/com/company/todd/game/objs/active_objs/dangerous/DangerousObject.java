@@ -1,6 +1,7 @@
 package com.company.todd.game.objs.active_objs.dangerous;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
@@ -37,7 +38,7 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
     @Override
     protected void createMyBody() {
         super.createMyBody();
-        body.setBullet(true);
+        setBullet(true);
     }
 
     public void hit(InGameObject object) {  // TODO some special effects without body
