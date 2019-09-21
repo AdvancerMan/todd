@@ -285,17 +285,36 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         body.applyTorque(toMeters(toMeters(torque)), true);
     }
 
-    /*
-    TODO make new methods:
-    body.setActive();
-    body.setAngularVelocity();
-    body.setAwake();
-    body.setBullet();
-    body.setFixedRotation();
-    body.setGravityScale();
-    body.setLinearVelocity();
-    body.setSleepingAllowed();
-    */
+    public void setBodyActive(boolean flag) {
+        body.setActive(flag);
+    }
+
+    /**
+     * @param velocity in rad / s
+     */
+    public void setAngularVelocity(float velocity) {
+        body.setAngularVelocity(velocity);
+    }
+
+    public void setAwake(boolean flag) {
+        body.setAwake(flag);
+    }
+
+    public void setBullet(boolean flag) {
+        body.setBullet(flag);
+    }
+
+    public void setFixedRotation(boolean flag) {
+        body.setFixedRotation(flag);
+    }
+
+    public void setGravityScale(float scale) {
+        body.setGravityScale(scale);
+    }
+
+    public void setSleepingAllowed(boolean flag) {
+        body.setSleepingAllowed(flag);
+    }
 
     /**
      * @param v velocity (in pixels / s)
@@ -390,27 +409,113 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         rCorner.y = Math.max(rCorner.y, rect.y + rect.height);
     }
 
-    /*
-    TODO new methods:
-    body.getAngle();
-    body.getAngularVelocity();
-    body.getGravityScale();
-    body.getInertia();
-    body.getLinearVelocity();
-    body.getLinearVelocityFromLocalPoint();
-    body.getLinearVelocityFromWorldPoint();
-    body.getLocalCenter();
-    body.getLocalPoint();
-    body.getLocalVector();
-    body.getMass();
-    body.getMassData();
-    body.getPosition();
-    body.getTransform();
-    body.getWorldCenter();
-    body.getWorldPoint();
-    body.getWorldVector();
-    */
+    /**
+     * @return angle in radians
+     */
+    public float getAngle() {
+        return body.getAngle();
+    }
 
+    /**
+     * @return velocity in rad / s
+     */
+    public float getAngularVelocity() {
+        return body.getAngularVelocity();
+    }
+
+    public float getGravityScale() {
+        return body.getGravityScale();
+    }
+
+    /**
+     * @return inertia in kg * pix * pix
+     */
+    public float getInertia() {
+        return toPix(toPix(body.getInertia()));
+    }
+
+    /**
+     * @return velocity in pix / s
+     */
+    public Vector2 getLinearVelocity() {
+        return toPix(body.getLinearVelocity().cpy());
+    }
+
+    /**
+     * @param point local point in pixels
+     * @return velocity in pix / s
+     */
+    public Vector2 getLinearVelocityFromLocalPoint(Vector2 point) {
+        return toPix(body.getLinearVelocityFromLocalPoint(toMeters(point.cpy())).cpy());
+    }
+
+    /**
+     * @param point world point in pixels
+     * @return velocity in pix / s
+     */
+    public Vector2 getLinearVelocityFromWorldPoint(Vector2 point) {
+        return toPix(body.getLinearVelocityFromWorldPoint(toMeters(point.cpy())).cpy());
+    }
+
+    /**
+     * @return local center of mass (coordinates in pixels)
+     */
+    public Vector2 getLocalCenterOfMass() {
+        return toPix(body.getLocalCenter().cpy());
+    }
+
+    /**
+     * @param point coordinates in pixels
+     * @return local point (coordinates in pixels)
+     */
+    public Vector2 getLocalPoint(Vector2 point) {
+        return toPix(body.getLocalPoint(toMeters(point.cpy())).cpy());
+    }
+
+    /**
+     * @param vector coordinates in pixels
+     * @return local vector (coordinates in pixels)
+     */
+    public Vector2 getLocalVector(Vector2 vector) {
+        return toPix(body.getLocalVector(toMeters(vector.cpy())).cpy());
+    }  // TODO test for differences getLocalVector() and getLocalPoint()
+
+    public float getMass() {
+        return body.getMass();
+    }
+
+    public MassData getMassData() {
+        MassData result = new MassData();
+        MassData bodyData = body.getMassData();
+        result.center.x = bodyData.center.x;
+        result.center.y = bodyData.center.y;
+        result.I = bodyData.I;
+        result.mass = bodyData.mass;
+        return result;
+    }
+
+    /**
+     * @return position (coordinates in pixels)
+     */
+    public Vector2 getBodyPosition() {
+        return toPix(body.getPosition().cpy());
+    }
+
+    public Vector2 getWorldCenterOfMass() {
+        return toPix(body.getWorldCenter().cpy());
+    }
+
+    public Vector2 getWorldPoint(Vector2 point) {
+        return toPix(body.getWorldPoint(point.cpy()).cpy());
+    }
+
+    public Vector2 getWorldVector(Vector2 vector) {
+        return toPix(body.getWorldVector(vector.cpy()).cpy());
+    }
+
+    /**
+     * @return AABB (coordinates in pixels)
+     */
     public Rectangle getBodyAABB() {
         Vector2 lCorner = new Vector2();
         Vector2 rCorner = new Vector2();
@@ -467,27 +572,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         return new Rectangle(lCorner.x, lCorner.y, rCorner.x - lCorner.x, rCorner.y - lCorner.y);
     }
 
-    public Rectangle getSpriteBoundingRect() {
-        return sprite.getBoundingRectangle();
-    }
-
-    public Vector2 getBodyPosition() {
-        return toPix(body.getPosition().cpy());
-    }
-
-    public Vector2 getLinearVelocity() {
-        return toPix(body.getLinearVelocity().cpy());
-    }
-
-    public Vector2 getSpritePosition() {
-        return new Vector2(sprite.getX(), sprite.getY());
-    }
-
-    public Vector2 getSpriteSize() {
-        return new Vector2(sprite.getWidth(), sprite.getHeight());
-    }
-
-    public boolean isActive() {
+    public boolean isBodyActive() {
         return body.isActive();
     }
 
@@ -513,6 +598,18 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
 
     public boolean isAvailableToBeGround() {
         return availableToBeGround;
+    }
+
+    public Rectangle getSpriteBoundingRect() {
+        return sprite.getBoundingRectangle();
+    }
+
+    public Vector2 getSpritePosition() {
+        return new Vector2(sprite.getX(), sprite.getY());
+    }
+
+    public Vector2 getSpriteSize() {
+        return new Vector2(sprite.getWidth(), sprite.getHeight());
     }
 
     public void beginContact(Contact contact, InGameObject object) {}
