@@ -1,6 +1,5 @@
 package com.company.todd.game.objs.active_objs.dangerous.objects;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.company.todd.game.animations.MyAnimation;
@@ -66,7 +65,7 @@ public class HomingMissile extends DangerousObject {
     public void takeDamage(float amount) {
         kill();
 
-        Rectangle rect = getBodyRect();
+        Rectangle rect = getBodyAABB();
         Vector2 center = new Vector2();
         rect.getCenter(center);
         float radius = rect.height;

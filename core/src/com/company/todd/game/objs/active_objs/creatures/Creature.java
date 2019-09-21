@@ -90,7 +90,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
         setPlayingAnimationName(MyAnimation.AnimationType.SHOOT, true);
 
-        Rectangle objectRect = getBodyRect();  // TODO good place for bullet spawn
+        Rectangle objectRect = getBodyAABB();  // TODO good place for bullet spawn
         float x, y;
         y = objectRect.y + objectRect.height / 2;  // TODO - bulletType.height / 2
         x = objectRect.x;
@@ -157,11 +157,11 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
             case (0):
                 break;
             case (2):
-                if (!FloatCmp.equals(points[1].y, -getBodyRect().height / 2, 1)) {
+                if (!FloatCmp.equals(points[1].y, -getBodyAABB().height / 2, 1)) {
                     break;
                 }
             case (1):
-                if (!FloatCmp.equals(points[0].y, -getBodyRect().height / 2, 1)) {
+                if (!FloatCmp.equals(points[0].y, -getBodyAABB().height / 2, 1)) {
                     break;
                 }
                 return true;

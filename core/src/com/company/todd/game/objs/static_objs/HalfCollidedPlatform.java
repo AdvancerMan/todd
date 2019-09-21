@@ -31,7 +31,7 @@ public class HalfCollidedPlatform extends StaticObject {
 
         float normalAngle = contact.getWorldManifold().getNormal().angle();
 
-        if (!(89f < normalAngle && normalAngle < 91f)) {
+        if (!(89f < normalAngle && normalAngle < 91f)) {  // TODO normal angle is bad
             notCollidingObjects.add(object);
         }
     }

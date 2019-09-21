@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
@@ -29,9 +30,10 @@ import com.company.todd.util.FloatCmp;
 import static com.company.todd.box2d.BodyCreator.addBox;
 import static com.company.todd.box2d.BodyCreator.addCircle;
 import static com.company.todd.box2d.BodyCreator.createBody;
+import static com.company.todd.game.process.GameProcess.toMeters;
 import static com.company.todd.game.process.GameProcess.toPix;
 
-public abstract class InGameObject implements Disposable {
+public abstract class InGameObject implements Disposable {  // TODO toMeters() toPix() review of functions
     protected final ToddEthottGame game;
     protected GameProcess gameProcess;
 
@@ -135,6 +137,7 @@ public abstract class InGameObject implements Disposable {
         }
     }
 
+
     public void update(float delta) {
         animation.update(delta);
     }
@@ -199,53 +202,178 @@ public abstract class InGameObject implements Disposable {
         createMyBody();
     }
 
-    public void applyLinearImpulseToBodyCenter(Vector2 impulse) {
-        body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
+    /**
+     * @param impulse in kg * pix * pix / s
+     */
+    public void applyAngularImpulse(float impulse) {
+        body.applyAngularImpulse(toMeters(toMeters(impulse)), true);
     }
 
+    /**
+     * @param force in kg * pix / s / s
+     * @param point coordinates in pixels
+     */
+    public void applyForce(Vector2 force, Vector2 point) {
+        body.applyForce(toMeters(force), toMeters(point), true);
+    }
+
+    /**
+     * @param forceX in kg * pix / s / s
+     * @param forceY in kg * pix / s / s
+     * @param pointX in pixels
+     * @param pointY in pixels
+     */
+    public void applyForce(float forceX, float forceY, float pointX, float pointY) {
+        body.applyForce(toMeters(forceX), toMeters(forceY),
+                toMeters(pointX), toMeters(pointY), true);
+    }
+
+    /**
+     * @param force in kg * pix / s / s
+     */
+    public void applyForceToCenter(Vector2 force) {
+        body.applyForceToCenter(toMeters(force), true);
+    }
+
+    /**
+     * @param forceX in kg * pix / s / s
+     * @param forceY in kg * pix / s / s
+     */
+    public void applyForceToCenter(float forceX, float forceY) {
+        body.applyForceToCenter(toMeters(forceX), toMeters(forceY), true);
+    }
+
+    /**
+     * @param impulse in kg * pix / s
+     * @param point in pixels
+     */
+    public void applyLinearImpulse(Vector2 impulse, Vector2 point) {
+        body.applyLinearImpulse(toMeters(impulse), toMeters(point), true);
+    }
+
+    /**
+     * @param impulseX in kg * pix / s
+     * @param impulseY in kg * pix / s
+     * @param pointX in pixels
+     * @param pointY in pixels
+     */
+    public void applyLinearImpulse(float impulseX, float impulseY, float pointX, float pointY) {
+        body.applyLinearImpulse(toMeters(impulseX), toMeters(impulseY),
+                toMeters(pointX), toMeters(pointY), true);
+    }
+
+    /**
+     * @param impulse in kg * pix / s
+     */
+    public void applyLinearImpulseToCenter(Vector2 impulse) {
+        body.applyLinearImpulse(toMeters(impulse), body.getWorldCenter(), true);
+    }
+
+    /**
+     * @param impulseX in kg * pix / s
+     * @param impulseY in kg * pix / s
+     */
+    public void applyLinearImpulseToCenter(float impulseX, float impulseY) {
+        body.applyLinearImpulse(toMeters(new Vector2(impulseX, impulseY)),
+                body.getWorldCenter(), true);  // TODO not body.
+    }
+
+    /**
+     * @param torque in kg * pix * pix / s / s
+     */
+    public void applyTorque(float torque) {
+        body.applyTorque(toMeters(toMeters(torque)), true);
+    }
+
+    /*
+    TODO make new methods:
+    body.setActive();
+    body.setAngularVelocity();
+    body.setAwake();
+    body.setBullet();
+    body.setFixedRotation();
+    body.setGravityScale();
+    body.setLinearVelocity();
+    body.setSleepingAllowed();
+    */
+
+    /**
+     * @param v velocity (in pixels / s)
+     */
     public void setVelocity(Vector2 v) {
-        Vector2 vel = new Vector2(v).sub(body.getLinearVelocity());
-        applyLinearImpulseToBodyCenter(vel.scl(body.getMass()));
+        Vector2 vel = toMeters(new Vector2(v)).sub(body.getLinearVelocity());
+        applyLinearImpulseToCenter(vel.scl(body.getMass()));
     }
 
+    /**
+     * @param yVel y-axis velocity (in pixels / s)
+     */
     public void setYVelocity(float yVel) {
-        Vector2 vel = new Vector2(0, yVel - body.getLinearVelocity().y);
-        applyLinearImpulseToBodyCenter(vel.scl(body.getMass()));
+        // TODO body.setLinearVelocity(body.getLinearVelocity().x, yVel); ?
+
+        Vector2 vel = toMeters(new Vector2(0, yVel - body.getLinearVelocity().y));
+        applyLinearImpulseToCenter(vel.scl(body.getMass()));
     }
 
+    /**
+     * @param xVel x-axis velocity (in pixels / s)
+     */
     public void setXVelocity(float xVel) {
-        Vector2 vel = new Vector2(xVel - body.getLinearVelocity().x, 0);
-        applyLinearImpulseToBodyCenter(vel.scl(body.getMass()));
+        Vector2 vel = toMeters(new Vector2(xVel - body.getLinearVelocity().x, 0));
+        applyLinearImpulseToCenter(vel.scl(body.getMass()));
     }
 
+    /**
+     * @param x in pixels
+     * @param y in pixels
+     */
     public void setCenterPosition(float x, float y) {
         if (body != null) {
-            body.setTransform(x, y, body.getAngle());
+            body.setTransform(toMeters(x), toMeters(y), body.getAngle());
         }
     }
 
+    /**
+     * @param x in pixels
+     * @param y in pixels
+     */
     public void setPosition(float x, float y) {
         if (body != null) {
-            Rectangle bodyRect = getBodyRect();
+            Rectangle bodyRect = getBodyAABB();
             setCenterPosition(x + bodyRect.x / 2, y + bodyRect.y / 2);
         }
     }
 
+    /**
+     * @param angle in radians
+     */
     public void setAngle(float angle) {
         if (body != null) {
             body.setTransform(body.getPosition(), angle);
         }
     }
 
+    /**
+     * @param width in pixels
+     * @param height in pixels
+     */
     public void setSize(float width, float height) {  // FIXME weird logic
         bodyInfo.setSize(new Vector2(width, height));
         sprite.setSize(width, height);  // TODO sprite.setSize()
 
         if (body != null) {
             Vector2 pos = getBodyPosition();
-            bodyInfo.setCenter(pos);
+            bodyInfo.setCenter(pos);  // TODO toMeters() or toPix() ?
             createMyBody();
         }
+    }
+
+    public void setMassData(MassData data) {
+        body.setMassData(data);
+    }
+
+    public void resetMassData() {
+        body.resetMassData();
     }
 
     private void updateCorners(Vector2 lCorner, Vector2 rCorner, Vector2 vertex) {
@@ -262,7 +390,28 @@ public abstract class InGameObject implements Disposable {
         rCorner.y = Math.max(rCorner.y, rect.y + rect.height);
     }
 
-    public Rectangle getBodyRect() {
+    /*
+    TODO new methods:
+    body.getAngle();
+    body.getAngularVelocity();
+    body.getGravityScale();
+    body.getInertia();
+    body.getLinearVelocity();
+    body.getLinearVelocityFromLocalPoint();
+    body.getLinearVelocityFromWorldPoint();
+    body.getLocalCenter();
+    body.getLocalPoint();
+    body.getLocalVector();
+    body.getMass();
+    body.getMassData();
+    body.getPosition();
+    body.getTransform();
+    body.getWorldCenter();
+    body.getWorldPoint();
+    body.getWorldVector();
+    */
+
+    public Rectangle getBodyAABB() {
         Vector2 lCorner = new Vector2();
         Vector2 rCorner = new Vector2();
 
@@ -326,12 +475,36 @@ public abstract class InGameObject implements Disposable {
         return toPix(body.getPosition().cpy());
     }
 
+    public Vector2 getLinearVelocity() {
+        return toPix(body.getLinearVelocity().cpy());
+    }
+
     public Vector2 getSpritePosition() {
         return new Vector2(sprite.getX(), sprite.getY());
     }
 
     public Vector2 getSpriteSize() {
         return new Vector2(sprite.getWidth(), sprite.getHeight());
+    }
+
+    public boolean isActive() {
+        return body.isActive();
+    }
+
+    public boolean isAwake() {
+        return body.isAwake();
+    }
+
+    public boolean isBullet() {
+        return body.isBullet();
+    }
+
+    public boolean isFixedRotation() {
+        return body.isFixedRotation();
+    }
+
+    public boolean isSleepingAllowed() {
+        return body.isSleepingAllowed();
     }
 
     protected boolean isDirectedToRight() {
@@ -352,7 +525,7 @@ public abstract class InGameObject implements Disposable {
     }
 
     /**
-     * if object is not alive Process should dispose it after draw()
+     * if object is not alive Process should dispose it after drawing
      * @return object is killed
      */
     public boolean isKilled() {
