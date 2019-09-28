@@ -15,7 +15,7 @@ public class Player extends CreatureWithHands {
                   MyAnimation animation, MyAnimation handsAnimation, Rectangle handsRectangle,
                   InGameInputHandler inputHandler,
                   float x, float y, float width, float height) {
-        super(game, animation, handsAnimation, handsRectangle, 3000, 450f, x, y, width, height);
+        super(game, animation, handsAnimation, handsRectangle, 500, 450f, x, y, width, height);
         // TODO walkingSpeed runningSpeed jumpPower
 
         this.inputHandler = inputHandler;

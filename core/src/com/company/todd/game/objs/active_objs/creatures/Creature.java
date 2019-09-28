@@ -149,24 +149,16 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public boolean isOnGround() {
-        return grounds != null && grounds.size > 0 && timeFromLastJump > JUMP_COOLDOWN;
-    }
-
-    protected boolean checkGround(Vector2[] points, int pointsCount) {
-        switch (pointsCount) {
-            case (0):
-                break;
-            case (2):
-                if (!FloatCmp.equals(points[1].y, -getBodyAABB().height / 2, 1)) {
-                    break;
-                }
-            case (1):
-                if (!FloatCmp.equals(points[0].y, -getBodyAABB().height / 2, 1)) {
-                    break;
-                }
-                return true;
+        if (grounds == null || timeFromLastJump < JUMP_COOLDOWN) {
+            return false;
         }
 
+        for (InGameObject ground : grounds) {
+            if (ground.isGroundFor(this)) {
+                // TODO optimize (we can memorize last who was ground)
+                return true;
+            }
+        }
         return false;
     }
 
@@ -174,17 +166,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     public void beginContact(Contact contact, InGameObject object) {
         super.beginContact(contact, object);
 
-        if (object.isAvailableToBeGround()) {
-            Vector2[] points = contact.getWorldManifold().getPoints();
-
-            points = new Vector2[] {
-                    toPix(points[0].cpy()).sub(getBodyPosition()),
-                    toPix(points[1].cpy()).sub(getBodyPosition())
-            };
-
-            if (checkGround(points, contact.getWorldManifold().getNumberOfContactPoints())) {
-                addGround(object);
-            }
+        if (object.canBeGroundFor(this)) {
+            addGround(object);
         }
     }
 
@@ -193,5 +176,15 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         super.endContact(contact, object);
 
         removeGround(object);  // FIXME removing another ground (let's store fixture wrappers?)
+    }
+
+    @Override
+    public boolean canBeGroundFor(InGameObject object) {
+        return false;
+    }
+
+    @Override
+    public boolean isGroundFor(InGameObject object) {
+        return false;
     }
 }

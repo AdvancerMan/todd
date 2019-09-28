@@ -21,4 +21,14 @@ public abstract class StaticObject extends InGameObject {
                         float spriteWidth, float spriteHeight) {
         super(game, BodyDef.BodyType.StaticBody, animation, x, y, bodyWidth, bodyHeight, spriteWidth, spriteHeight);
     }
+
+    @Override
+    public boolean canBeGroundFor(InGameObject object) {
+        return true;
+    }
+
+    @Override
+    public boolean isGroundFor(InGameObject object) {
+        return true;
+    }
 }

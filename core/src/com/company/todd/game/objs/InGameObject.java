@@ -49,8 +49,6 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     public static int lastId = 0;
     private int id;
 
-    protected boolean availableToBeGround;
-
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,
                         BodyInfo bodyInfo, Vector2 spriteSize) {
         this.game = game;
@@ -70,8 +68,6 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         this.bodyType = bodyType;
 
         alive = true;
-
-        availableToBeGround = true;
 
         lastId += 1;
         id = lastId;
@@ -328,26 +324,21 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
      * @param v velocity (in pixels / s)
      */
     public void setVelocity(Vector2 v) {
-        Vector2 vel = toMeters(v.cpy()).sub(body.getLinearVelocity());
-        applyLinearImpulseToCenter(vel.scl(getMass()));
+        body.setLinearVelocity(toMeters(v.cpy()));
     }
 
     /**
      * @param yVel y-axis velocity (in pixels / s)
      */
     public void setYVelocity(float yVel) {
-        // TODO body.setLinearVelocity(body.getLinearVelocity().x, yVel); ?
-
-        Vector2 vel = toMeters(new Vector2(0, yVel - body.getLinearVelocity().y));
-        applyLinearImpulseToCenter(vel.scl(getMass()));
+        body.setLinearVelocity(body.getLinearVelocity().x, toMeters(yVel));
     }
 
     /**
      * @param xVel x-axis velocity (in pixels / s)
      */
     public void setXVelocity(float xVel) {
-        Vector2 vel = toMeters(new Vector2(xVel - body.getLinearVelocity().x, 0));
-        applyLinearImpulseToCenter(vel.scl(getMass()));
+        body.setLinearVelocity(toMeters(xVel), body.getLinearVelocity().y);
     }
 
     /**
@@ -608,10 +599,6 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         return dirToRight;
     }
 
-    public boolean isAvailableToBeGround() {
-        return availableToBeGround;
-    }
-
     public Rectangle getSpriteBoundingRect() {
         return sprite.getBoundingRectangle();
     }
@@ -623,6 +610,9 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     public Vector2 getSpriteSize() {
         return new Vector2(sprite.getWidth(), sprite.getHeight());
     }
+
+    public abstract boolean isGroundFor(InGameObject object);
+    public abstract boolean canBeGroundFor(InGameObject object);
 
     public void beginContact(Contact contact, InGameObject object) {}
     public void endContact(Contact contact, InGameObject object) {}

@@ -72,7 +72,10 @@ public abstract class ActiveObject extends InGameObject {
             }
         }
 
-        applyLinearImpulseToCenter(new Vector2(velocity.x - getLinearVelocity().x, velocity.y));  // TODO delta * impulse
+        if (!FloatCmp.equals(velocity.y, 0)) {
+            setYVelocity(velocity.y);
+        }  // TODO setSmoothlyXVelocity
+        applyLinearImpulseToCenter(new Vector2(velocity.x - getLinearVelocity().x, 0));  // TODO delta * impulse
         velocity.set(0, 0);
     }
 

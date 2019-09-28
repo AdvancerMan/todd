@@ -26,7 +26,6 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         this.owner = owner;
         this.killer = null;
         this.ownerSafe = true;
-        this.availableToBeGround = false;
     }
 
     public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
@@ -83,5 +82,15 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
         if (isContactDisabled(object)) {
             contact.setEnabled(false);
         }
+    }
+
+    @Override
+    public boolean canBeGroundFor(InGameObject object) {
+        return false;
+    }
+
+    @Override
+    public boolean isGroundFor(InGameObject object) {
+        return false;
     }
 }
