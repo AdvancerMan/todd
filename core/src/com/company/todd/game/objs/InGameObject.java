@@ -616,7 +616,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         return new Vector2(sprite.getWidth(), sprite.getHeight());
     }
 
-    public abstract boolean isGroundFor(InGameObject object);
+    public abstract boolean isGroundFor(Contact contact, InGameObject object);
 
     public void beginContact(Contact contact, InGameObject object) {}
     public void endContact(Contact contact, InGameObject object) {}

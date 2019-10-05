@@ -147,12 +147,11 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public boolean isOnGround() {
-        if (this instanceof Player) System.out.println(onGround);
         return timeFromLastJump >= JUMP_COOLDOWN && onGround;
     }
 
     @Override
-    public boolean isGroundFor(InGameObject object) {
+    public boolean isGroundFor(Contact contact, InGameObject object) {
         return false;
     }
 
@@ -160,8 +159,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     public void contactPreSolve(Contact contact, Manifold oldManifold, InGameObject object) {
         super.contactPreSolve(contact, oldManifold, object);
 
-        if (!onGround && object.isGroundFor(this)) {
-            if (this instanceof Player) System.out.println(1);
+        if (!onGround && object.isGroundFor(contact, this)) {
             onGround = true;
         }
     }

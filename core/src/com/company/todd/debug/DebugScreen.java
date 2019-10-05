@@ -53,7 +53,7 @@ public class DebugScreen extends MyScreen {
         level.addObject(new HalfCollidedPlatform(game, null, -500, 350, 500, 50));
         level.addObject(new ViscousPlatform(game, null, 1f, 500, 350, 500, 50, 500, 50));
         level.addObject(new ViscousPlatform(game, null, 1f, 0, 150, 500, 50, 500, 50));
-        level.addObject(new Jumper(game, null,10, 500, 400, 100, 20));
+        level.addObject(new Jumper(game, null,300, 500, 400, 100, 20));
 
         gameProcess = new GameProcess(game, this, level);
     }

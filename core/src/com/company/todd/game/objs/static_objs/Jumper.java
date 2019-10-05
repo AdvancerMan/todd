@@ -25,6 +25,12 @@ public class Jumper extends HalfCollidedPlatform {
         // TODO animation of jumping
         if (object instanceof ActiveObject && !notCollidingObjects.contains(object, false)) {
             object.setYVelocity(power);
+            System.out.println(1);
         }
+    }
+
+    @Override
+    public boolean isGroundFor(Contact contact, InGameObject object) {
+        return false;
     }
 }
