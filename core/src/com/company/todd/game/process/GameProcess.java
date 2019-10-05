@@ -244,6 +244,14 @@ public class GameProcess implements Process {  // TODO GameProcess
 
     private static final float METERS_PER_PIX = 1f / 30;
 
+    /**
+     * shouldn't be used as way to get pixels from meters or vice versa
+     * @return METERS_PER_PIX constant
+     */
+    public static float getMetersPerPix() {
+        return METERS_PER_PIX;
+    }
+
     public static float toPix(float value) {
         return value / METERS_PER_PIX;
     }
