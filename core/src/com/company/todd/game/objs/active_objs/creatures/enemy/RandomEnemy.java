@@ -37,24 +37,16 @@ public class RandomEnemy extends Creature {
             actionID = rnd.nextInt(4);
         }
 
-        switch (actionID) {
-            case -1:
-                break;
-
-            case 0:
-                shoot();
-                break;
-            case 1:
-                run(true);
-                changeDirection(true);
-                break;
-            case 2:
-                run(false);
-                changeDirection(false);
-                break;
-            case 3:
-                jump();
-                break;
+        if (actionID == 0) {
+            shoot();
+        } else if (actionID == 1) {
+            run(true);
+            changeDirection(true);
+        } else if (actionID == 2) {
+            run(false);
+            changeDirection(false);
+        } else if (actionID == 3) {
+            jump();
         }
     }
 }

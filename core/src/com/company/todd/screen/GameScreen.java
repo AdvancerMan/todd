@@ -1,7 +1,6 @@
 package com.company.todd.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.company.todd.game.level.Level;
 import com.company.todd.game.level.levels.arena.MainArenaLevel;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.game.process.PauseProcess;
@@ -27,10 +26,10 @@ public class GameScreen extends MyScreen { // TODO GameScreen
     }
 
     @Override
-    protected void update(float delta) {
-        super.update(delta);
+    protected void preUpdate(float delta) {
+        super.preUpdate(delta);
 
-        usingProcess.update(delta);
+        usingProcess.preUpdate(delta);
     }
 
     @Override
@@ -42,6 +41,13 @@ public class GameScreen extends MyScreen { // TODO GameScreen
         usingProcess.draw(batch);
 
         batch.end();
+    }
+
+    @Override
+    protected void postUpdate(float delta) {
+        super.postUpdate(delta);
+
+        usingProcess.postUpdate(delta);
 
         if (gamePaused) {
             usingProcess = pauseProcess;

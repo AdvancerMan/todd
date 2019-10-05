@@ -10,13 +10,18 @@ public class SettingsScreen extends MyScreen {  // TODO SettingsScreen
     }
 
     @Override
-    protected void update(float delta) { // TODO reset game progress
-        super.update(delta);
+    protected void preUpdate(float delta) { // TODO reset game progress
+        super.preUpdate(delta);
     }
 
     @Override
     protected void draw(SpriteBatch batch) {
         super.draw(batch);
+    }
+
+    @Override
+    protected void postUpdate(float delta) {
+        super.postUpdate(delta);
     }
 
     @Override

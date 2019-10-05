@@ -2,18 +2,18 @@ package com.company.todd.game.objs.active_objs.creatures;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
+import com.company.todd.game.objs.active_objs.creatures.friendly.Player;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
-import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.game.process.GameProcess.toPix;
 import static com.company.todd.util.FloatCmp.less;
@@ -23,8 +23,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     protected float jumpPower;
 
     private static final float JUMP_COOLDOWN = 0.1f;
-    private Array<InGameObject> grounds;
     private float timeFromLastJump;
+    private boolean onGround;
 
     protected float maxEnergyLevel;
     protected float energy;
@@ -45,7 +45,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         super(game, animation, runningSpeed, x, y, width, height);
         this.jumpPower = jumpPower;
 
-        grounds = new Array<InGameObject>();
+        onGround = false;
         timeFromLastJump = JUMP_COOLDOWN;
 
         // TODO health and energy
@@ -63,7 +63,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         if (isOnGround()) {
             timeFromLastJump = 0;
             setPlayingAnimationName(MyAnimation.AnimationType.JUMP, true);
-            velocity.set(velocity.x, jumpPower);
+            velocity.set(velocity.x, jumpPower);  // TODO setVelocity(jumpPower) ?
         }
     }
 
@@ -82,6 +82,12 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         }
 
         changedAnim = false;
+    }
+
+    @Override
+    public void preWorldUpdate(float delta) {
+        super.preWorldUpdate(delta);
+        onGround = false;
     }
 
     public void shoot() {  // TODO shoot()
@@ -140,51 +146,23 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         }
     }
 
-    public void addGround(InGameObject ground) {
-        grounds.add(ground);
-    }
-
-    public void removeGround(InGameObject object) {
-        grounds.removeValue(object, false);
-    }
-
     public boolean isOnGround() {
-        if (grounds == null || timeFromLastJump < JUMP_COOLDOWN) {
-            return false;
-        }
-
-        for (InGameObject ground : grounds) {
-            if (ground.isGroundFor(this)) {
-                // TODO optimize (we can memorize last who was ground)
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void beginContact(Contact contact, InGameObject object) {
-        super.beginContact(contact, object);
-
-        if (object.canBeGroundFor(this)) {
-            addGround(object);
-        }
-    }
-
-    @Override
-    public void endContact(Contact contact, InGameObject object) {
-        super.endContact(contact, object);
-
-        removeGround(object);  // FIXME removing another ground (let's store fixture wrappers?)
-    }
-
-    @Override
-    public boolean canBeGroundFor(InGameObject object) {
-        return false;
+        if (this instanceof Player) System.out.println(onGround);
+        return timeFromLastJump >= JUMP_COOLDOWN && onGround;
     }
 
     @Override
     public boolean isGroundFor(InGameObject object) {
         return false;
+    }
+
+    @Override
+    public void contactPreSolve(Contact contact, Manifold oldManifold, InGameObject object) {
+        super.contactPreSolve(contact, oldManifold, object);
+
+        if (!onGround && object.isGroundFor(this)) {
+            if (this instanceof Player) System.out.println(1);
+            onGround = true;
+        }
     }
 }

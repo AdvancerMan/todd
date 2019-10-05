@@ -3,10 +3,8 @@ package com.company.todd.game.objs.active_objs.creatures.friendly;
 import com.badlogic.gdx.math.Rectangle;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.input.InGameInputHandler;
-import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.game.objs.active_objs.creatures.CreatureWithHands;
 import com.company.todd.launcher.ToddEthottGame;
-import com.company.todd.texture.TextureRegionInfo;
 
 public class Player extends CreatureWithHands {
     private final InGameInputHandler inputHandler;

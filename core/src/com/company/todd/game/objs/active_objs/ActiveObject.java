@@ -1,16 +1,12 @@
 package com.company.todd.game.objs.active_objs;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.utils.ArrayMap;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
-import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
 
 public abstract class ActiveObject extends InGameObject {

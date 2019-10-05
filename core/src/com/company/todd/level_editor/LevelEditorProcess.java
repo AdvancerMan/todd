@@ -60,7 +60,7 @@ public class LevelEditorProcess extends GameProcess {
         moveType = MoveType.NOT_MOVING;
     }
 
-    public void update(float delta) {
+    public void preUpdate(float delta) {
         Vector2 touchPos = screen.getTouchPos();
 
         updateButtonsFlags(touchPos);
@@ -194,6 +194,9 @@ public class LevelEditorProcess extends GameProcess {
         batch.draw(scaleDown, tmpVec.x, tmpVec.y,
                 scaleDownRect.width * widthK, scaleDownRect.height * heightK);
     }
+
+    @Override
+    public void postUpdate(float delta) {}
 
     @Override
     public void dispose() {

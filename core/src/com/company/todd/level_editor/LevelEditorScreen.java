@@ -13,9 +13,9 @@ public class LevelEditorScreen extends MyScreen {
     }
 
     @Override
-    protected void update(float delta) {
-        super.update(delta);
-        process.update(delta);
+    protected void preUpdate(float delta) {
+        super.preUpdate(delta);
+        process.preUpdate(delta);
     }
 
     @Override
@@ -27,6 +27,12 @@ public class LevelEditorScreen extends MyScreen {
         process.draw(batch);
 
         batch.end();
+    }
+
+    @Override
+    protected void postUpdate(float delta) {
+        super.postUpdate(delta);
+        process.postUpdate(delta);
     }
 
     @Override

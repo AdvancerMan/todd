@@ -9,6 +9,7 @@ import com.company.todd.game.level.levels.arena.MainArenaLevel;
 import com.company.todd.game.objs.static_objs.HalfCollidedPlatform;
 import com.company.todd.game.objs.static_objs.Jumper;
 import com.company.todd.game.objs.static_objs.PlatformWithUpperLayer;
+import com.company.todd.game.objs.static_objs.ViscousPlatform;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.screen.MyScreen;
@@ -39,36 +40,33 @@ public class DebugScreen extends MyScreen {
                 {123, 321, 123, 317},
                 {10, 3, 500, 1},
                 {10, 3, 500, 1},
-                {-10, -10, 2000, 10},
-                {-10, -10, 10, 1000},
-                {1990, -10, 10, 1000},
-                {-10, 990, 2000, 10},
         };
 
-        /*
+
         for (int i = 0; i < pls.length; i++) {
             level.addObject(new PlatformWithUpperLayer(game,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
-        */
 
-        level.addObject(new HalfCollidedPlatform(game, null, 500, 350, 500, 50));
+
+        level.addObject(new HalfCollidedPlatform(game, null, -500, 350, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, 1f, 500, 350, 500, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, 1f, 0, 150, 500, 50, 500, 50));
         level.addObject(new Jumper(game, null,10, 500, 400, 100, 20));
-
 
         gameProcess = new GameProcess(game, this, level);
     }
 
     @Override
-    protected void update(float delta) {
+    protected void preUpdate(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             pressedPlay = !pressedPlay;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q) || Gdx.input.isKeyPressed(Input.Keys.W) || pressedPlay) {
-            super.update(delta);
-            gameProcess.update(delta);
+            super.preUpdate(delta);
+            gameProcess.preUpdate(delta);
         }
     }
 
@@ -84,6 +82,14 @@ public class DebugScreen extends MyScreen {
                 getCameraRect().x + 5, getCameraRect().y + getCameraRect().height - 10);
 
         batch.end();
+    }
+
+    @Override
+    protected void postUpdate(float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q) || Gdx.input.isKeyPressed(Input.Keys.W) || pressedPlay) {
+            super.postUpdate(delta);
+            gameProcess.postUpdate(delta);
+        }
     }
 
     @Override

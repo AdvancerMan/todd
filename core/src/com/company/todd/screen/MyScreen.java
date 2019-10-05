@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 
@@ -26,7 +25,7 @@ public abstract class MyScreen implements Screen {
         touchPos = new Vector2();
     }
 
-    protected void update(float delta) {
+    protected void preUpdate(float delta) {
         updateTouchPos();
     }
 
@@ -68,10 +67,13 @@ public abstract class MyScreen implements Screen {
         batch.setProjectionMatrix(getCameraProjectionMatrix());
     }
 
+    protected void postUpdate(float delta) {}
+
     @Override
     public void render(float delta) {
-        update(delta);
+        preUpdate(delta);
         draw(game.batch);
+        postUpdate(delta);
     }
 
     public Rectangle getCameraRect() {

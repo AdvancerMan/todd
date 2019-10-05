@@ -10,13 +10,18 @@ public class AuthorsScreen extends MyScreen {  // TODO AuthorsScreen
     }
 
     @Override
-    protected void update(float delta) {
-        super.update(delta);
+    protected void preUpdate(float delta) {
+        super.preUpdate(delta);
     }
 
     @Override
     protected void draw(SpriteBatch batch) {
         super.draw(batch);
+    }
+
+    @Override
+    protected void postUpdate(float delta) {
+        super.postUpdate(delta);
     }
 
     @Override

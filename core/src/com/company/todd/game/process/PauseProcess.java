@@ -16,7 +16,7 @@ public class PauseProcess implements Process {  // TODO PauseProcess
     }
 
     @Override
-    public void update(float delta) {
+    public void preUpdate(float delta) {
 
     }
 
@@ -24,6 +24,11 @@ public class PauseProcess implements Process {  // TODO PauseProcess
     public void draw(SpriteBatch batch) {
         gameProcess.draw(batch);
         // TODO draw some menu buttons
+    }
+
+    @Override
+    public void postUpdate(float delta) {
+
     }
 
     @Override

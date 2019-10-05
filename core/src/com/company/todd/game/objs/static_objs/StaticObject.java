@@ -23,11 +23,6 @@ public abstract class StaticObject extends InGameObject {
     }
 
     @Override
-    public boolean canBeGroundFor(InGameObject object) {
-        return true;
-    }
-
-    @Override
     public boolean isGroundFor(InGameObject object) {
         return true;
     }

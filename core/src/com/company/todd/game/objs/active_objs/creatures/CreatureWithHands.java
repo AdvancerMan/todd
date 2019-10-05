@@ -37,8 +37,8 @@ public abstract class CreatureWithHands extends Creature {
     }
 
     @Override
-    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
-        super.draw(batch, cameraRectangle);
+    public void postWorldPreDrawUpdate(float delta) {
+        super.postWorldPreDrawUpdate(delta);
 
         Vector2 spritePos = getSpritePosition();
         Vector2 spriteSize = getSpriteSize();
@@ -57,7 +57,11 @@ public abstract class CreatureWithHands extends Creature {
         }
 
         handsSprite.translate(spritePos.x, spritePos.y);
+    }
 
+    @Override
+    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
+        super.draw(batch, cameraRectangle);
         if (handsSprite.getBoundingRectangle().overlaps(cameraRectangle)) {
             handsSprite.setRegion(handsAnimation.getFrame());
             if (!isDirectedToRight()) {

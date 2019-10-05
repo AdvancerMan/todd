@@ -1,11 +1,7 @@
 package com.company.todd.game.objs.active_objs.dangerous.objects;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;

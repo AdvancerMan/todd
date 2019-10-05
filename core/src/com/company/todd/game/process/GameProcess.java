@@ -129,8 +129,24 @@ public class GameProcess implements Process {  // TODO GameProcess
         }
     }
 
+    protected void preWorldUpdateObjectsFrom(Array<? extends InGameObject> objects, float delta) {
+        for (InGameObject object : objects) {
+            if (!object.isKilled()) {
+                object.preWorldUpdate(delta);
+            }
+        }
+    }
+
+    protected void postWorldPreDrawUpdateObjectsFrom(Array<? extends InGameObject> objects, float delta) {
+        for (InGameObject object : objects) {
+            if (!object.isKilled()) {
+                object.postWorldPreDrawUpdate(delta);
+            }
+        }
+    }
+
     @Override
-    public void update(float delta) {
+    public void preUpdate(float delta) {
         if (newLevel != null) {
             setLevel();
         }
@@ -141,14 +157,26 @@ public class GameProcess implements Process {  // TODO GameProcess
         checkLifeIn(creatures);
         checkLifeIn(staticObjects);
 
+        // main update of objects
         updateObjectsFrom(dangerousObjects, delta);
         updateObjectsFrom(creatures, delta);
         updateObjectsFrom(staticObjects, delta);
 
         addJustCreatedObjectsToProcess();
 
+        // preparations for world.step()
+        preWorldUpdateObjectsFrom(dangerousObjects, delta);
+        preWorldUpdateObjectsFrom(creatures, delta);
+        preWorldUpdateObjectsFrom(staticObjects, delta);
+
         // TODO for (delta * 60 times) world.step(1f / 60, ..., ...) (does it optimize the game?)
         world.step(delta, 10, 10);  // TODO optimize iterations for world.step()
+
+        // processing results of world.step()
+        // preparing for drawing
+        postWorldPreDrawUpdateObjectsFrom(dangerousObjects, delta);
+        postWorldPreDrawUpdateObjectsFrom(creatures, delta);
+        postWorldPreDrawUpdateObjectsFrom(staticObjects, delta);
 
         screen.centerCameraAt(player);
     }
@@ -168,6 +196,22 @@ public class GameProcess implements Process {  // TODO GameProcess
         drawObjectsFrom(staticObjects, batch, screen.getCameraRect());
         drawObjectsFrom(creatures, batch, screen.getCameraRect());
         drawObjectsFrom(dangerousObjects, batch, screen.getCameraRect());
+    }
+
+    protected void postDrawUpdateObjectsFrom(Array<? extends InGameObject> objects, float delta) {
+        for (InGameObject object : objects) {
+            if (!object.isKilled()) {
+                object.postDrawUpdate(delta);
+            }
+        }
+    }
+
+    public void postUpdate(float delta) {
+        // processing results of draw
+        // making some conclusions of this iteration
+        postDrawUpdateObjectsFrom(dangerousObjects, delta);
+        postDrawUpdateObjectsFrom(creatures, delta);
+        postDrawUpdateObjectsFrom(staticObjects, delta);
     }
 
     public World getWorld() {

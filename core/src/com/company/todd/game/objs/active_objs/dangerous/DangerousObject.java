@@ -85,11 +85,6 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
     }
 
     @Override
-    public boolean canBeGroundFor(InGameObject object) {
-        return false;
-    }
-
-    @Override
     public boolean isGroundFor(InGameObject object) {
         return false;
     }

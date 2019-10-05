@@ -147,7 +147,10 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
         animation.update(delta);
     }
 
-    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
+    public void preWorldUpdate(float delta) {}
+    public void postDrawUpdate(float delta) {}
+
+    public void postWorldPreDrawUpdate(float delta) {
         Vector2 pos = getBodyPosition();
         sprite.setCenter(pos.x, pos.y);
 
@@ -155,7 +158,9 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
             sprite.setOriginCenter();
             sprite.setRotation(getBodyAngle() * FloatCmp.DEGS_IN_RAD);
         }
+    }
 
+    public void draw(SpriteBatch batch, Rectangle cameraRectangle) {
         if (getSpriteBoundingRect().overlaps(cameraRectangle)) {
             sprite.setRegion(animation.getFrame());
             if (!isDirectedToRight()) {
@@ -612,7 +617,6 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     }
 
     public abstract boolean isGroundFor(InGameObject object);
-    public abstract boolean canBeGroundFor(InGameObject object);
 
     public void beginContact(Contact contact, InGameObject object) {}
     public void endContact(Contact contact, InGameObject object) {}
