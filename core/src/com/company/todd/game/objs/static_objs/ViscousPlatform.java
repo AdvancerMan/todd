@@ -34,7 +34,6 @@ public class ViscousPlatform extends HalfCollidedPlatform {
         float objectSpeed = object.getLinearVelocity().y;
         float objectBottom = object.getBodyAABB().y;
         if (platformBottom < objectBottom && FloatCmp.less(objectSpeed, 0)) {
-            System.out.println(objectSpeed + " " + maxObjectSpeed);
             object.setYVelocity(maxObjectSpeed +
                     (objectSpeed - maxObjectSpeed) / GeometrySolver.goldenRatio);
         }
