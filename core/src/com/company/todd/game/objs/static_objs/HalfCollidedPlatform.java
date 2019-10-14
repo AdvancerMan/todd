@@ -1,5 +1,6 @@
 package com.company.todd.game.objs.static_objs;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Manifold;
@@ -7,6 +8,9 @@ import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
+import com.company.todd.util.FloatCmp;
+
+import static com.company.todd.game.process.GameProcess.toPix;
 
 public class HalfCollidedPlatform extends StaticObject {
     protected Array<InGameObject> notCollidingObjects;

@@ -33,8 +33,8 @@ public abstract class StaticObject extends InGameObject {
         Rectangle rect = getBodyAABB();
 
         for (int i = 0; i < contact.getWorldManifold().getNumberOfContactPoints(); i++) {
-            toPix(points[i]);
-            if (!(FloatCmp.equals(points[i].y, rect.y + rect.height, 1))) {
+            Vector2 point = toPix(points[i].cpy());
+            if (!(FloatCmp.equals(point.y, rect.y + rect.height, 1))) {
                 return false;
             }
         }

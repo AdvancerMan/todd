@@ -10,4 +10,10 @@ public class RectanglePlatform extends StaticObject {
                              float spriteWidth, float spriteHeight) {
         super(game, animation, x, y, bodyWidth, bodyHeight, spriteWidth, spriteHeight);
     }
+
+    public RectanglePlatform(ToddEthottGame game, MyAnimation animation,
+                             float x, float y,
+                             float width, float height) {
+        super(game, animation, x, y, width, height);
+    }
 }

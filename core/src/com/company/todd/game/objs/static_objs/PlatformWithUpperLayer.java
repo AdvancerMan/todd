@@ -16,7 +16,7 @@ import com.company.todd.texture.TextureRegionInfo;
 
 import static com.company.todd.util.FloatCmp.less;
 
-public class PlatformWithUpperLayer extends StaticObject {
+public class PlatformWithUpperLayer extends RectanglePlatform {
     protected Type type;
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
     protected TextureRegionInfo info;

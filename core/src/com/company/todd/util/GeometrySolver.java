@@ -20,7 +20,7 @@ public class GeometrySolver {
         }
 
         float crs = segmentVector.crs(pointFromStartVector);
-        return Math.abs(crs * crs / segmentVector.len2());
+        return Math.abs(crs * crs / len2);
     }
 
     public static double pointToSegmentDist(
