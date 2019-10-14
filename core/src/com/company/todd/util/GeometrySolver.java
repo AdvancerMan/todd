@@ -3,6 +3,8 @@ package com.company.todd.util;
 import com.badlogic.gdx.math.Vector2;
 
 public class GeometrySolver {
+    public static final float goldenRatio = ((float) Math.sqrt(5) + 1) / 2;
+
     public static float pointToSegmentDist2(
             Vector2 segmentStart, Vector2 segmentEnd, Vector2 point
     ) {

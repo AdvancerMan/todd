@@ -9,6 +9,7 @@ import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
+import com.company.todd.util.GeometrySolver;
 
 public class ViscousPlatform extends HalfCollidedPlatform {
     private float maxObjectSpeed;
@@ -20,7 +21,7 @@ public class ViscousPlatform extends HalfCollidedPlatform {
                            float bodyWidth, float bodyHeight,
                            float spriteWidth, float spriteHeight) {
         super(game, animation, x, y, bodyWidth, bodyHeight, spriteWidth, spriteHeight);
-        this.maxObjectSpeed = maxObjectSpeed;
+        this.maxObjectSpeed = -maxObjectSpeed;
         platformBottom = y;
     }
 
@@ -33,7 +34,9 @@ public class ViscousPlatform extends HalfCollidedPlatform {
         float objectSpeed = object.getLinearVelocity().y;
         float objectBottom = object.getBodyAABB().y;
         if (platformBottom < objectBottom && FloatCmp.less(objectSpeed, 0)) {
-            object.setYVelocity(-maxObjectSpeed);
+            System.out.println(objectSpeed + " " + maxObjectSpeed);
+            object.setYVelocity(maxObjectSpeed +
+                    (objectSpeed - maxObjectSpeed) / GeometrySolver.goldenRatio);
         }
     }
 
