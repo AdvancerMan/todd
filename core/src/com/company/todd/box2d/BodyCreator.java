@@ -58,7 +58,7 @@ public class BodyCreator {
                               float density, float friction, float restitution, float angle) {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(toMeters(width), toMeters(height),
-                toMeters(center), angle / FloatCmp.DEGS_IN_RAD);  // TODO addPolygon() - smooth box
+                toMeters(center.cpy()), angle / FloatCmp.DEGS_IN_RAD);  // TODO addPolygon() - smooth box
 
         createFixture(body, shape, density, friction, restitution);
         shape.dispose();
