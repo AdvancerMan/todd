@@ -54,8 +54,8 @@ public class Explosion extends DangerousObject {
 
         if (object instanceof ActiveObject &&
                 !damaged.contains((ActiveObject)object, false)) {
-            ((ActiveObject)object).takeDamage(damage);
-            damaged.add((ActiveObject)object);
+            object.takeDamage(damage);
+            damaged.add((ActiveObject) object);
         }
     }
 

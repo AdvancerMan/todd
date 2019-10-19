@@ -98,7 +98,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
 
     private void createMyCircleBody(Vector2 pos, float radius) {
         Body body = createBody(gameProcess.getWorld(), bodyType, pos);
-        addCircle(body, pos, radius);
+        addCircle(body, new Vector2(0, 0), radius);
         body.setUserData(this);
 
         setBody(body);
@@ -142,7 +142,6 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
             body = null;
         }
     }
-
 
     public void update(float delta) {
         animation.update(delta);
