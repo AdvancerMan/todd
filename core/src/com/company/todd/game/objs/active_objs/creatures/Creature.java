@@ -3,6 +3,7 @@ package com.company.todd.game.objs.active_objs.creatures;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -22,8 +23,6 @@ import static com.company.todd.util.FloatCmp.lessOrEquals;
 public abstract class Creature extends ActiveObject {  // TODO Creature
     protected float jumpPower;
 
-    private static final float JUMP_COOLDOWN = 0.1f;
-    private float timeFromLastJump;
     private boolean onGround;
 
     protected float maxEnergyLevel;
@@ -46,7 +45,6 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         this.jumpPower = jumpPower;
 
         onGround = false;
-        timeFromLastJump = JUMP_COOLDOWN;
 
         // TODO health and energy
         maxHealthLevel = 100;
@@ -61,7 +59,6 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     public void jump() { // TODO energy consuming: jump()
         if (isOnGround()) {
-            timeFromLastJump = 0;
             setPlayingAnimationName(MyAnimation.AnimationType.JUMP, true);
             velocity.set(velocity.x, jumpPower);  // TODO setVelocity(jumpPower) ?
         }
@@ -70,8 +67,6 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     @Override
     public void update(float delta) {
         super.update(delta);
-
-        timeFromLastJump += delta;
 
         if (!changedAnim) {
             setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
@@ -147,7 +142,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     }
 
     public boolean isOnGround() {
-        return timeFromLastJump >= JUMP_COOLDOWN && onGround;
+        return onGround;
     }
 
     @Override
