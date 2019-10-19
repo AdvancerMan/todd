@@ -20,6 +20,8 @@ import com.company.todd.screen.MyScreen;
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
+    public static long MAX_DISTANCE2_FROM_CENTER = 20000L * 20000L;
+
     protected final ToddEthottGame game;
     protected final InGameInputHandler inputHandler;
     protected final MyScreen screen;
@@ -113,6 +115,10 @@ public class GameProcess implements Process {  // TODO GameProcess
         Iterator<? extends InGameObject> iterator = objects.iterator();
         while (iterator.hasNext()) {
             InGameObject object = iterator.next();
+
+            if (!object.isKilled() && object.getBodyPosition().dst2(0, 0) > MAX_DISTANCE2_FROM_CENTER) {
+                object.kill();
+            }
 
             if (object.isKilled()) {
                 object.dispose();
