@@ -51,7 +51,7 @@ public class HomingMissile extends DangerousObject {
 
     @Override
     public void hit(InGameObject object) {  // TODO some special effects without body
-        if (owner != null && owner.equals(object) && ownerSafe) {  // TODO fire when hits
+        if (owner != null && owner.equals(object) && ownerSafe || isKilled()) {  // TODO fire when hits
             return;
         }
 
