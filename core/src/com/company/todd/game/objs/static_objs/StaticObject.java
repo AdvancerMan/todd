@@ -46,4 +46,7 @@ public abstract class StaticObject extends InGameObject {
         }
         return true;
     }
+
+    @Override
+    public void takeDamage(float amount) {}
 }

@@ -94,8 +94,6 @@ public abstract class ActiveObject extends InGameObject {
         velocity.set(0, 0);
     }
 
-    public abstract void takeDamage(float amount);
-
     @Override
     public void dispose() {
         super.dispose();

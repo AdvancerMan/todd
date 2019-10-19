@@ -41,7 +41,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     private boolean dirToRight;
     private MyAnimation animation;
 
-    private Body body;  // TODO make body private
+    private Body body;
     protected BodyInfo bodyInfo;  // FIXME delete this because you dont need it everywhere (or make static)
     private BodyDef.BodyType bodyType;
     private boolean alive;
@@ -618,6 +618,8 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     }
 
     public abstract boolean isGroundFor(Contact contact, InGameObject object);
+
+    public abstract void takeDamage(float amount);
 
     public void beginContact(Contact contact, InGameObject object) {}
     public void endContact(Contact contact, InGameObject object) {}
