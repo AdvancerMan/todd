@@ -25,7 +25,7 @@ public class BodyCreator {
     public static Body createBody(World world, BodyDef.BodyType type, Vector2 position,
                                   boolean fixedRotation, float angle, boolean isBullet) {
         bodyDef.type = type;
-        bodyDef.position.set(toMeters(position));
+        bodyDef.position.set(toMeters(position.cpy()));
         bodyDef.fixedRotation = fixedRotation;
         bodyDef.angle = angle / FloatCmp.DEGS_IN_RAD;
         bodyDef.bullet = isBullet;
@@ -80,6 +80,8 @@ public class BodyCreator {
     public static void addPolygon(Body body, float[] vertices, float density, float friction, float restitution) {
         PolygonShape shape = new PolygonShape();
 
+        vertices = vertices.clone();
+
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] = toMeters(vertices[i]);
         }
@@ -95,7 +97,7 @@ public class BodyCreator {
 
     public static void addCircle(Body body, Vector2 center, float radius, float density, float friction, float restitution) {
         CircleShape shape = new CircleShape();
-        shape.setPosition(toMeters(center));
+        shape.setPosition(toMeters(center.cpy()));
         shape.setRadius(toMeters(radius));
 
         createFixture(body, shape, density, friction, restitution);
@@ -127,6 +129,8 @@ public class BodyCreator {
     }
 
     public static void addChain(Body body, float[] vertices, float density, float friction, float restitution) {
+        vertices = vertices.clone();
+
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] = toMeters(vertices[i]);
         }
@@ -143,6 +147,8 @@ public class BodyCreator {
     }
 
     public static void addLoopChain(Body body, float[] vertices, float density, float friction, float restitution) {
+        vertices = vertices.clone();
+
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] = toMeters(vertices[i]);
         }
