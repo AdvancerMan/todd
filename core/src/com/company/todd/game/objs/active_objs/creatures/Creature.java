@@ -2,12 +2,14 @@ package com.company.todd.game.objs.active_objs.creatures;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
@@ -40,8 +42,8 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
 
     public Creature(ToddEthottGame game, MyAnimation animation,
                     float jumpPower, float runningSpeed,
-                    float x, float y, float width, float height) {
-        super(game, animation, runningSpeed, x, y, width, height);
+                    BodyInfo bodyInfo, Vector2 spriteSize) {
+        super(game, animation, runningSpeed, bodyInfo, spriteSize);
         this.jumpPower = jumpPower;
 
         onGround = false;
@@ -55,6 +57,32 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         cooldown = 100000000;
 
         changedAnim = false;
+    }
+
+    public Creature(ToddEthottGame game, MyAnimation animation,
+                    float jumpPower, float runningSpeed,
+                    float x, float y,
+                    float bodyWidth, float bodyHeight,
+                    float spriteWidth, float spriteHeight) {
+        this(game, animation, jumpPower, runningSpeed,
+                new BodyInfo(x, y, bodyWidth, bodyHeight),
+                new Vector2(spriteWidth, spriteHeight));
+    }
+
+    public Creature(ToddEthottGame game, MyAnimation animation,
+                    float jumpPower, float runningSpeed,
+                    float x, float y, float width, float height) {
+        this(game, animation, jumpPower, runningSpeed, x, y, width, height, width, height);
+    }
+
+    public Creature(ToddEthottGame game, MyAnimation animation,
+                    float jumpPower, float runningSpeed,
+                    float x, float y,
+                    float bodyRadius,
+                    float spriteWidth, float spriteHeight) {
+        this(game, animation, jumpPower, runningSpeed,
+                new BodyInfo(x, y, bodyRadius),
+                new Vector2(spriteWidth, spriteHeight));
     }
 
     public void jump() { // TODO energy consuming: jump()

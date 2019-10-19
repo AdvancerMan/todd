@@ -42,7 +42,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     private MyAnimation animation;
 
     private Body body;  // TODO make body private
-    protected BodyInfo bodyInfo;
+    protected BodyInfo bodyInfo;  // FIXME delete this because you dont need it everywhere (or make static)
     private BodyDef.BodyType bodyType;
     private boolean alive;
 
@@ -91,7 +91,8 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
                         float x, float y,
                         float bodyRadius,
                         float spriteWidth, float spriteHeight) {
-        this(game, bodyType, animation, new BodyInfo(x, y, bodyRadius),
+        this(game, bodyType, animation,
+                new BodyInfo(x, y, bodyRadius),
                 new Vector2(spriteWidth, spriteHeight));
     }
 

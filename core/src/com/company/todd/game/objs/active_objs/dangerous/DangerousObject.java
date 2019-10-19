@@ -20,8 +20,8 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
 
     public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
                            float speed, float damage,
-                           Vector2 spriteSize, BodyInfo bodyInfo) {
-        super(game, animation, speed, spriteSize, bodyInfo);
+                           BodyInfo bodyInfo, Vector2 spriteSize) {
+        super(game, animation, speed, bodyInfo, spriteSize);
         this.damage = damage;
         this.owner = owner;
         this.killer = null;
@@ -29,9 +29,29 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
     }
 
     public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+                        float speed, float damage,
+                        float x, float y,
+                        float bodyWidth, float bodyHeight,
+                        float spriteWidth, float spriteHeight) {
+        this(game, owner, animation, speed, damage,
+                new BodyInfo(x, y, bodyWidth, bodyHeight),
+                new Vector2(spriteWidth, spriteHeight));
+    }
+
+    public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
                            float speed, float damage,
                            float x, float y, float width, float height) {
-        this(game, owner, animation, speed, damage, new Vector2(width, height), new BodyInfo(x, y, width, height));
+        this(game, owner, animation, speed, damage, x, y, width, height, width, height);
+    }
+
+    public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+                        float speed, float damage,
+                        float x, float y,
+                        float bodyRadius,
+                        float spriteWidth, float spriteHeight) {
+        this(game, owner, animation, speed, damage,
+                new BodyInfo(x, y, bodyRadius),
+                new Vector2(spriteWidth, spriteHeight));
     }
 
     @Override

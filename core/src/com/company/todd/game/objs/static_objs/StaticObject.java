@@ -27,6 +27,12 @@ public abstract class StaticObject extends InGameObject {
         super(game, BodyDef.BodyType.StaticBody, animation, x, y, bodyWidth, bodyHeight, spriteWidth, spriteHeight);
     }
 
+    public StaticObject(ToddEthottGame game, MyAnimation animation,
+                        float x, float y, float bodyRadius,
+                        float spriteWidth, float spriteHeight) {
+        super(game, BodyDef.BodyType.StaticBody, animation, x, y, bodyRadius, spriteWidth, spriteHeight);
+    }
+
     @Override
     public boolean isGroundFor(Contact contact, InGameObject object) {
         Vector2[] points = contact.getWorldManifold().getPoints();

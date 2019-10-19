@@ -17,7 +17,7 @@ public abstract class ActiveObject extends InGameObject {
 
     public ActiveObject(ToddEthottGame game, MyAnimation animation,
                         float runningSpeed,
-                        Vector2 spriteSize, BodyInfo bodyInfo) {
+                        BodyInfo bodyInfo, Vector2 spriteSize) {
         super(game, BodyDef.BodyType.DynamicBody, animation, bodyInfo, spriteSize);
 
         this.runningSpeed = runningSpeed;
@@ -29,9 +29,28 @@ public abstract class ActiveObject extends InGameObject {
 
     public ActiveObject(ToddEthottGame game, MyAnimation animation,
                         float runningSpeed,
+                        float x, float y,
+                        float bodyWidth, float bodyHeight,
+                        float spriteWidth, float spriteHeight) {
+        this(game, animation, runningSpeed,
+                new BodyInfo(x, y, bodyWidth, bodyHeight),
+                new Vector2(spriteWidth, spriteHeight));
+    }
+
+    public ActiveObject(ToddEthottGame game, MyAnimation animation,
+                        float runningSpeed,
                         float x, float y, float width, float height) {
-        this(game, animation, runningSpeed, new Vector2(width, height),
-                new BodyInfo(x, y, width, height));
+        this(game, animation, runningSpeed, x, y, width, height, width, height);
+    }
+
+    public ActiveObject(ToddEthottGame game, MyAnimation animation,
+                        float runningSpeed,
+                        float x, float y,
+                        float bodyRadius,
+                        float spriteWidth, float spriteHeight) {
+        this(game, animation, runningSpeed,
+                new BodyInfo(x, y, bodyRadius),
+                new Vector2(spriteWidth, spriteHeight));
     }
 
     public void changeDirection(boolean toRight) {
