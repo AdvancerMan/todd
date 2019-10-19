@@ -13,8 +13,9 @@ public class AirBomb extends DangerousObject {
     public AirBomb(ToddEthottGame game, InGameObject owner, MyAnimation animation,
                    float damage, float spriteWidth, float spriteHeight,
                    float x, float y, float bodyWidth, float bodyHeight) {
-        super(game, owner, animation, 0, damage, new Vector2(spriteWidth, spriteHeight),
-                new BodyInfo(x, y, bodyWidth, bodyHeight));
+        super(game, owner, animation, 0, damage,
+                new BodyInfo(x, y, bodyWidth, bodyHeight),
+                new Vector2(spriteWidth, spriteHeight));
     }
 
     public AirBomb(ToddEthottGame game, InGameObject owner, MyAnimation animation,

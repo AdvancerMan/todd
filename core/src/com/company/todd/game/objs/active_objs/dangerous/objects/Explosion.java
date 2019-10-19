@@ -19,7 +19,8 @@ public class Explosion extends DangerousObject {
                      float x, float y, float explosionRadius,
                      float spriteWidth, float spriteHeight) {
         super(game, owner, animation, 0, damage,
-                new Vector2(spriteWidth, spriteHeight), new BodyInfo(x, y, explosionRadius));
+                new BodyInfo(x, y, explosionRadius),
+                new Vector2(spriteWidth, spriteHeight));
 
         setAnimationDuration(MyAnimation.AnimationType.STAY, timeAlive);
         damaged = new Array<ActiveObject>();

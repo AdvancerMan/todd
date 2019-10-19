@@ -54,11 +54,11 @@ public class AnimationInfo {
         ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>> allGetters =
                 new ArrayMap<MyAnimation.AnimationType, Array<TextureRegionInfo.TextureRegionGetter>>();
 
-        for (ObjectMap.Entry entry : regionInfos.entries()) {
+        for (ObjectMap.Entry<MyAnimation.AnimationType, Array<TextureRegionInfo>> entry : regionInfos.entries()) {
             Array<TextureRegionInfo.TextureRegionGetter> getters =
                     new Array<TextureRegionInfo.TextureRegionGetter>();
 
-            for (TextureRegionInfo info : (Array<TextureRegionInfo>) entry.value) {
+            for (TextureRegionInfo info : entry.value) {
                 getters.add(info.getRegionGetter());
             }
 
