@@ -3,7 +3,9 @@ package com.company.todd.box2d;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -13,6 +15,10 @@ import com.company.todd.util.FloatCmp;
 import static com.company.todd.game.process.GameProcess.toMeters;
 
 public class BodyCreator {
+    public static final float DEFAULT_DENSITY = 1;
+    public static final float DEFAULT_FRICTION = 0;
+    public static final float DEFAULT_RESTITUTION = 0;
+
     protected static BodyDef bodyDef = new BodyDef();
     protected static FixtureDef fixtureDef = new FixtureDef();
 
@@ -64,7 +70,7 @@ public class BodyCreator {
     }
 
     public static void addBox(Body body, float width, float height, Vector2 center) {
-        addBox(body, width, height, center, 1, 0f, 0);
+        addBox(body, width, height, center, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_RESTITUTION);
     }
 
     public static void addBox(Body body, float width, float height) {
@@ -84,7 +90,7 @@ public class BodyCreator {
     }
 
     public static void addPolygon(Body body, float[] vertices) {
-        addPolygon(body, vertices, 1, 0f, 0);
+        addPolygon(body, vertices, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_RESTITUTION);
     }
 
     public static void addCircle(Body body, Vector2 center, float radius, float density, float friction, float restitution) {
@@ -97,6 +103,58 @@ public class BodyCreator {
     }
 
     public static void addCircle(Body body, Vector2 center, float radius) {
-        addCircle(body, center, radius, 1, 0f, 0);
+        addCircle(body, center, radius, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_RESTITUTION);
+    }
+
+    public static void addEdge(Body body, float x1, float y1, float x2, float y2, float density, float friction, float restitution) {
+        EdgeShape shape = new EdgeShape();
+        shape.set(toMeters(x1), toMeters(y1), toMeters(x2), toMeters(y2));
+
+        createFixture(body, shape, density, friction, restitution);
+        shape.dispose();
+    }
+
+    public static void addEdge(Body body, Vector2 v1, Vector2 v2, float density, float friction, float restitution) {
+        addEdge(body, v1.x, v1.y, v2.x, v2.y, density, friction, restitution);
+    }
+
+    public static void addEdge(Body body, float x1, float y1, float x2, float y2) {
+        addEdge(body, x1, y1, x2, y2, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_RESTITUTION);
+    }
+
+    public static void addEdge(Body body, Vector2 v1, Vector2 v2) {
+        addEdge(body, v1, v2, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_RESTITUTION);
+    }
+
+    public static void addChain(Body body, float[] vertices, float density, float friction, float restitution) {
+        for (int i = 0; i < vertices.length; i++) {
+            vertices[i] = toMeters(vertices[i]);
+        }
+
+        ChainShape shape = new ChainShape();
+        shape.createChain(vertices);
+
+        createFixture(body, shape, density, friction, restitution);
+        shape.dispose();
+    }
+
+    public static void addChain(Body body, float[] vertices) {
+        addChain(body, vertices, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_RESTITUTION);
+    }
+
+    public static void addLoopChain(Body body, float[] vertices, float density, float friction, float restitution) {
+        for (int i = 0; i < vertices.length; i++) {
+            vertices[i] = toMeters(vertices[i]);
+        }
+
+        ChainShape shape = new ChainShape();
+        shape.createLoop(vertices);
+
+        createFixture(body, shape, density, friction, restitution);
+        shape.dispose();
+    }
+
+    public static void addLoopChain(Body body, float[] vertices) {
+        addLoopChain(body, vertices, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_RESTITUTION);
     }
 }
