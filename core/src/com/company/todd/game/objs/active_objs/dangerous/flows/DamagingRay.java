@@ -1,5 +1,3 @@
-// EXPERIMENTAL
-
 package com.company.todd.game.objs.active_objs.dangerous.flows;
 
 import com.company.todd.game.animations.MyAnimation;
@@ -20,6 +18,5 @@ public class DamagingRay extends DangerousRay {
     @Override
     protected void interactWith(InGameObject object) {
         hit(object);
-        System.out.println(hashCode() + " hitted " + object.hashCode());
     }
 }

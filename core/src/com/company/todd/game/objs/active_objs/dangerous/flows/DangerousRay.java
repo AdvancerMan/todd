@@ -1,5 +1,3 @@
-// EXPERIMENTAL
-
 package com.company.todd.game.objs.active_objs.dangerous.flows;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,7 +39,8 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
         this.interactWithAllColliding = interactWithAllColliding;
         startPosition = new Vector2(x0, y0);
         maxEndPosition = new Vector2(Math.max(MIN_RAY_LENGTH, flowLength), 0).setAngleRad(angle).add(startPosition);
-        realEndPosition = new Vector2(maxEndPosition);
+        realEndPosition = new Vector2(startPosition);
+        createMyBody(); // body was not created because vectors were nulls
 
         firstObject = null;
         firstObjectPosition = new Vector2(maxEndPosition);
@@ -49,10 +48,14 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
         keepAlive = true;
     }
 
+    // FIXME remove that if == null (idk how to fix)
     @Override
     protected void createMyBody() {
+        if (startPosition == null || realEndPosition == null) {
+            return;
+        }
         Body body = createBody(gameProcess.getWorld(), BodyDef.BodyType.StaticBody, new Vector2());
-        BodyCreator.addEdge(body, startPosition, maxEndPosition);
+        BodyCreator.addEdge(body, startPosition, realEndPosition);
         body.setActive(false);
         body.setUserData(this);
         setBody(body);
@@ -65,6 +68,7 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
         rayCast();
 
         realEndPosition = new Vector2(firstObjectPosition);
+        setSize(realEndPosition.len(), 0);
         if (realEndPosition.dst2(startPosition) < MIN_RAY_LENGTH * MIN_RAY_LENGTH) {
             realEndPosition.set(maxEndPosition).sub(startPosition).setLength(MIN_RAY_LENGTH).add(startPosition);
         }

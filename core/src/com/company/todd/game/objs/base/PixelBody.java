@@ -262,6 +262,7 @@ public class PixelBody implements Disposable {  // TODO toMeters() toPix() revie
         if (body != null) {
             Vector2 pos = getBodyPosition();
             bodyInfo.setCenter(pos);  // TODO toMeters() or toPix() ?
+            destroyBody();
             createMyBody();
         }
     }
