@@ -22,10 +22,10 @@ import java.util.Iterator;
 public class GameProcess implements Process {  // TODO GameProcess
     public static long MAX_DISTANCE2_FROM_CENTER = 20000L * 20000L;
 
-    protected final ToddEthottGame game;
-    protected final InGameInputHandler inputHandler;
-    protected final MyScreen screen;
-    protected final MyContactListener contactListener;
+    protected ToddEthottGame game;
+    protected InGameInputHandler inputHandler;
+    protected MyScreen screen;
+    protected MyContactListener contactListener;
 
     protected World world;
     protected Player player;
@@ -40,7 +40,7 @@ public class GameProcess implements Process {  // TODO GameProcess
         this.game = game;
         this.screen = screen;
 
-        world = new World(new Vector2(0, -20f), false);  // TODO optimize gravity
+        world = new World(new Vector2(0, -35f), false);  // TODO optimize gravity
         contactListener = new MyContactListener(this);
 
         inputHandler = new InGameInputHandler();

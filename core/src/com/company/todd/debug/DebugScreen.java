@@ -31,15 +31,20 @@ public class DebugScreen extends MyScreen {
 
         platformTypes = new PlatformWithUpperLayer.Types(game);
 
-        Level level = new MainArenaLevel(game);
+        Level level = new Level(game);
 
         float[][] pls = {  // x, y, width, height
+                {0, -1, 1000, 1},
+                {-1000, -1, 1000, 1},
+
+                /*
                 {100, 100, 100, 100},
                 {200, 25, 500, 100},
                 {700, 125, 500, 100},
                 {123, 321, 123, 317},
                 {10, 3, 500, 1},
                 {10, 3, 500, 1},
+                 */
         };
 
 
@@ -49,11 +54,32 @@ public class DebugScreen extends MyScreen {
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
 
-
+        /*
         level.addObject(new HalfCollidedPlatform(game, null, -500, 350, 500, 50));
         level.addObject(new ViscousPlatform(game, null, 1f, 500, 350, 500, 50, 500, 50));
-        level.addObject(new ViscousPlatform(game, null, 1f, 0, 150, 500, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, 1f, -500, 500, 500, 500, 500, 50));
         level.addObject(new Jumper(game, null,300, 500, 400, 100, 20));
+        */
+        /*
+        level.addObject(new HalfCollidedPlatform(game, null, -500, 350, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, 1f, 500, 350, 500, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, 1f, -500, 500, 500, 500, 500, 50));
+        */
+
+
+        for (int x = -800; x <= 700; x += 300) {
+            level.addObject(new Jumper(game, null, 900, x, 0, 100, 20));
+        }
+
+        level.addObject(new HalfCollidedPlatform(game, null, -1000, 350, 400, 50));
+        level.addObject(new HalfCollidedPlatform(game, null, -500, 350, 400, 50));
+
+        level.addObject(new ViscousPlatform(game, null, 1f, -950, 580, 200, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, 1f, -650, 580, 200, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, 1f, -350, 580, 200, 50, 500, 50));
+
+        level.addObject(new Jumper(game, null, 700, -670, 400, 50, 20));
+        level.addObject(new Jumper(game, null, 700, -480, 400, 50, 20));
 
         gameProcess = new GameProcess(game, this, level);
     }
@@ -100,6 +126,7 @@ public class DebugScreen extends MyScreen {
 
     @Override
     public void dispose() {
+        debugRenderer.dispose();
         gameProcess.dispose();
     }
 }

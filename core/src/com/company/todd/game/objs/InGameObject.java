@@ -46,7 +46,7 @@ public abstract class InGameObject implements Disposable {  // TODO toMeters() t
     private BodyDef.BodyType bodyType;
     private boolean alive;
 
-    public static int lastId = 0;
+    private static int lastId = 0;
     private int id;
 
     public InGameObject(ToddEthottGame game, BodyDef.BodyType bodyType, MyAnimation animation,

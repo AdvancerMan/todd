@@ -24,7 +24,6 @@ public abstract class ActiveObject extends InGameObject {
         this.velocity = new Vector2();
 
         toRight = true;
-
     }
 
     public ActiveObject(ToddEthottGame game, MyAnimation animation,
