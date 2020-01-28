@@ -5,7 +5,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
 
@@ -15,10 +16,10 @@ public abstract class ActiveObject extends InGameObject {
     protected float runningSpeed;
     protected Vector2 velocity;
 
-    public ActiveObject(ToddEthottGame game, MyAnimation animation,
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                         float runningSpeed,
                         BodyInfo bodyInfo, Vector2 spriteSize) {
-        super(game, BodyDef.BodyType.DynamicBody, animation, bodyInfo, spriteSize);
+        super(game, gameProcess, BodyDef.BodyType.DynamicBody, animation, bodyInfo, spriteSize);
 
         this.runningSpeed = runningSpeed;
         this.velocity = new Vector2();
@@ -26,28 +27,28 @@ public abstract class ActiveObject extends InGameObject {
         toRight = true;
     }
 
-    public ActiveObject(ToddEthottGame game, MyAnimation animation,
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                         float runningSpeed,
                         float x, float y,
                         float bodyWidth, float bodyHeight,
                         float spriteWidth, float spriteHeight) {
-        this(game, animation, runningSpeed,
+        this(game, gameProcess, animation, runningSpeed,
                 new BodyInfo(x, y, bodyWidth, bodyHeight),
                 new Vector2(spriteWidth, spriteHeight));
     }
 
-    public ActiveObject(ToddEthottGame game, MyAnimation animation,
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                         float runningSpeed,
                         float x, float y, float width, float height) {
-        this(game, animation, runningSpeed, x, y, width, height, width, height);
+        this(game, gameProcess, animation, runningSpeed, x, y, width, height, width, height);
     }
 
-    public ActiveObject(ToddEthottGame game, MyAnimation animation,
+    public ActiveObject(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                         float runningSpeed,
                         float x, float y,
                         float bodyRadius,
                         float spriteWidth, float spriteHeight) {
-        this(game, animation, runningSpeed,
+        this(game, gameProcess, animation, runningSpeed,
                 new BodyInfo(x, y, bodyRadius),
                 new Vector2(spriteWidth, spriteHeight));
     }

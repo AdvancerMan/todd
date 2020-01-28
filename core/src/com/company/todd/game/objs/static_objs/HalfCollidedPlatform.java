@@ -1,32 +1,30 @@
 package com.company.todd.game.objs.static_objs;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.animations.MyAnimation;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
-import com.company.todd.util.FloatCmp;
 
 import static com.company.todd.game.process.GameProcess.toPix;
 
 public class HalfCollidedPlatform extends StaticObject {
     protected Array<InGameObject> notCollidingObjects;
 
-    public HalfCollidedPlatform(ToddEthottGame game, MyAnimation animation,
+    public HalfCollidedPlatform(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                                 float x, float y,
                                 float bodyWidth, float bodyHeight,
                                 float spriteWidth, float spriteHeight) {
-        super(game, animation, x, y, bodyWidth, bodyHeight, spriteWidth, spriteHeight);
+        super(game, gameProcess, animation, x, y, bodyWidth, bodyHeight, spriteWidth, spriteHeight);
 
         notCollidingObjects = new Array<InGameObject>();
     }
 
-    public HalfCollidedPlatform(ToddEthottGame game, MyAnimation animation,
+    public HalfCollidedPlatform(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                                 float x, float y, float width, float height) {
-        this(game, animation, x, y, width, height, width, height);
+        this(game, gameProcess, animation, x, y, width, height, width, height);
     }
 
     @Override

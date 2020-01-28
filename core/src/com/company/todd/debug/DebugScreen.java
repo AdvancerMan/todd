@@ -49,7 +49,7 @@ public class DebugScreen extends MyScreen {
 
 
         for (int i = 0; i < pls.length; i++) {
-            level.addObject(new PlatformWithUpperLayer(game,
+            level.addObject(new PlatformWithUpperLayer(game, null,
                     platformTypes.getPlatformType("grassPlatform"),
                     pls[i][0], pls[i][1], pls[i][2], pls[i][3]));
         }
@@ -68,18 +68,18 @@ public class DebugScreen extends MyScreen {
 
 
         for (int x = -800; x <= 700; x += 300) {
-            level.addObject(new Jumper(game, null, 900, x, 0, 100, 20));
+            level.addObject(new Jumper(game, null, null, 900, x, 0, 100, 20));
         }
 
-        level.addObject(new HalfCollidedPlatform(game, null, -1000, 350, 400, 50));
-        level.addObject(new HalfCollidedPlatform(game, null, -500, 350, 400, 50));
+        level.addObject(new HalfCollidedPlatform(game, null, null, -1000, 350, 400, 50));
+        level.addObject(new HalfCollidedPlatform(game, null, null, -500, 350, 400, 50));
 
-        level.addObject(new ViscousPlatform(game, null, 1f, -950, 580, 200, 50, 500, 50));
-        level.addObject(new ViscousPlatform(game, null, 1f, -650, 580, 200, 50, 500, 50));
-        level.addObject(new ViscousPlatform(game, null, 1f, -350, 580, 200, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, null, 1f, -950, 580, 200, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, null, 1f, -650, 580, 200, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, null, 1f, -350, 580, 200, 50, 500, 50));
 
-        level.addObject(new Jumper(game, null, 700, -670, 400, 50, 20));
-        level.addObject(new Jumper(game, null, 700, -480, 400, 50, 20));
+        level.addObject(new Jumper(game, null, null, 700, -670, 400, 50, 20));
+        level.addObject(new Jumper(game, null, null, 700, -480, 400, 50, 20));
 
         gameProcess = new GameProcess(game, this, level);
     }

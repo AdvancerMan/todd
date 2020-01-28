@@ -3,6 +3,7 @@ package com.company.todd.game.objs.active_objs.creatures.enemy;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
 import java.util.Random;
@@ -12,8 +13,9 @@ public class RandomEnemy extends Creature {
     private final long actionDelay;
     private final Random rnd;
 
-    public RandomEnemy(ToddEthottGame game, MyAnimation animation, float x, float y, float width, float height) {
-        super(game, animation, 50, 10, x, y, width, height);
+    public RandomEnemy(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
+                       float x, float y, float width, float height) {
+        super(game, gameProcess, animation, 50, 10, x, y, width, height);
 
         rnd = new Random();
         lastActionMoment = TimeUtils.nanoTime();

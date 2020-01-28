@@ -4,9 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
 
@@ -14,11 +15,12 @@ public class Explosion extends DangerousObject {
     private Array<ActiveObject> damaged;
     private float timeAlive;
 
-    public Explosion(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+    public Explosion(ToddEthottGame game, GameProcess gameProcess,
+                     InGameObject owner, MyAnimation animation,
                      float damage, float timeAlive,
                      float x, float y, float explosionRadius,
                      float spriteWidth, float spriteHeight) {
-        super(game, owner, animation, 0, damage,
+        super(game, gameProcess, owner, animation, 0, damage,
                 new BodyInfo(x, y, explosionRadius),
                 new Vector2(spriteWidth, spriteHeight));
 

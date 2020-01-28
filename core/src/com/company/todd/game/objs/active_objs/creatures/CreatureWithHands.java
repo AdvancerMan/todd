@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 import com.company.todd.util.FloatCmp;
@@ -19,11 +20,11 @@ public abstract class CreatureWithHands extends Creature {
     private Vector2 handsPosition;  // position relative to the main sprite
     private Sprite handsSprite;
 
-    public CreatureWithHands(ToddEthottGame game, MyAnimation animation,
+    public CreatureWithHands(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                              MyAnimation handsAnimation, Rectangle handsRectangle,
                              float jumpPower, float runningSpeed,
                              float x, float y, float width, float height) {
-        super(game, animation, jumpPower, runningSpeed, x, y, width, height);
+        super(game, gameProcess, animation, jumpPower, runningSpeed, x, y, width, height);
         this.handsAnimation = handsAnimation;
         this.handsPosition = new Vector2(handsRectangle.x, handsRectangle.y);
         handsSprite = new Sprite();
@@ -114,7 +115,7 @@ public abstract class CreatureWithHands extends Creature {
         tmppp.put(MyAnimation.AnimationType.STAY, Animation.PlayMode.LOOP);
 
         Bullet bul = new Bullet(
-                game, this,
+                game, gameProcess, this,
                 new MyAnimation(tmpp, tmppp, tmp),
                 bulPos.x, bulPos.y, 100, 20, toRight
         );

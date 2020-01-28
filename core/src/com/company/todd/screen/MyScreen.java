@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 
 public abstract class MyScreen implements Screen {

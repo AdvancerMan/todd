@@ -3,8 +3,9 @@ package com.company.todd.game.objs.active_objs.dangerous.objects;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.company.todd.game.animations.MyAnimation;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
 import static com.company.todd.util.FloatCmp.less;
@@ -14,11 +15,12 @@ public class HomingMissile extends DangerousObject {
     private InGameObject target;
     private Vector2 lastTargetPos;
 
-    public HomingMissile(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+    public HomingMissile(ToddEthottGame game, GameProcess gameProcess,
+                         InGameObject owner, MyAnimation animation,
                          InGameObject target,
                          float speed, float damage, float explosionTime,
                          float x, float y, float width, float height) {
-        super(game, owner, animation, speed, damage, x, y, width, height);
+        super(game, gameProcess, owner, animation, speed, damage, x, y, width, height);
         this.explosionTime = explosionTime;
         this.target = target;
         lastTargetPos = new Vector2();
@@ -71,7 +73,7 @@ public class HomingMissile extends DangerousObject {
         float radius = rect.height;
         if (less(radius, rect.width)) radius = rect.width;
 
-        gameProcess.addObject(new Explosion(game, null,
+        gameProcess.addObject(new Explosion(game, gameProcess, null,
                 game.animationInfos.getAnimation("explosion"),
                 damage, explosionTime, center.x, center.y, radius,
                 radius * 2, radius * 2));

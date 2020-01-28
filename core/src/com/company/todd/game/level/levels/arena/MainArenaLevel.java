@@ -6,11 +6,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.Array;
-import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.level.Level;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.game.objs.static_objs.HalfCollidedPlatform;
-import com.company.todd.game.objs.static_objs.PlatformWithUpperLayer;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.AnimationInfo;
@@ -34,10 +32,10 @@ public class MainArenaLevel extends Level {
 
         Array<StaticObject> objects = new Array<StaticObject>(
             new StaticObject[] {
-                new HalfCollidedPlatform(game, null, -1000, -10, 2000, 10),
+                new HalfCollidedPlatform(game, null, null, -1000, -10, 2000, 10),
 
                 // TODO sticky StaticObjects (so you won't suddenly jump when you're running to the top of hill)
-                new StaticObject(game, null, 0, 0, 0, 0, 500, 750) {
+                new StaticObject(game, null, null, 0, 0, 0, 0, 500, 750) {
                     private Vector2 rampStart = new Vector2(225, -150);
                     private Vector2 rampEnd = new Vector2(-75, 150);
 
@@ -93,7 +91,7 @@ public class MainArenaLevel extends Level {
                     }
                 },
 
-                new StaticObject(game, null, 0, 0, 0, 0, 500, 750) {
+                new StaticObject(game, null, null, 0, 0, 0, 0, 500, 750) {
                     private Vector2 rampStart = new Vector2(-225, -150);
                     private Vector2 rampEnd = new Vector2(75, 150);
 

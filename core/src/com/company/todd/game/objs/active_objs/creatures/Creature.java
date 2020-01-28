@@ -4,17 +4,16 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
-import com.company.todd.game.objs.active_objs.creatures.friendly.Player;
 import com.company.todd.game.objs.active_objs.dangerous.Bullet;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
@@ -40,10 +39,10 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     // TODO health, energy, cooldown
     // TODO hit(float damage);
 
-    public Creature(ToddEthottGame game, MyAnimation animation,
+    public Creature(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                     float jumpPower, float runningSpeed,
                     BodyInfo bodyInfo, Vector2 spriteSize) {
-        super(game, animation, runningSpeed, bodyInfo, spriteSize);
+        super(game, gameProcess, animation, runningSpeed, bodyInfo, spriteSize);
         this.jumpPower = jumpPower;
 
         onGround = false;
@@ -59,28 +58,28 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         changedAnim = false;
     }
 
-    public Creature(ToddEthottGame game, MyAnimation animation,
+    public Creature(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                     float jumpPower, float runningSpeed,
                     float x, float y,
                     float bodyWidth, float bodyHeight,
                     float spriteWidth, float spriteHeight) {
-        this(game, animation, jumpPower, runningSpeed,
+        this(game, gameProcess, animation, jumpPower, runningSpeed,
                 new BodyInfo(x, y, bodyWidth, bodyHeight),
                 new Vector2(spriteWidth, spriteHeight));
     }
 
-    public Creature(ToddEthottGame game, MyAnimation animation,
+    public Creature(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                     float jumpPower, float runningSpeed,
                     float x, float y, float width, float height) {
-        this(game, animation, jumpPower, runningSpeed, x, y, width, height, width, height);
+        this(game, gameProcess, animation, jumpPower, runningSpeed, x, y, width, height, width, height);
     }
 
-    public Creature(ToddEthottGame game, MyAnimation animation,
+    public Creature(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                     float jumpPower, float runningSpeed,
                     float x, float y,
                     float bodyRadius,
                     float spriteWidth, float spriteHeight) {
-        this(game, animation, jumpPower, runningSpeed,
+        this(game, gameProcess, animation, jumpPower, runningSpeed,
                 new BodyInfo(x, y, bodyRadius),
                 new Vector2(spriteWidth, spriteHeight));
     }
@@ -144,7 +143,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         tmppp.put(MyAnimation.AnimationType.STAY, Animation.PlayMode.LOOP);
 
         Bullet bul = new Bullet(
-                game, this,
+                game, gameProcess, this,
                 new MyAnimation(tmpp, tmppp, tmp),
                 x, y, 100, 20, toRight
         );

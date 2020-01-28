@@ -1,16 +1,14 @@
 package com.company.todd.game.objs.active_objs.dangerous;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.company.todd.box2d.BodyInfo;
 import com.company.todd.game.animations.MyAnimation;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
-import com.company.todd.texture.TextureRegionInfo;
 
 public abstract class DangerousObject extends ActiveObject {  // TODO DangerousObject
     protected float damage;
@@ -18,38 +16,40 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
     protected InGameObject killer;
     protected boolean ownerSafe;
 
-    public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+    public DangerousObject(ToddEthottGame game, GameProcess gameProcess, InGameObject owner, MyAnimation animation,
                            float speed, float damage,
                            BodyInfo bodyInfo, Vector2 spriteSize) {
-        super(game, animation, speed, bodyInfo, spriteSize);
+        super(game, gameProcess, animation, speed, bodyInfo, spriteSize);
         this.damage = damage;
         this.owner = owner;
         this.killer = null;
         this.ownerSafe = true;
     }
 
-    public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+    public DangerousObject(ToddEthottGame game, GameProcess gameProcess, InGameObject owner, MyAnimation animation,
                         float speed, float damage,
                         float x, float y,
                         float bodyWidth, float bodyHeight,
                         float spriteWidth, float spriteHeight) {
-        this(game, owner, animation, speed, damage,
+        this(game, gameProcess, owner, animation, speed, damage,
                 new BodyInfo(x, y, bodyWidth, bodyHeight),
                 new Vector2(spriteWidth, spriteHeight));
     }
 
-    public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
+    public DangerousObject(ToddEthottGame game, GameProcess gameProcess,
+                           InGameObject owner, MyAnimation animation,
                            float speed, float damage,
                            float x, float y, float width, float height) {
-        this(game, owner, animation, speed, damage, x, y, width, height, width, height);
+        this(game, gameProcess, owner, animation, speed, damage, x, y, width, height, width, height);
     }
 
-    public DangerousObject(ToddEthottGame game, InGameObject owner, MyAnimation animation,
-                        float speed, float damage,
-                        float x, float y,
-                        float bodyRadius,
-                        float spriteWidth, float spriteHeight) {
-        this(game, owner, animation, speed, damage,
+    public DangerousObject(ToddEthottGame game, GameProcess gameProcess,
+                           InGameObject owner, MyAnimation animation,
+                           float speed, float damage,
+                           float x, float y,
+                           float bodyRadius,
+                           float spriteWidth, float spriteHeight) {
+        this(game, gameProcess, owner, animation, speed, damage,
                 new BodyInfo(x, y, bodyRadius),
                 new Vector2(spriteWidth, spriteHeight));
     }

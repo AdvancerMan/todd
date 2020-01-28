@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.debug.DebugTimer;
 import com.company.todd.game.animations.MyAnimation;
+import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.TextureRegionInfo;
 
@@ -21,9 +22,10 @@ public class PlatformWithUpperLayer extends RectanglePlatform {
     protected Texture tmpTexture;  // TODO move tmpTexture to TextureManager
     protected TextureRegionInfo info;
 
-    public PlatformWithUpperLayer(ToddEthottGame game, Type type,  // TODO constructor with spriteSize and bodySize
+    // TODO constructor with spriteSize and bodySize
+    public PlatformWithUpperLayer(ToddEthottGame game, GameProcess gameProcess, Type type,
                                   float x, float y, float width, float height) {
-        super(game, new MyAnimation(), x, y, width, height);
+        super(game, gameProcess, new MyAnimation(), x, y, width, height);
 
         this.type = type;
         type.init();

@@ -78,12 +78,11 @@ public class LevelEditorProcess extends GameProcess {
 
         if (Gdx.input.isTouched()) {
             if (platformNow == null) {
-                platformNow = new PlatformWithUpperLayer(game, platformTypes.getPlatformType("grassPlatform"),
+                platformNow = new PlatformWithUpperLayer(game, this, platformTypes.getPlatformType("grassPlatform"),
                         touchPos.x, touchPos.y, 0, 0);
 
                 addObject(platformNow);
                 addJustCreatedObjectsToProcess();
-                platformNow.setGameProcess(this);
                 firstTouchPos = touchPos;
             } else {
                 platformNow.setSize(Math.abs(firstTouchPos.x - touchPos.x), Math.abs(firstTouchPos.y - touchPos.y));

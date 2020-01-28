@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.contact.MyContactListener;
 import com.company.todd.game.input.InGameInputHandler;
 import com.company.todd.game.level.Level;
-import com.company.todd.game.objs.InGameObject;
+import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.game.objs.active_objs.creatures.Creature;
 import com.company.todd.game.objs.active_objs.creatures.friendly.Player;
 import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
@@ -56,7 +56,7 @@ public class GameProcess implements Process {  // TODO GameProcess
     }
 
     private void createPlayer() { // TODO player in GameProcess
-        player = new Player(game,
+        player = new Player(game, this,
                 game.animationInfos.getAnimation("player"),
                 game.animationInfos.getAnimation("playerHands"),
                 new Rectangle(50, 40, 20, 20),
@@ -77,7 +77,10 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         newLevel.unpackTo(justCreatedObjects);
         justCreatedObjects.add(player);
-        player.setPosition(0, 0);
+        player.setPosition(0, 0);  // FIXME incapsulate it to Player.reset()
+        for (InGameObject object : justCreatedObjects) {
+            object.setGameProcess(this);
+        }
         addJustCreatedObjectsToProcess();
 
         newLevel = null;
@@ -97,7 +100,6 @@ public class GameProcess implements Process {  // TODO GameProcess
         Iterator<InGameObject> objectIterator = justCreatedObjects.iterator();
         while (objectIterator.hasNext()) {
             InGameObject object = objectIterator.next();
-            object.setGameProcess(this);
 
             if (object instanceof Creature) {
                 creatures.add((Creature) object);
