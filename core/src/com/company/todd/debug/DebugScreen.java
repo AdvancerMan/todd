@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.company.todd.game.level.Level;
+import com.company.todd.game.objs.static_objs.interactive.Portal;
 import com.company.todd.game.objs.static_objs.walkable.HalfCollidedPlatform;
 import com.company.todd.game.objs.static_objs.interactive.Jumper;
 import com.company.todd.game.objs.static_objs.walkable.PlatformWithUpperLayer;
@@ -79,6 +80,8 @@ public class DebugScreen extends MyScreen {
 
         level.addObject(new Jumper(game, null, null, 700, -670, 400, 50, 20));
         level.addObject(new Jumper(game, null, null, 700, -480, 400, 50, 20));
+
+        level.addObject(new Portal(game, null, null, 0, 500, -500, 500, 0.2f, 100, 123, 123));
 
         gameProcess = new GameProcess(game, this, level);
     }
