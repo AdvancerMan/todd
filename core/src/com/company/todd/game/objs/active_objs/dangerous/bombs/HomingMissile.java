@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.active_objs.dangerous.objects;
+package com.company.todd.game.objs.active_objs.dangerous.bombs;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -10,18 +10,16 @@ import com.company.todd.launcher.ToddEthottGame;
 
 import static com.company.todd.util.FloatCmp.less;
 
-public class HomingMissile extends DangerousObject {
-    private float explosionTime;
+public class HomingMissile extends Bomb {
     private InGameObject target;
     private Vector2 lastTargetPos;
 
     public HomingMissile(ToddEthottGame game, GameProcess gameProcess,
                          InGameObject owner, MyAnimation animation,
                          InGameObject target,
-                         float speed, float damage, float explosionTime,
+                         float speed, float damage,
                          float x, float y, float width, float height) {
         super(game, gameProcess, owner, animation, speed, damage, x, y, width, height);
-        this.explosionTime = explosionTime;
         this.target = target;
         lastTargetPos = new Vector2();
     }
@@ -61,21 +59,5 @@ public class HomingMissile extends DangerousObject {
             killer = object;
         }
         takeDamage(0);
-    }
-
-    @Override
-    public void takeDamage(float amount) {
-        kill();
-
-        Rectangle rect = getBodyAABB();
-        Vector2 center = new Vector2();
-        rect.getCenter(center);
-        float radius = rect.height;
-        if (less(radius, rect.width)) radius = rect.width;
-
-        gameProcess.addObject(new Explosion(game, gameProcess, null,
-                game.animationInfos.getAnimation("explosion"),
-                damage, explosionTime, center.x, center.y, radius,
-                radius * 2, radius * 2));
     }
 }

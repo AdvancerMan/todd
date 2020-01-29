@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.active_objs.dangerous.objects;
+package com.company.todd.game.objs.active_objs.dangerous.bombs;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;

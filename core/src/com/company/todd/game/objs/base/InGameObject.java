@@ -176,7 +176,8 @@ public abstract class InGameObject extends PixelBody implements Disposable {
 
     public abstract boolean isGroundFor(Contact contact, InGameObject object);
 
-    public abstract void takeDamage(float amount);
+    // TODO invulnerability for some time after taking damage
+    public void takeDamage(float amount) {}
 
     public void beginContact(Contact contact, InGameObject object) {}
     public void endContact(Contact contact, InGameObject object) {}
@@ -192,7 +193,7 @@ public abstract class InGameObject extends PixelBody implements Disposable {
      * @return object is killed
      */
     public boolean isKilled() {
-        return !alive;
+        return !alive || !isGameProcessInitiated();
     }
 
     @Override

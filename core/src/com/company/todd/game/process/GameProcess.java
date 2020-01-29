@@ -101,6 +101,9 @@ public class GameProcess implements Process {  // TODO GameProcess
         Iterator<InGameObject> objectIterator = justCreatedObjects.iterator();
         while (objectIterator.hasNext()) {
             InGameObject object = objectIterator.next();
+            if (!object.isGameProcessInitiated()) {
+                object.setGameProcess(this);
+            }
 
             if (object instanceof Creature) {
                 creatures.add((Creature) object);

@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.active_objs.dangerous.objects;
+package com.company.todd.game.objs.active_objs.dangerous.bombs;
 
 import com.badlogic.gdx.math.Vector2;
 import com.company.todd.box2d.BodyInfo;
@@ -8,7 +8,7 @@ import com.company.todd.game.objs.active_objs.dangerous.DangerousObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
-public class AirBomb extends DangerousObject {
+public class AirBomb extends Bomb {
     public AirBomb(ToddEthottGame game, GameProcess gameProcess, InGameObject owner, MyAnimation animation,
                    float damage, float spriteWidth, float spriteHeight,
                    float x, float y, float bodyWidth, float bodyHeight) {
@@ -21,10 +21,5 @@ public class AirBomb extends DangerousObject {
                    InGameObject owner, MyAnimation animation,
                    float damage, float x, float y, float width, float height) {
         this(game, gameProcess, owner, animation, damage, width, height, x, y, width, height);
-    }
-
-    @Override
-    public void takeDamage(float amount) {
-        kill();
     }
 }

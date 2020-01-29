@@ -40,6 +40,10 @@ public class PixelBody implements Disposable {  // TODO toMeters() toPix() revie
         setGameProcess(gameProcess);
     }
 
+    public boolean isGameProcessInitiated() {
+        return gameProcess != null;
+    }
+
     // TODO reset() to reset all parameters relative to the process (e.g. coordinates, health)
     public void setGameProcess(GameProcess gameProcess) {
         destroyBody();

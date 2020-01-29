@@ -80,6 +80,7 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
             interactWith(firstObject);
         }
 
+        // FIXME object should not live for 1 frame
         if (!keepAlive) {
             kill();
         }
@@ -118,6 +119,8 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
         Vector2 objectPosition = toPix(new Vector2(point));
         InGameObject object = (InGameObject) fixture.getBody().getUserData();
+
+        // FIXME if victim body is not active collision should not be reported
 
         if (firstObjectPosition.dst2(startPosition) > objectPosition.dst2(startPosition)) {
             firstObjectPosition = objectPosition;
