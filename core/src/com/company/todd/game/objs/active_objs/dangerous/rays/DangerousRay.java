@@ -68,7 +68,10 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
         rayCast();
 
         realEndPosition = new Vector2(firstObjectPosition);
-        setSize(realEndPosition.len(), 0);
+        if (!interactWithAllColliding) {
+            setSize(realEndPosition.len(), 0);
+        }
+
         if (realEndPosition.dst2(startPosition) < MIN_RAY_LENGTH * MIN_RAY_LENGTH) {
             realEndPosition.set(maxEndPosition).sub(startPosition).setLength(MIN_RAY_LENGTH).add(startPosition);
         }
