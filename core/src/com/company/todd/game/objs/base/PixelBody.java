@@ -228,6 +228,7 @@ public class PixelBody implements Disposable {  // TODO toMeters() toPix() revie
      */
     public void setCenterPosition(float x, float y) {
         if (body != null) {
+            body.setLinearVelocity(0, 0);
             body.setTransform(toMeters(x), toMeters(y), getBodyAngle());
         }
     }
@@ -238,8 +239,8 @@ public class PixelBody implements Disposable {  // TODO toMeters() toPix() revie
      */
     public void setPosition(float x, float y) {
         if (body != null) {
-            Rectangle bodyRect = getBodyAABB();
-            setCenterPosition(x + bodyRect.x / 2, y + bodyRect.y / 2);
+            Vector2 pos = getBodyPosition();
+            setCenterPosition(x + pos.x / 2, y + pos.y / 2);
         }
     }
 
@@ -248,6 +249,7 @@ public class PixelBody implements Disposable {  // TODO toMeters() toPix() revie
      */
     public void setBodyAngle(float angle) {
         if (body != null) {
+            body.setAngularVelocity(0);
             body.setTransform(body.getPosition(), angle);
         }
     }
