@@ -20,7 +20,8 @@ import com.company.todd.screen.MyScreen;
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
-    public static long MAX_DISTANCE2_FROM_CENTER = 20000L * 20000L;
+    public static final long MAX_DISTANCE2_FROM_CENTER = 2000L * 2000L;
+    public static final Vector2 CENTER = new Vector2(0, 0);
 
     protected ToddEthottGame game;
     protected InGameInputHandler inputHandler;
@@ -60,7 +61,7 @@ public class GameProcess implements Process {  // TODO GameProcess
                 game.animationInfos.getAnimation("player"),
                 game.animationInfos.getAnimation("playerHands"),
                 new Rectangle(50, 40, 20, 20),
-                inputHandler, 0, 0, 50, 100);
+                inputHandler, CENTER.x, CENTER.y, 50, 100);
     }
 
     public void setLevel(Level level) {
@@ -77,7 +78,7 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         newLevel.unpackTo(justCreatedObjects);
         justCreatedObjects.add(player);
-        player.setPosition(0, 0);  // FIXME incapsulate it to Player.reset()
+        player.setPosition(CENTER.x, CENTER.y);  // FIXME incapsulate it to Player.reset()
         for (InGameObject object : justCreatedObjects) {
             object.setGameProcess(this);
         }
@@ -118,8 +119,8 @@ public class GameProcess implements Process {  // TODO GameProcess
         while (iterator.hasNext()) {
             InGameObject object = iterator.next();
 
-            if (!object.isKilled() && object.getBodyPosition().dst2(0, 0) > MAX_DISTANCE2_FROM_CENTER) {
-                object.kill();
+            if (object.getBodyPosition().dst2(CENTER) > MAX_DISTANCE2_FROM_CENTER) {
+                object.setPosition(CENTER.x, CENTER.y);
             }
 
             if (object.isKilled()) {
