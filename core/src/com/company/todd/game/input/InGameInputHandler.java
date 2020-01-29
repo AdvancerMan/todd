@@ -46,10 +46,10 @@ public class InGameInputHandler implements InputProcessor {
         // TODO koef for input rects
 
         int[][] rects = {  // x, y, width, height
-                {width / 2, 0, width / 2, height - 100},  // right
-                {0, 0, width / 2, height - 100},  // left
+                {width / 2, 0, width / 2, height - 200},  // right
+                {0, 0, width / 2, height - 200},  // left
                 {0, height - 100, width, 100},  // jump
-                {100, 100, 100, 100},  // shoot
+                {0, height - 200, width, 100},  // shoot
                 {200, 0, 100, 100}  // pause
         };
         String[] rectNames = {
