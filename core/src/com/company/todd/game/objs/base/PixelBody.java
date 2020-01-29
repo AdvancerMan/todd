@@ -239,8 +239,8 @@ public class PixelBody implements Disposable {  // TODO toMeters() toPix() revie
      */
     public void setPosition(float x, float y) {
         if (body != null) {
-            Vector2 pos = getBodyPosition();
-            setCenterPosition(x + pos.x / 2, y + pos.y / 2);
+            Rectangle aabb = getBodyAABB();
+            setCenterPosition(x + aabb.width / 2, y + aabb.height / 2);
         }
     }
 
