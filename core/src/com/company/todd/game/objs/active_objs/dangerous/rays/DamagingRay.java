@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.active_objs.dangerous.flows;
+package com.company.todd.game.objs.active_objs.dangerous.rays;
 
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.base.InGameObject;

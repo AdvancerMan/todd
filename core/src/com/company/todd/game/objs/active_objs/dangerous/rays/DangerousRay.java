@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.active_objs.dangerous.flows;
+package com.company.todd.game.objs.active_objs.dangerous.rays;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
