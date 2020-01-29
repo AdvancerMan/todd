@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.level.Level;
 import com.company.todd.game.objs.base.InGameObject;
-import com.company.todd.game.objs.static_objs.HalfCollidedPlatform;
+import com.company.todd.game.objs.static_objs.walkable.HalfCollidedPlatform;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.texture.AnimationInfo;

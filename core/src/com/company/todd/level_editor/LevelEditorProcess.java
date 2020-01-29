@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.company.todd.game.level.Level;
-import com.company.todd.game.objs.static_objs.PlatformWithUpperLayer;
+import com.company.todd.game.objs.static_objs.walkable.PlatformWithUpperLayer;
 import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;

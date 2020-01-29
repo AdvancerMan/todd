@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.static_objs;
+package com.company.todd.game.objs.static_objs.walkable;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;

@@ -1,4 +1,4 @@
-package com.company.todd.game.objs.static_objs;
+package com.company.todd.game.objs.static_objs.walkable;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.base.InGameObject;
+import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;

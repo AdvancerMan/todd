@@ -1,9 +1,10 @@
-package com.company.todd.game.objs.static_objs;
+package com.company.todd.game.objs.static_objs.interactive;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.game.objs.active_objs.ActiveObject;
+import com.company.todd.game.objs.static_objs.walkable.HalfCollidedPlatform;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 

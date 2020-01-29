@@ -1,6 +1,7 @@
-package com.company.todd.game.objs.static_objs;
+package com.company.todd.game.objs.static_objs.walkable;
 
 import com.company.todd.game.animations.MyAnimation;
+import com.company.todd.game.objs.static_objs.StaticObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
