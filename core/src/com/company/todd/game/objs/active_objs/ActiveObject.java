@@ -53,6 +53,7 @@ public abstract class ActiveObject extends InGameObject {
                 new Vector2(spriteWidth, spriteHeight));
     }
 
+    // FIXME wtf setDirToRight? changeDirection?
     public void changeDirection(boolean toRight) {
         if (toRight == this.toRight) {
             return;
@@ -75,6 +76,8 @@ public abstract class ActiveObject extends InGameObject {
     public void update(float delta) {
         super.update(delta);
 
+        // TODO post update?
+        // TODO sense() think() act()
         updatePosition(delta);
     }
 
