@@ -42,11 +42,11 @@ public class RandomEnemy extends Creature {
         if (actionID == 0) {
             shoot();
         } else if (actionID == 1) {
-            run(true);
-            changeDirection(true);
+            setDirToRight(true);
+            run();
         } else if (actionID == 2) {
-            run(false);
-            changeDirection(false);
+            setDirToRight(false);
+            run();
         } else if (actionID == 3) {
             jump();
         }

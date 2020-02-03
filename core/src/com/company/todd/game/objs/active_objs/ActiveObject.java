@@ -11,8 +11,6 @@ import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
 
 public abstract class ActiveObject extends InGameObject {
-    protected boolean toRight;
-
     protected float runningSpeed;
     protected Vector2 velocity;
 
@@ -24,7 +22,7 @@ public abstract class ActiveObject extends InGameObject {
         this.runningSpeed = runningSpeed;
         this.velocity = new Vector2();
 
-        toRight = true;
+        setDirToRight(true);
     }
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
@@ -53,14 +51,8 @@ public abstract class ActiveObject extends InGameObject {
                 new Vector2(spriteWidth, spriteHeight));
     }
 
-    // FIXME wtf setDirToRight? changeDirection?
-    public void changeDirection(boolean toRight) {
-        if (toRight == this.toRight) {
-            return;
-        }
-
-        this.toRight = toRight;
-        setDirToRight(toRight);
+    public void run() {
+        run(isDirectedToRight());
     }
 
     public void run(boolean toRight) {

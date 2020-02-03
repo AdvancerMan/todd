@@ -123,7 +123,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         y = objectRect.y + objectRect.height / 2;  // TODO - bulletType.height / 2
         x = objectRect.x;
 
-        if (toRight) {
+        if (isDirectedToRight()) {
             x += objectRect.width;
         } else {
             // TODO x -= bulletType.width + 1
@@ -145,7 +145,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
         Bullet bul = new Bullet(
                 game, gameProcess, this,
                 new MyAnimation(tmpp, tmppp, tmp),
-                x, y, 100, 20, toRight
+                x, y, 100, 20, isDirectedToRight()
         );
         bul.setPlayingAnimationName(MyAnimation.AnimationType.RUN, true);
         gameProcess.addObject(bul);

@@ -22,13 +22,13 @@ public class Player extends CreatureWithHands {
 
     private void handleInput() {
         if (inputHandler.isGoingRight()) {
-            run(true);
-            changeDirection(true);
+            setDirToRight(true);
+            run();
         }
 
         if (inputHandler.isGoingLeft()) {
-            run(false);
-            changeDirection(false);
+            setDirToRight(false);
+            run();
         }
 
         if (inputHandler.isShooting()) {

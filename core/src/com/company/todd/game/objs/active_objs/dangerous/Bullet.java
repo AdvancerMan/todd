@@ -12,12 +12,12 @@ public class Bullet extends DangerousObject {  // TODO Bullet
                   float speed, float damage, boolean toRight) {
         super(game, gameProcess, owner, animation, speed, damage, x, y, 40, 10);  // TODO bullet size
 
-        changeDirection(toRight);
+        setDirToRight(toRight);
     }
 
     @Override
     public void update(float delta) {
-        run(toRight);
+        run();
         super.update(delta);
     }
 

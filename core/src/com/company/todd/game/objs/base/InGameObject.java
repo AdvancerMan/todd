@@ -158,7 +158,7 @@ public abstract class InGameObject extends PixelBody implements Disposable {
         sprite.setSize(width, height);  // TODO sprite.setSize()
     }
 
-    protected boolean isDirectedToRight() {
+    public boolean isDirectedToRight() {
         return dirToRight;
     }
 

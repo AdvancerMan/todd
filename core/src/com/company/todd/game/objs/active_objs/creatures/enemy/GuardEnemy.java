@@ -32,15 +32,15 @@ public class GuardEnemy extends Creature {
                 && isDirectedToRight() == FloatCmp.more(player.getBodyPosition().x, getBodyPosition().x)) {
             shoot();
         } else {
-            run(isDirectedToRight());
+            run();
         }
 
         if (FloatCmp.less(getBodyPosition().x, x1)) {
-            run(true);
-            changeDirection(true);
+            setDirToRight(true);
+            run();
         } else if (FloatCmp.more(getBodyPosition().x, x2)) {
-            run(false);
-            changeDirection(false);
+            setDirToRight(false);
+            run();
         }
     }
 }
