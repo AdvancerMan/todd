@@ -117,7 +117,7 @@ public abstract class CreatureWithHands extends Creature {
         Bullet bul = new Bullet(
                 game, gameProcess, this,
                 new MyAnimation(tmpp, tmppp, tmp),
-                bulPos.x, bulPos.y, 10000, 20, toRight
+                bulPos.x, bulPos.y, 10000, 20, isDirectedToRight()
         );
         bul.setPlayingAnimationName(MyAnimation.AnimationType.RUN, true);
         gameProcess.addObject(bul);
