@@ -17,7 +17,6 @@ import com.company.todd.util.GeometrySolver;
 
 import static com.company.todd.box2d.BodyCreator.addPolygon;
 import static com.company.todd.box2d.BodyCreator.createBody;
-import static com.company.todd.game.process.GameProcess.toPix;
 
 public class MainArenaLevel extends Level {
     public MainArenaLevel(ToddEthottGame game) {
@@ -32,29 +31,29 @@ public class MainArenaLevel extends Level {
 
         Array<StaticObject> objects = new Array<StaticObject>(
             new StaticObject[] {
-                new HalfCollidedPlatform(game, null, null, -1000, -10, 2000, 10),
+                new HalfCollidedPlatform(game, null, null, -1000f / 30, -10f / 30, 2000f / 30, 10f / 30),
 
                 // TODO sticky StaticObjects (so you won't suddenly jump when you're running to the top of hill)
                 new StaticObject(game, null, null, 0, 0, 0, 0, 500, 750) {
-                    private Vector2 rampStart = new Vector2(225, -150);
-                    private Vector2 rampEnd = new Vector2(-75, 150);
+                    private Vector2 rampStart = new Vector2(225f / 30, -150f / 30);
+                    private Vector2 rampEnd = new Vector2(-75f / 30, 150f / 30);
 
                     @Override
                     protected void createMyBody() {
                         Body body = createBody(gameProcess.getWorld(),
-                                BodyDef.BodyType.StaticBody, new Vector2(-1125, 290));
+                                BodyDef.BodyType.StaticBody, new Vector2(-1125f / 30, 290f / 30));
                         addPolygon(body, new float[] {
-                                -225, -300,
-                                225, -300,
-                                225, -150,
-                                -75, 150,
-                                -225, 150
+                                -225f / 30, -300f / 30,
+                                225f / 30, -300f / 30,
+                                225f / 30, -150f / 30,
+                                -75f / 30, 150f / 30,
+                                -225f / 30, 150f / 30
                         });
                         addPolygon(body, new float[] {
-                                -75, 150,
-                                -75, 300,
-                                -225, 300,
-                                -225, 150
+                                -75f / 30, 150f / 30,
+                                -75f / 30, 300f / 30,
+                                -225f / 30, 300f / 30,
+                                -225f / 30, 150f / 30
                         });
                         body.setUserData(this);
 
@@ -65,52 +64,52 @@ public class MainArenaLevel extends Level {
                     // TODO check for corners?
                     @Override
                     public boolean isGroundFor(Contact contact, InGameObject object) {
-                        if (!contact.isTouching()) {
-                            return false;
-                        }
-                        Rectangle objectRect = object.getBodyAABB();
-
-                        Vector2[] points = contact.getWorldManifold().getPoints();
-                        for (int i = 0;
-                             i < contact.getWorldManifold().getNumberOfContactPoints();
-                             i++
-                        ) {
-                            Vector2 point = toPix(points[i].cpy());
-                            if (!FloatCmp.equals(point.y, objectRect.y, 1)) {
-                                continue;
-                            }
-                            point = getLocalPoint(point);
-                            if (GeometrySolver.isSegmentContainsPoint(rampStart, rampEnd, point, 1)) {
-                                return true;
-                            }
-                            if (FloatCmp.equals(point.y, 300, 1)) {
-                                return true;
-                            }
-                        }
+//                        if (!contact.isTouching()) {
+//                            return false;
+//                        }
+//                        Rectangle objectRect = object.getBodyAABB();
+//
+//                        Vector2[] points = contact.getWorldManifold().getPoints();
+//                        for (int i = 0;
+//                             i < contact.getWorldManifold().getNumberOfContactPoints();
+//                             i++
+//                        ) {
+//                            Vector2 point = toPix(points[i].cpy());
+//                            if (!FloatCmp.equals(point.y, objectRect.y, 1f / 30)) {
+//                                continue;
+//                            }
+//                            point = getLocalPoint(point);
+//                            if (GeometrySolver.isSegmentContainsPoint(rampStart, rampEnd, point, 1f / 30)) {
+//                                return true;
+//                            }
+//                            if (FloatCmp.equals(point.y, 300f / 30, 1f / 30)) {
+//                                return true;
+//                            }
+//                        }
                         return false;
                     }
                 },
 
                 new StaticObject(game, null, null, 0, 0, 0, 0, 500, 750) {
-                    private Vector2 rampStart = new Vector2(-225, -150);
-                    private Vector2 rampEnd = new Vector2(75, 150);
+                    private Vector2 rampStart = new Vector2(-225f / 30, -150f / 30);
+                    private Vector2 rampEnd = new Vector2(75f / 30, 150f / 30);
 
                     @Override
                     protected void createMyBody() {
                         Body body = createBody(gameProcess.getWorld(),
-                                BodyDef.BodyType.StaticBody, new Vector2(1125, 290));
+                                BodyDef.BodyType.StaticBody, new Vector2(1125f / 30, 290f / 30));
                         addPolygon(body, new float[] {
-                                225, -300,
-                                -225, -300,
-                                -225, -150,
-                                75, 150,
-                                225, 150
+                                225f / 30, -300f / 30,
+                                -225f / 30, -300f / 30,
+                                -225f / 30, -150f / 30,
+                                75f / 30, 150f / 30,
+                                225f / 30, 150f / 30
                         });
                         addPolygon(body, new float[] {
-                                75, 150,
-                                75, 300,
-                                225, 300,
-                                225, 150
+                                75f / 30, 150f / 30,
+                                75f / 30, 300f / 30,
+                                225f / 30, 300f / 30,
+                                225f / 30, 150f / 30
                         });
                         body.setUserData(this);
 
@@ -119,28 +118,28 @@ public class MainArenaLevel extends Level {
 
                     @Override
                     public boolean isGroundFor(Contact contact, InGameObject object) {
-                        if (!contact.isTouching()) {
-                            return false;
-                        }
-                        Rectangle objectRect = object.getBodyAABB();
-
-                        Vector2[] points = contact.getWorldManifold().getPoints();
-                        for (int i = 0;
-                             i < contact.getWorldManifold().getNumberOfContactPoints();
-                             i++
-                        ) {
-                            Vector2 point = toPix(points[i].cpy());
-                            if (!FloatCmp.equals(point.y, objectRect.y, 1)) {
-                                continue;
-                            }
-                            point = getLocalPoint(point);
-                            if (GeometrySolver.isSegmentContainsPoint(rampStart, rampEnd, point, 1)) {
-                                return true;
-                            }
-                            if (FloatCmp.equals(point.y, 300, 1)) {
-                                return true;
-                            }
-                        }
+//                        if (!contact.isTouching()) {
+//                            return false;
+//                        }
+//                        Rectangle objectRect = object.getBodyAABB();
+//
+//                        Vector2[] points = contact.getWorldManifold().getPoints();
+//                        for (int i = 0;
+//                             i < contact.getWorldManifold().getNumberOfContactPoints();
+//                             i++
+//                        ) {
+//                            Vector2 point = toPix(points[i].cpy());
+//                            if (!FloatCmp.equals(point.y, objectRect.y, 1f / 30)) {
+//                                continue;
+//                            }
+//                            point = getLocalPoint(point);
+//                            if (GeometrySolver.isSegmentContainsPoint(rampStart, rampEnd, point, 1f / 30)) {
+//                                return true;
+//                            }
+//                            if (FloatCmp.equals(point.y, 300f / 30, 1f / 30)) {
+//                                return true;
+//                            }
+//                        }
                         return false;
                     }
                 }

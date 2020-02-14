@@ -15,11 +15,9 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
 import static com.company.todd.box2d.BodyCreator.createBody;
-import static com.company.todd.game.process.GameProcess.toMeters;
-import static com.company.todd.game.process.GameProcess.toPix;
 
 public abstract class DangerousRay extends DangerousObject implements RayCastCallback {
-    public static final float MIN_RAY_LENGTH = 1;
+    public static final float MIN_RAY_LENGTH = .03f;
 
     private Vector2 startPosition, maxEndPosition, realEndPosition;
     private boolean interactWithAllColliding;
@@ -90,13 +88,11 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
     private void rayCast() {
         realEndPosition.set(maxEndPosition);
         firstObject = null;
-        gameProcess.getWorld().rayCast(this,
-                toMeters(new Vector2(startPosition)),
-                toMeters(new Vector2(maxEndPosition)));
+        gameProcess.getWorld().rayCast(this, startPosition, maxEndPosition);
     }
 
     @Override
-    public void setPosition(float x, float y) {
+    public void setPosition(float x, float y, boolean resetSpeed) {
         maxEndPosition.sub(startPosition);
         startPosition.set(x, y);
         maxEndPosition.add(startPosition);
@@ -117,13 +113,12 @@ public abstract class DangerousRay extends DangerousObject implements RayCastCal
 
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-        Vector2 objectPosition = toPix(new Vector2(point));
         InGameObject object = (InGameObject) fixture.getBody().getUserData();
 
         // FIXME if victim body is not active collision should not be reported
 
-        if (firstObjectPosition.dst2(startPosition) > objectPosition.dst2(startPosition)) {
-            firstObjectPosition = objectPosition;
+        if (firstObjectPosition.dst2(startPosition) > point.dst2(startPosition)) {
+            firstObjectPosition = point.cpy();
             firstObject = object;
         }
 

@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.company.todd.game.objs.base.InGameObject;
 import com.company.todd.launcher.ToddEthottGame;
 
+import static com.company.todd.game.process.GameProcess.toPix;
+
 public abstract class MyScreen implements Screen {
     protected ToddEthottGame game;
     private Vector2 touchPos;
@@ -98,7 +100,7 @@ public abstract class MyScreen implements Screen {
     }
 
     public void centerCameraAt(InGameObject object) {
-        centerCameraAt(object.getBodyPosition());
+        centerCameraAt(toPix(object.getBody().getPosition()));
     }
 
     public void setCameraViewportSize(float width, float height) {

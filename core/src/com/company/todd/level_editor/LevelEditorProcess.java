@@ -70,6 +70,7 @@ public class LevelEditorProcess extends GameProcess {
         } else if (moveType == MoveType.NOT_MOVING) {
             updatePlatformPlacing(delta, touchPos);
         }
+        postWorldPreDrawUpdateObjectsFrom(staticObjects, delta);
     }
 
     private void updatePlatformPlacing(float delta, Vector2 touchPos_) {
@@ -79,22 +80,25 @@ public class LevelEditorProcess extends GameProcess {
         if (Gdx.input.isTouched()) {
             if (platformNow == null) {
                 platformNow = new PlatformWithUpperLayer(game, this, platformTypes.getPlatformType("grassPlatform"),
-                        touchPos.x, touchPos.y, 0, 0);
-
+                        toMeters(touchPos.x), toMeters(touchPos.y), 0, 0);
+                System.err.println(touchPos);
                 addObject(platformNow);
                 addJustCreatedObjectsToProcess();
                 firstTouchPos = touchPos;
             } else {
-                platformNow.setSize(Math.abs(firstTouchPos.x - touchPos.x), Math.abs(firstTouchPos.y - touchPos.y));
+                platformNow.setSize(
+                        toMeters(Math.abs(firstTouchPos.x - touchPos.x)),
+                        toMeters(Math.abs(firstTouchPos.y - touchPos.y))
+                );
 
                 if (firstTouchPos.x >= touchPos.x && firstTouchPos.y <= touchPos.y) {
-                    platformNow.setPosition(touchPos.x, firstTouchPos.y);
+                    platformNow.setPosition(toMeters(touchPos.x), toMeters(firstTouchPos.y), false);
                 } else if (firstTouchPos.x <= touchPos.x && firstTouchPos.y >= touchPos.y) {
-                    platformNow.setPosition(firstTouchPos.x, touchPos.y);
+                    platformNow.setPosition(toMeters(firstTouchPos.x), toMeters(touchPos.y), false);
                 } else if (firstTouchPos.x >= touchPos.x && firstTouchPos.y >= touchPos.y) {
-                    platformNow.setPosition(touchPos.x, touchPos.y);
+                    platformNow.setPosition(toMeters(touchPos.x), toMeters(touchPos.y), false);
                 } else {
-                    platformNow.setPosition(firstTouchPos.x, firstTouchPos.y);
+                    platformNow.setPosition(toMeters(firstTouchPos.x), toMeters(firstTouchPos.y), false);
                 }
             }
         } else {

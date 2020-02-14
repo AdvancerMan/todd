@@ -5,22 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.MassData;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.company.todd.box2d.BodyInfo;
-import com.company.todd.game.ToddException;
 import com.company.todd.game.animations.MyAnimation;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
@@ -33,7 +24,7 @@ import static com.company.todd.box2d.BodyCreator.createBody;
 import static com.company.todd.game.process.GameProcess.toMeters;
 import static com.company.todd.game.process.GameProcess.toPix;
 
-public abstract class InGameObject extends PixelBody implements Disposable {
+public abstract class InGameObject extends MyBody implements Disposable {
     private boolean dirToRight;
     private Sprite sprite;
     private MyAnimation animation;
@@ -76,7 +67,7 @@ public abstract class InGameObject extends PixelBody implements Disposable {
     public InGameObject(ToddEthottGame game, GameProcess gameProcess,
                         BodyDef.BodyType bodyType, MyAnimation animation,
                         float x, float y, float width, float height) {
-        this(game, gameProcess, bodyType, animation, x, y, width, height, width, height);
+        this(game, gameProcess, bodyType, animation, x, y, width, height, toPix(width), toPix(height));
     }
 
     public InGameObject(ToddEthottGame game, GameProcess gameProcess,
@@ -97,12 +88,12 @@ public abstract class InGameObject extends PixelBody implements Disposable {
     public void postDrawUpdate(float delta) {}
 
     public void postWorldPreDrawUpdate(float delta) {
-        Vector2 pos = getBodyPosition();
-        sprite.setCenter(pos.x, pos.y);
+        Vector2 pos = getBody().getPosition();
+        sprite.setCenter(toPix(pos.x), toPix(pos.y));
 
-        if (!isFixedRotation()) {
+        if (!getBody().isFixedRotation()) {
             sprite.setOriginCenter();
-            sprite.setRotation(getBodyAngle() * FloatCmp.DEGS_IN_RAD);
+            sprite.setRotation(getBody().getAngle() * FloatCmp.DEGS_IN_RAD);
         }
     }
 
@@ -155,7 +146,7 @@ public abstract class InGameObject extends PixelBody implements Disposable {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        sprite.setSize(width, height);  // TODO sprite.setSize()
+        sprite.setSize(toPix(width), toPix(height));  // TODO sprite.setSize()
     }
 
     public boolean isDirectedToRight() {

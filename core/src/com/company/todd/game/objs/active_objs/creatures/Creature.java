@@ -71,7 +71,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
     public Creature(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                     float jumpPower, float runningSpeed,
                     float x, float y, float width, float height) {
-        this(game, gameProcess, animation, jumpPower, runningSpeed, x, y, width, height, width, height);
+        this(game, gameProcess, animation, jumpPower, runningSpeed, x, y, width, height, toPix(width), toPix(height));
     }
 
     public Creature(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
@@ -99,7 +99,7 @@ public abstract class Creature extends ActiveObject {  // TODO Creature
             setPlayingAnimationName(MyAnimation.AnimationType.STAY, false);
         }
 
-        if (less(getLinearVelocity().y, 0) && !isOnGround()) {
+        if (less(getBody().getLinearVelocity().y, 0) && !isOnGround()) {
             setPlayingAnimationName(MyAnimation.AnimationType.FALL, false);
         }
 

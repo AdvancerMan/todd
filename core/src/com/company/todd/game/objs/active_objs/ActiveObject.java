@@ -10,6 +10,8 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
 
+import static com.company.todd.game.process.GameProcess.toPix;
+
 public abstract class ActiveObject extends InGameObject {
     protected float runningSpeed;
     protected Vector2 velocity;
@@ -38,7 +40,7 @@ public abstract class ActiveObject extends InGameObject {
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                         float runningSpeed,
                         float x, float y, float width, float height) {
-        this(game, gameProcess, animation, runningSpeed, x, y, width, height, width, height);
+        this(game, gameProcess, animation, runningSpeed, x, y, width, height, toPix(width), toPix(height));
     }
 
     public ActiveObject(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
@@ -74,7 +76,7 @@ public abstract class ActiveObject extends InGameObject {
     }
 
     protected void updatePosition(float delta) {
-        for (Fixture fixture : getFixtureList()) {
+        for (Fixture fixture : getBody().getFixtureList()) {
             if (FloatCmp.equals(velocity.x, 0)) {
                 fixture.setFriction(10);
             } else {
@@ -85,7 +87,7 @@ public abstract class ActiveObject extends InGameObject {
         if (!FloatCmp.equals(velocity.y, 0)) {
             setYVelocity(velocity.y);
         }  // TODO setSmoothlyXVelocity
-        applyLinearImpulseToCenter(new Vector2((velocity.x - getLinearVelocity().x) * getMass(), 0));  // TODO delta * impulse
+        setXVelocity(velocity.x);
         velocity.set(0, 0);
     }
 

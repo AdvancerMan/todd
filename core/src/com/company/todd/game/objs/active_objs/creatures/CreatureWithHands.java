@@ -51,10 +51,10 @@ public abstract class CreatureWithHands extends Creature {
                     handsPosition.y);
         }
 
-        if (!isFixedRotation()) {
+        if (!getBody().isFixedRotation()) {
             handsSprite.setOrigin(-handsSprite.getX() + spriteSize.x / 2,
                     -handsSprite.getY() + spriteSize.y / 2);
-            handsSprite.setRotation(getBodyAngle() * FloatCmp.DEGS_IN_RAD);
+            handsSprite.setRotation(getBody().getAngle() * FloatCmp.DEGS_IN_RAD);
         }
 
         handsSprite.translate(spritePos.x, spritePos.y);
@@ -98,7 +98,7 @@ public abstract class CreatureWithHands extends Creature {
             bulPos.set(-handsSprite.getWidth() - (handsPosition.x - 0),  // TODO - bullet.width
                     handsPosition.y);
         }
-        bulPos.add(getBodyPosition());  // TODO with rotation
+        bulPos.add(getBody().getPosition());  // TODO with rotation
         // TODO proper position for bullets
 
         // TODO BulletType!!!

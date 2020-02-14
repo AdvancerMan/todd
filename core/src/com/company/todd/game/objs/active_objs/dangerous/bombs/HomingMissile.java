@@ -27,26 +27,26 @@ public class HomingMissile extends Bomb {
     @Override
     protected void createMyBody() {
         super.createMyBody();
-        setFixedRotation(false);
-        setGravityScale(0);
+        getBody().setFixedRotation(false);
+        getBody().setGravityScale(0);
     }
 
     @Override
     protected void updatePosition(float delta) {
         Vector2 targetPos = lastTargetPos;
-        if (!target.isKilled()) targetPos = target.getBodyPosition();
+        if (!target.isKilled()) targetPos = target.getBody().getPosition();
         lastTargetPos = new Vector2(targetPos);
 
         // setting acceleration for missile
-        Vector2 thisPos = getBodyPosition();
+        Vector2 thisPos = getBody().getPosition();
         Vector2 accel = new Vector2(targetPos);
         accel.sub(thisPos).nor().scl(runningSpeed);
 
-        applyForceToCenter(accel);
+        getBody().applyForceToCenter(accel, true);
 
         // turning the body to the speed vector's direction
-        float angle = new Vector2(1, 0).angleRad(getLinearVelocity());
-        setBodyAngle(angle);
+        float angle = new Vector2(1, 0).angleRad(getBody().getLinearVelocity());
+        setBodyAngle(angle, true);
     }
 
     @Override

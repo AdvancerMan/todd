@@ -28,17 +28,17 @@ public class GuardEnemy extends Creature {
     public void update(float delta) {
         super.update(delta);
 
-        if (FloatCmp.equals(player.getBodyPosition().y, getBodyPosition().y, getBodyAABB().height / 2)
-                && isDirectedToRight() == FloatCmp.more(player.getBodyPosition().x, getBodyPosition().x)) {
+        if (FloatCmp.equals(player.getBody().getPosition().y, getBody().getPosition().y, getBodyAABB().height / 2)
+                && isDirectedToRight() == FloatCmp.more(player.getBody().getPosition().x, getBody().getPosition().x)) {
             shoot();
         } else {
             run();
         }
 
-        if (FloatCmp.less(getBodyPosition().x, x1)) {
+        if (FloatCmp.less(getBody().getPosition().x, x1)) {
             setDirToRight(true);
             run();
-        } else if (FloatCmp.more(getBodyPosition().x, x2)) {
+        } else if (FloatCmp.more(getBody().getPosition().x, x2)) {
             setDirToRight(false);
             run();
         }

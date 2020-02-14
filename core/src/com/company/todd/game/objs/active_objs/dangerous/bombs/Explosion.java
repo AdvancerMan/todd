@@ -42,7 +42,7 @@ public class Explosion extends DangerousObject {
     @Override
     protected void createMyBody() {
         super.createMyBody();
-        setGravityScale(0);
+        getBody().setGravityScale(0);
     }
 
     @Override

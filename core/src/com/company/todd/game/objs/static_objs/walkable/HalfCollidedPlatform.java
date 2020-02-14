@@ -28,7 +28,7 @@ public class HalfCollidedPlatform extends StaticObject {
 
     public HalfCollidedPlatform(ToddEthottGame game, GameProcess gameProcess, MyAnimation animation,
                                 float x, float y, float width, float height) {
-        this(game, gameProcess, animation, x, y, width, height, width, height);
+        this(game, gameProcess, animation, x, y, width, height, toPix(width), toPix(height));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class HalfCollidedPlatform extends StaticObject {
 
         Rectangle aabb = getBodyAABB();
         if (!contact.getWorldManifold().getNormal().isPerpendicular(new Vector2(1, 0)) ||
-                FloatCmp.less(toPix(contact.getWorldManifold().getPoints()[0].y), aabb.y + aabb.height)
+                FloatCmp.less(contact.getWorldManifold().getPoints()[0].y, aabb.y + aabb.height)
         ) {
             notCollidingObjects.add(object);
         }

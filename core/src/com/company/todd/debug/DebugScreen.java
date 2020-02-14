@@ -34,8 +34,8 @@ public class DebugScreen extends MyScreen {
         Level level = new Level(game);
 
         float[][] pls = {  // x, y, width, height
-                {0, -1, 1000, 1},
-                {-1000, -1, 1000, 1},
+                {0, -1f / 30, 1000f / 30, 1f / 30},
+                {-1000f / 30, -1f / 30, 1000f / 30, 1f / 30},
 
                 /*
                 {100, 100, 100, 100},
@@ -67,21 +67,21 @@ public class DebugScreen extends MyScreen {
         */
 
 
-        for (int x = -800; x <= 700; x += 300) {
-            level.addObject(new Jumper(game, null, null, 900, x, 0, 100, 20));
+        for (float x = -800f / 30; x <= 701f / 30; x += 300f / 30) {
+            level.addObject(new Jumper(game, null, null, 30, x, 0, 100f / 30, 20f / 30));
         }
 
-        level.addObject(new HalfCollidedPlatform(game, null, null, -1000, 350, 400, 50));
-        level.addObject(new HalfCollidedPlatform(game, null, null, -500, 350, 400, 50));
+        level.addObject(new HalfCollidedPlatform(game, null, null, -1000f / 30, 350f / 30, 400f / 30, 50f / 30));
+        level.addObject(new HalfCollidedPlatform(game, null, null, -500f / 30, 350f / 30, 400f / 30, 50f / 30));
 
-        level.addObject(new ViscousPlatform(game, null, null, 1f, -950, 580, 200, 50, 500, 50));
-        level.addObject(new ViscousPlatform(game, null, null, 1f, -650, 580, 200, 50, 500, 50));
-        level.addObject(new ViscousPlatform(game, null, null, 1f, -350, 580, 200, 50, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, null, .003f, -950f / 30, 580f / 30, 200f / 30, 50f / 30, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, null, .003f, -650f / 30, 580f / 30, 200f / 30, 50f / 30, 500, 50));
+        level.addObject(new ViscousPlatform(game, null, null, .003f, -350f / 30, 580f / 30, 200f / 30, 50f / 30, 500, 50));
 
-        level.addObject(new Jumper(game, null, null, 700, -670, 400, 50, 20));
-        level.addObject(new Jumper(game, null, null, 700, -480, 400, 50, 20));
+        level.addObject(new Jumper(game, null, null, 23, -670f / 30, 400f / 30, 50f / 30, 20f / 30));
+        level.addObject(new Jumper(game, null, null, 23, -480f / 30, 400f / 30, 50f / 30, 20f / 30));
 
-        level.addObject(new Portal(game, null, null, 0, 500, -500, 500, 0.2f, 100, 123, 123));
+        level.addObject(new Portal(game, null, null, 0, 500f / 30, -18, 18, 0.2f, 100f / 30, 123, 123));
 
         gameProcess = new GameProcess(game, this, level);
     }

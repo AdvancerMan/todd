@@ -38,7 +38,7 @@ public class Portal extends StaticObject {
         for (Iterator<ObjectMap.Entry<InGameObject, Float>> it = delays.iterator(); it.hasNext();) {
             ObjectMap.Entry<InGameObject, Float> entry = it.next();
             if (entry.value > maxDelay) {
-                entry.key.setPosition(toX, toY);
+                entry.key.setPosition(toX, toY, false);
                 it.remove();
             }
         }

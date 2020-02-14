@@ -20,7 +20,7 @@ import com.company.todd.screen.MyScreen;
 import java.util.Iterator;
 
 public class GameProcess implements Process {  // TODO GameProcess
-    public static final long MAX_DISTANCE2_FROM_CENTER = 2000L * 2000L;
+    public static final long MAX_DISTANCE2_FROM_CENTER = 75 * 75;
     public static final Vector2 CENTER = new Vector2(0, 0);
 
     protected ToddEthottGame game;
@@ -60,8 +60,8 @@ public class GameProcess implements Process {  // TODO GameProcess
         player = new Player(game, this,
                 game.animationInfos.getAnimation("player"),
                 game.animationInfos.getAnimation("playerHands"),
-                new Rectangle(50, 40, 20, 20),
-                inputHandler, CENTER.x, CENTER.y, 50, 100);
+                new Rectangle(50f / 30, 40f / 30, 20f / 30, 20f / 30),
+                inputHandler, CENTER.x, CENTER.y, 50f / 30, 100f / 30);
     }
 
     public void setLevel(Level level) {
@@ -78,7 +78,7 @@ public class GameProcess implements Process {  // TODO GameProcess
 
         newLevel.unpackTo(justCreatedObjects);
         justCreatedObjects.add(player);
-        player.setPosition(CENTER.x, CENTER.y);  // FIXME incapsulate it to Player.reset()
+        player.setPosition(CENTER.x, CENTER.y, true);  // FIXME incapsulate it to Player.reset()
         for (InGameObject object : justCreatedObjects) {
             object.setGameProcess(this);
         }
@@ -122,8 +122,8 @@ public class GameProcess implements Process {  // TODO GameProcess
         while (iterator.hasNext()) {
             InGameObject object = iterator.next();
 
-            if (object.getBodyPosition().dst2(CENTER) > MAX_DISTANCE2_FROM_CENTER) {
-                object.setPosition(CENTER.x, CENTER.y);
+            if (object.getBody().getPosition().dst2(CENTER) > MAX_DISTANCE2_FROM_CENTER) {
+                object.setPosition(CENTER.x, CENTER.y, true);
             }
 
             if (object.isKilled()) {
@@ -303,5 +303,4 @@ public class GameProcess implements Process {  // TODO GameProcess
     public static Matrix4 toMeters(Matrix4 matrix) {
         return matrix.scl(METERS_PER_PIX);
     }
-
 }

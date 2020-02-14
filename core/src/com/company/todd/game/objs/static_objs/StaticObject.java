@@ -11,7 +11,7 @@ import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 import com.company.todd.util.FloatCmp;
 
-import static com.company.todd.game.process.GameProcess.toPix;
+import java.util.Arrays;
 
 public abstract class StaticObject extends InGameObject {
     public StaticObject(ToddEthottGame game, GameProcess gameProcess,
@@ -42,8 +42,8 @@ public abstract class StaticObject extends InGameObject {
         Rectangle rect = getBodyAABB();
 
         for (int i = 0; i < contact.getWorldManifold().getNumberOfContactPoints(); i++) {
-            Vector2 point = toPix(points[i].cpy());
-            if (!(FloatCmp.equals(point.y, rect.y + rect.height, 1))) {
+            Vector2 point = points[i];
+            if (!(FloatCmp.equals(point.y, rect.y + rect.height, 1f / 30))) {
                 return false;
             }
         }

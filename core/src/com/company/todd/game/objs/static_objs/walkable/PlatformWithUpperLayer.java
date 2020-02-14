@@ -83,7 +83,7 @@ public class PlatformWithUpperLayer extends RectanglePlatform {
             }
         }
 
-        timer.finish();
+//        timer.finish();
 
         tmpTexture = new Texture(finalPixmap);  // TODO move tmpTexture to TextureManager
 

@@ -10,7 +10,7 @@ public class Bullet extends DangerousObject {  // TODO Bullet
                   InGameObject owner, MyAnimation animation,
                   float x, float y,
                   float speed, float damage, boolean toRight) {
-        super(game, gameProcess, owner, animation, speed, damage, x, y, 40, 10);  // TODO bullet size
+        super(game, gameProcess, owner, animation, speed, damage, x, y, 1.3f, .3f);  // TODO bullet size
 
         setDirToRight(toRight);
     }

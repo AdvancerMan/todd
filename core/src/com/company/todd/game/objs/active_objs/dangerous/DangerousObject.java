@@ -10,6 +10,8 @@ import com.company.todd.game.objs.active_objs.ActiveObject;
 import com.company.todd.game.process.GameProcess;
 import com.company.todd.launcher.ToddEthottGame;
 
+import static com.company.todd.game.process.GameProcess.toPix;
+
 public abstract class DangerousObject extends ActiveObject {  // TODO DangerousObject
     protected float damage;
     protected InGameObject owner;
@@ -40,7 +42,7 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
                            InGameObject owner, MyAnimation animation,
                            float speed, float damage,
                            float x, float y, float width, float height) {
-        this(game, gameProcess, owner, animation, speed, damage, x, y, width, height, width, height);
+        this(game, gameProcess, owner, animation, speed, damage, x, y, width, height, toPix(width), toPix(height));
     }
 
     public DangerousObject(ToddEthottGame game, GameProcess gameProcess,
@@ -57,7 +59,7 @@ public abstract class DangerousObject extends ActiveObject {  // TODO DangerousO
     @Override
     protected void createMyBody() {
         super.createMyBody();
-        setBullet(true);
+        getBody().setBullet(true);
     }
 
     public void hit(InGameObject object) {  // TODO some special effects without body

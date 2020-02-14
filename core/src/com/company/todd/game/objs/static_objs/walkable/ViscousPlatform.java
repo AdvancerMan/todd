@@ -30,7 +30,7 @@ public class ViscousPlatform extends HalfCollidedPlatform {
 
         contact.setEnabled(false);
 
-        float objectSpeed = object.getLinearVelocity().y;
+        float objectSpeed = object.getBody().getLinearVelocity().y;
         float objectBottom = object.getBodyAABB().y;
         if (platformBottom < objectBottom && FloatCmp.less(objectSpeed, 0)) {
             object.setYVelocity(maxObjectSpeed +
@@ -40,7 +40,7 @@ public class ViscousPlatform extends HalfCollidedPlatform {
 
     @Override
     public boolean isGroundFor(Contact contact, InGameObject object) {
-        if (FloatCmp.more(object.getLinearVelocity().y, 0, 1)) {
+        if (FloatCmp.more(object.getBody().getLinearVelocity().y, 0, 1f / 30)) {
             return false;
         }
 
@@ -48,12 +48,12 @@ public class ViscousPlatform extends HalfCollidedPlatform {
         Rectangle objectRect = object.getBodyAABB();
 
         for (int i = 0; i < contact.getWorldManifold().getNumberOfContactPoints(); i++) {
-            if (!(FloatCmp.moreOrEquals(objectRect.x + objectRect.width, platformRect.x, 1) &&
+            if (!(FloatCmp.moreOrEquals(objectRect.x + objectRect.width, platformRect.x, 1f / 30) &&
                     FloatCmp.lessOrEquals(objectRect.x,
-                                        platformRect.x + platformRect.width, 1) &&
-                    FloatCmp.moreOrEquals(objectRect.y, platformRect.y, 1) &&
+                                        platformRect.x + platformRect.width, 1f / 30) &&
+                    FloatCmp.moreOrEquals(objectRect.y, platformRect.y, 1f / 30) &&
                     FloatCmp.lessOrEquals(objectRect.y,
-                                        platformRect.y + platformRect.height, 1))) {
+                                        platformRect.y + platformRect.height, 1f / 30))) {
                 return false;
             }
         }
