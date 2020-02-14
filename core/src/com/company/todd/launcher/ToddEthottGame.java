@@ -16,25 +16,25 @@ import com.company.todd.texture.TextureManager;
 import com.company.todd.texture.TextureRegionInfos;
 
 public class ToddEthottGame implements ApplicationListener {
-	public static final boolean DEBUG = true;
+    public static final boolean DEBUG = true;
 
-	public static final String FONTS_FOLDER = "fonts";
-	public static final String SAVES_FOLDER = "saves";
-	public static final String TEXTURES_FOLDER = "textures";
+    public static final String FONTS_FOLDER = "fonts";
+    public static final String SAVES_FOLDER = "saves";
+    public static final String TEXTURES_FOLDER = "textures";
     public static final String TITLE = "Todd";
     public static final int STANDART_WIDTH = 800;
     public static final int STANDART_HEIGHT = 480;
 
     public SpriteBatch batch;
-	public BitmapFont mainFont, buttonsFont;
-	public ScreenManager screenManager;
-	public TextureManager textureManager;
+    public BitmapFont mainFont, buttonsFont;
+    public ScreenManager screenManager;
+    public TextureManager textureManager;
     public TextureRegionInfos regionInfos;
     public AnimationInfos animationInfos;
 
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
         mainFont = FontHandler.generateFont("segoesc.ttf", 16, Color.RED);
         buttonsFont = mainFont;
         textureManager = new TextureManager();
@@ -49,16 +49,16 @@ public class ToddEthottGame implements ApplicationListener {
         }
 
         screenManager = new ScreenManager(firstScreen);
-	}
+    }
 
-	@Override
-	public void render () {
+    @Override
+    public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1); // Очищаем экран
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         textureManager.update(Gdx.graphics.getDeltaTime());
         screenManager.render(Gdx.graphics.getDeltaTime()); // Обновляем экран
-	}
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -67,19 +67,19 @@ public class ToddEthottGame implements ApplicationListener {
 
     @Override
     public void pause() {
-	    screenManager.pause();
+        screenManager.pause();
     }
 
     @Override
     public void resume() {
-	    screenManager.resume();
+        screenManager.resume();
     }
 
     @Override
-	public void dispose () { // Освобождаем ресурсы
+    public void dispose() { // Освобождаем ресурсы
         batch.dispose();
-		mainFont.dispose();
-		screenManager.dispose();
-		textureManager.dispose();
-	}
+        mainFont.dispose();
+        screenManager.dispose();
+        textureManager.dispose();
+    }
 }
